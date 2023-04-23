@@ -22,14 +22,14 @@ class dbConnect:
             sql = "SELECT email FROM users WHERE email=%s" ##app.pyでgetしたemail
             cursor.execute(sql, (email,))
             reg_email = cursor.fetchone()
-            return reg_email ##登録済みのemailを返す
+            return reg_email ##登録済みのemailを返す。なければNoneを返す。
         except Exception as e: ##エラーの見える化
             print(e + 'が発生しています。')
-            return None ##未登録であることを返す。
+            return None
         finally:
             cursor.close()
 
-    def getUserId(user_id):
+    def getUserId(user_id):　#user_idが登録済か判別
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
@@ -39,6 +39,6 @@ class dbConnect:
             return reg_user_id
         except Exception as e: ##エラーの見える化
             print(e + 'が発生しています。')
-            return None ##未登録であることを返す。
+            return None
         finally:
             cursor.close()
