@@ -1,0 +1,131 @@
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="/css/base.css">
+    <!-- <link rel="stylesheet" href="/css/login.css"> -->
+    <style>
+  @import url(/static/css/color.css); /* 後で消す */
+  @import url(/static/css/base.css);
+  body{
+    height: 100vh;
+    width: 100vw;
+    background: var(--grylight);
+  }
+        nav a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        nav {
+            background: var(--main);
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        nav h1 {
+            color: var(--white);
+        }
+
+        nav ul {
+            display: flex;
+        }
+
+        button,
+        small,
+        a {
+            display: block;
+        }
+
+        nav ul li {
+            margin-right: 0.5rem;
+            padding: 0 0.5em;
+            border-radius: 0.2em;
+            transition: 0.3s;
+            ;
+        }
+
+        nav ul li:hover {
+            opacity: 0.8;
+            outline: 2px solid var(--grylight);
+        }
+
+        .signin_wd,
+        .login_wd:hover {
+            background: var(--white);
+            border: 1px solid var(--main);
+            color: var(--main);
+        }
+
+        .login_wd,
+        .signin_wd:hover {
+            background: var(--main);
+            border: 1px solid var(--white);
+            color: var(--white);
+        }
+
+        .main {
+            content: "";
+            background: var(--grylight);
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: column;
+            color: var(--black);
+        }
+
+        .contents {
+            display: flex;
+            color: var(--bk);
+            flex-direction: column;
+            justify-content: flex-start;
+            width: clamp(0px, 86vw, 20rem);
+            margin: 2rem auto;
+        }
+
+        @media screen and (min-width: 768px) {}
+
+        @media screen and (max-width: 767px) {
+            nav {
+                flex-direction: column;
+            }
+
+            nav h1 {
+                text-align: center;
+            }
+
+            nav ul li {
+                width: 50%;
+                padding: 0.5em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a>
+            <h1>WADACHI</h1>
+        </a>
+        <ul>
+            <li class="signin_wd obj_center"><a href="signup.html">新規登録</a></li>
+            <li class="login_wd obj_center"><a href="login.html">ログイン</a></li>
+        </ul>
+    </nav>
+    <div class="main">
+        <div class="contents">
+            <h2 class="center">パスワードの再設定</h2>
+            <p class="mt2r_wd">ご登録済みのメールアドレスに、パスワード再設定のご案内を送付いたします。</p>
+            <div class="fotm_ts mt2r_wd">
+                <small>ご登録済みのメールアドレス</small>
+                <input type="text" placeholder="メールアドレス">
+                <button class="center mt1r_wd mauto_dw"><a href="/index.html" class="cha_white_wd">送信する</button>
+            </div>
+            <p class="center mt2r_wd"><a href="/login.html" class="cha_bk_wd">ログインはこちら</a></p>
+        </div>
+    </div><!--main -->
+</body>
+
+</html>
