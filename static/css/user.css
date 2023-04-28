@@ -1,0 +1,28 @@
+.mainbox {
+  color: var(--black);
+}
+
+.mokuhyo {
+  background: var(--white);
+}
+.study_edit {
+  background: var(--white);
+  padding: 1rem;
+  margin-top: 2rem;
+}
+.study_log {
+  height: 5em;
+  width: 100%;
+  border: 1px solid var(--grymiddle);
+  border-radius: 1vw;
+}
+.log_sousin {
+  margin-top: 1rem;
+  background: var(--accentgreen);
+  color: var(--white);
+  padding: 0.5em;
+  border-radius: 1vw;
+}
+.btn_wd {
+  display: block;
+}

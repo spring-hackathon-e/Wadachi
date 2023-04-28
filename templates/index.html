@@ -1,29 +1,44 @@
 {% extends 'registration/base.html' %} {% block title %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <title>TOP</title>
 <style>
   @import url(/static/css/styles.css); /* 後で消す */
 </style>
 {% endblock %} {% block body %}
 <body>
-    
-    <main>
-        <div class="main_ind">
-            <div class="bar"></div>
+        <div class="mainbox">
             <div class="content_ind">
-                <div class="usrinfo">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="110"
-                        height="110" viewBox="0 0 24 24">
+                <div class="usrinfo fx_wd">
+                    <figure><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80"
+                        height="80" viewBox="0 0 24 24">
                         <g fill="none" fill-rule="evenodd">
                             <path d="M0 0h24v24H0z"></path>
                             <path fill="#52B7AE"
                                 d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2ZM8.5 8.5a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0Zm-3.222 7.84C6.927 14.992 9.335 14 12 14s5.073.992 6.722 2.34A7.993 7.993 0 0 1 12 20a7.993 7.993 0 0 1-6.722-3.66Z">
                             </path>
                         </g>
-                    </svg>
+                    </svg></figure>
+                    <div class="user_detail">
+                    <p class="user-name">ユーザーネーム {{ テーブル.user_name }} </p>
+                    <p>勉強開始日 {{ テーブル.start_date }} </p>
+                    </div>
                 </div>
+                    <div class="mokuhyo">
+                        <h2>目標</h2>
+                        <p>ほげほげhogehogeほげほげhogehogeほげほげhogehogeほげほげhogehoge</p>
+                        <span><i class="fa-solid fa-pen-to-square"></i></span>
+                    </div>
+                <div class="study_edit">
+                    <h2 class="center">学習記録を投稿する</h2>
+<h3 class="">勉強した日</h3>
+<input type="date" class="study_day"  type="text" placeholder="YYYY/MM/DD（半角英数）">
+<h3>内容</h3>
+<input type="text" class="study_log" aria-label="記述式テキスト（長文回答）" placeholder="学習記録を入力してください（nnn文字以内）">
+<input class="log_sousin" type="submit" value="学習記録を投稿する">
+                </div>
+                <a href="{{ url_for('log') }}"><p class="log_sousin log_sousin center">みんなの学習記録を見る</p></a>
             </div>
         </div>
-    </main>
 </body>
 
 </html>
