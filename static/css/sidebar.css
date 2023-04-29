@@ -128,7 +128,7 @@ header {
   z-index: 70;
 }
 
-h1 {
+.navigation h1 {
   background: var(--main);
   color: var(--white);
   position: relative;

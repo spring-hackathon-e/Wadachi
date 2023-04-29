@@ -44,7 +44,7 @@ button {
 button {
   background: var(--accentgreen);
   color: var(--white);
-  border-radius: 999px;
+  border-radius: 0.4vw;
   padding: 0.5em 3em;
   margin: 16px auto;
 }
@@ -196,4 +196,11 @@ li {
 
 .cha_gre_emp2 {
   color: var(--sampleemp2);
+}
+/* popup */
+.popup{
+  background: #00000066;
+padding: 1rem 0;
+/* height: 100vh; 後で生かす*/
+/* width: 100vw; 後で生かす*/
 }

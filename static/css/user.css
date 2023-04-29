@@ -1,4 +1,4 @@
-.mainbox {
+.index_main {
   color: var(--black);
 }
 .content_ind{
@@ -53,10 +53,7 @@ margin: 1rem auto;
 .btn_wd {
   display: block;
 }
-.popup{
-  background: #00000066;
-padding: 1rem 0;
-}
+
 .edit_box{
   background: var(--white);
   width: clamp(0px,90vw,70%);
@@ -67,8 +64,8 @@ padding: 1rem 0;
 }
 .close{
 position: absolute;
-top:-5px;
-right: -5px;
+top:5px;
+right: 5px;
 background: inherit;
 padding: 0;
 color: inherit;
