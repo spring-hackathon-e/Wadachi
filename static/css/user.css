@@ -1,28 +1,100 @@
 .mainbox {
   color: var(--black);
 }
-
+.content_ind{
+padding: 1rem 1rem 2rem;
+}
+.usrinfo{
+  align-items: center;
+}
+.usrinfo figure{
+  padding-right: 1rem;
+}
 .mokuhyo {
   background: var(--white);
+  padding: 0.5rem;
+  border-radius: 0.4vw;
+  margin-top: 0.5rem;
+  position: relative;
+}
+.edit_ico{
+  position: absolute;
+  top:5px;
+right: 5px;
 }
 .study_edit {
   background: var(--white);
   padding: 1rem;
+  margin: auto;
   margin-top: 2rem;
+  width: clamp(0px,90vw,40rem);
+}
+.btn_green.btn_green_short{
+width: 70%;
+margin: 1rem auto;
 }
 .study_log {
   height: 5em;
   width: 100%;
   border: 1px solid var(--grymiddle);
-  border-radius: 1vw;
+  border-radius: 0.4vw;
 }
-.log_sousin {
+.btn_green {
   margin-top: 1rem;
   background: var(--accentgreen);
   color: var(--white);
   padding: 0.5em;
-  border-radius: 1vw;
+  border-radius: 0.4vw;
+  display: block;
+}
+.tologlink{
+  margin-bottom: 2rem;
 }
 .btn_wd {
   display: block;
+}
+.popup{
+  background: #00000066;
+padding: 1rem 0;
+}
+.edit_box{
+  background: var(--white);
+  width: clamp(0px,90vw,70%);
+  margin: auto;
+  padding: 2rem 1rem;
+  border-radius: 0.5vw;
+  position: relative;
+}
+.close{
+position: absolute;
+top:-5px;
+right: -5px;
+background: inherit;
+padding: 0;
+color: inherit;
+margin: inherit;
+}
+.edit_box h3{
+margin-bottom: 1rem;
+}
+.taikai_box{
+  text-align: right;
+  margin-top: 1rem;
+}
+label{
+  display:block;
+}
+label span{
+  line-height: 40px;
+}
+label span:hover{
+  cursor:pointer;
+}
+input[type="checkbox"]{
+  display:none;
+}
+
+input[type="checkbox"]:checked + #popup{
+  display:block;
+  transition:.2s;
 }
