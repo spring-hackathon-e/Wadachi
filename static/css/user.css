@@ -8,7 +8,7 @@ padding: 1rem 1rem 2rem;
   align-items: center;
 }
 .usrinfo figure{
-  padding-right: 1rem;
+  padding-right: 0.5rem;
 }
 .mokuhyo {
   background: var(--white);

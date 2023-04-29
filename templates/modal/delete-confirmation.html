@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+  @import url(/static/css/styles.css);
+
+  /* 後で消す */
+</style>
+
+<div id="delete-channel-modal" class="modal popup chan_del_pop" style="display: block;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>本当に削除しますか？</h3>
+      <button type="button" aria-label="Close" data-balloon-pos="left" class="modalClose close"
+        id="delete-page-close-btn"><span><i class="fa-sharp fa-solid fa-circle-xmark"></i></span></button>
+    </div>
+    <div class="modal-body">
+      <p>削除ボタンを押すとチャンネルが消えます</p>
+      <p>本当によろしいですか？</p>
+      <a id="delete-confirm-link">
+        <button id="delete-channel-confirmation-btn">削除</button>
+      </a>
+    </div>
+  </div>
+</div>
