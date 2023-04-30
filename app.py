@@ -67,6 +67,7 @@ def add_message():
 
     return render_template('detail.html',messages=messages,channel=channel,user_id=user_id)
 
+#メッセージ削除
 app.route('delete_message',methods=['POST'])
 def delete_message():
     user_id = session.get('user_id')
@@ -82,3 +83,20 @@ def delete_message():
     messages = dbConnect.getMessageAll(ch_id)
 
     return render_template('detail.html',messages=messages,channel=channel,user_id=user_id)
+
+#リアクション追加
+app.route('reaction_message',methods=['POST'])
+def reaction_message():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+
+    message_id = request.form.get('message_id')
+    ch_id = request.form.get('channel_id')
+    if message_id:
+        dbConnect.addReaction(message_id)
+
+    channnel = dbConnect.getChannelById(ch_id)
+    messages = dbConnect.getMessageAll(ch_id)
+
+    return render_template('detail.html',messages=messages,user_id=user_id)
