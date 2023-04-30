@@ -113,7 +113,7 @@ button.green:hover {
 
 .main-container {
   min-height: 100vh;
-  padding-left: 70px;
+  padding-left: calc(200px + 1rem);
   position: relative;
   display: flex;
   justify-content: center;
@@ -197,10 +197,4 @@ li {
 
 .cha_gre_emp2 {
   color: var(--sampleemp2);
-}
-/* popup */
-.popup{
-  background: #00000066;
-/* height: 100vh; 後で生かす*/
-/* width: 100vw; 後で生かす*/
 }

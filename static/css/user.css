@@ -1,5 +1,8 @@
 .index_main {
-  color: var(--black);
+ width: calc(100% - 200px);
+ display: flex;
+ flex-direction: column;
+ margin: 3rem 0 auto auto;
 }
 .content_ind{
 padding: 1rem 1rem 2rem;
@@ -27,17 +30,23 @@ right: 5px;
   padding: 1rem;
   margin: auto;
   margin-top: 2rem;
-  width: clamp(0px,90vw,40rem);
+  border-radius: 0.4vw;
+}
+.study_edit input{
+  border: 1px solid var(--grymiddle);
+  border-radius: 0.4vw;
+}
+.study_edit input.short{
+max-width: 20rem;
 }
 .btn_green.btn_green_short{
 width: 70%;
 margin: 1rem auto;
+border: none;
 }
 .study_log {
   height: 5em;
   width: 100%;
-  border: 1px solid var(--grymiddle);
-  border-radius: 0.4vw;
 }
 .btn_green {
   margin-top: 1rem;

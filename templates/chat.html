@@ -1,19 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}
 <title>chat</title>
+{% endblock %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-<style>
-    @import url(/static/css/styles.css);
-
-    /* 後で消す */
-</style>
-{% endblock %}
 {% block body %}
 <div class="main-container channelpage">
-    <img src="{{ url_for('static',filename='img/cat-gif-unscreen.gif') }}" id="gif" />
-    <div class="bg-img"></div>
     <div class="main-content">
         <div class="channel-title">
             <h1>チャンネル一覧</h1>
@@ -22,12 +15,12 @@
         <ul class="channel-box">
             <li class="example_list">
                 <div class="toukou">
-                    <h2>チャンネル名：例えば自分の投稿が表示されたらこんなふう？</h2>
-                    <p class="toukou_day"><span>作成日</span><time>2023/05/31</time></p>
+                    <h2>（（ channels.ch_name ））</h2>
+                    <p class="toukou_day"><span>作成日</span><time>（（channels.create_date））</time></p>
                     <p>概要</p>
                     <ul class="categorytag">
-                        <li>カテゴリ１</li>
-                        <li>カテゴリ２</li>
+                        <li>（（channels.main_categoly））</li>
+                        <li>（（channels.sub_category））</li>
                     </ul>
                     <button type="button" aria-label="Trash" data-balloon-pos="left" class="trash"><span><i
                                 class="fa-solid fa-trash-can"></i></span></button>
@@ -61,8 +54,7 @@
             </li>
 
         </ul>
-        {% include 'modal/add-channel.html' %}
-        {% include 'modal/delete-confirmation.html' %}
+        <ul class="channel-box"></ul>
         <div class="pagination-container">
             <p id="prev">
                 << /li>
@@ -70,19 +62,9 @@
                     <p id="next">></p>
         </div>
     </div>
-    <div class="popup chan_del_pop" id="">
-        <div class="edit_box">
-            <button type="button" aria-label="Close" data-balloon-pos="left" class="close"><span><i
-                        class="fa-sharp fa-solid fa-circle-xmark"></i></span></button>
-            <h3 class="center">チャンネルを削除します。<br>よろしいですか。</h3>
-            <ul class="channel_del">
-                <li><input class="del_btn" type="submit" value="削除する"></li>
-                <li><button type="button" aria-label="Close" data-balloon-pos="left"
-                        class="cancel"><span>キャンセルする</span></button>
-                </li>
-            </ul>
-        </div>
-    </div>
+    {% include 'modal/add-channel.html' %}
+    {% include 'modal/update-channel.html' %}
+    {% include 'modal/delete-confirmation.html' %}
 </div>
 {% endblock %}
 {% block script %}

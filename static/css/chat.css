@@ -1,12 +1,12 @@
 .channelpage {
     display: flex;
     flex-direction: column;
-    color: var(--black);/* 後で消す */
+    padding-right: 1rem;
+    padding-top: 3rem;
+    /* max-height: 100vh; */
+    overflow-y: hidden;
   }
-.main-container{
-  align-items: inherit;
-}
-  
+
   .main-content {
     z-index: 3;
     display: flex;
@@ -66,8 +66,7 @@
   
   .pagination-container {
     width: 100%;
-    border-bottom: 2px solid var(--grey);
-    box-shadow: 0 32px 30px -30px var(--wood);
+    padding-bottom: 0.5rem;
   }
   
   .pagination {
@@ -170,6 +169,7 @@ border: 2px solid var(--white);
   @media screen and (max-width: 639px) {
     .main-content {
       width: 90vw;
+      margin: auto;;
     }
     .channel-title {
       flex-direction: column;
@@ -189,7 +189,7 @@ border: 2px solid var(--white);
   
   @media only screen and (min-width: 640px) and (max-width: 1023px) {
     .main-content {
-      width: 90%;
+      width: 100%;
     }
     .channel-title {
       /* flex-direction: column; */
@@ -209,7 +209,7 @@ justify-content: space-between;
   
   @media screen and (min-width: 1024px) {
     .main-content {
-      width: 90%;
+      width: 100%;
     }
     .channel-title {
       flex-direction: row;

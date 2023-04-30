@@ -1,14 +1,6 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-  crossorigin="anonymous" referrerpolicy="no-referrer" />
-<style>
-  @import url(/static/css/styles.css);
-
-  /* 後で消す */
-</style>
-<div id="update-channel-modal" class="modal" style="display: block;">
-  <div class="modal-content">
-    <div class="modal-header">
+<div id="update-channel-modal" class="modal popup">
+  <div class="modal-content edit_box">
+    <div class="center">
       <h5>チャンネル変更</h5>
       <button type="button" aria-label="Close" data-balloon-pos="left" class="modalClose close"
         id="delete-page-close-btn"><span><i class="fa-sharp fa-solid fa-circle-xmark"></i></span></button>
@@ -16,7 +8,7 @@
     <form class="modal-body" action="/update_channel" method="POST">
       <input type="text" placeholder="チャンネル名" class="channel-form-input" name="channel-title" />
       <input type="text" placeholder="チャンネルの説明" class="channel-form-input" name="channel-description" />
-      <input type="hidden" name='cid' value='{{ channel.id }}'>
+      <input type="hidden" name='cid' value='（（ channel.id ））'>
       <button>変更</button>
     </form>
   </div>
