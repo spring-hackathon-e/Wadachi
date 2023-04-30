@@ -1,44 +1,37 @@
 {% extends 'base.html' %}
 {% block title %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-  crossorigin="anonymous" referrerpolicy="no-referrer" />
 <title>chatroom</title>
-<style>
-  @import url(/static/css/styles.css);
-  /* 後で消す */
-</style>
 {% endblock %}
 {% block body %}
-<div class="main-container">
+<div class="main-container chat-main">
   <div class="chat-box">
     <div id="chat-header">
       <!-- もしuidとチャンネル作成者が同じならタイトル、説明を編集可能にする -->
-      <p id="chatroom-name">{{ channel.name }}</p>
-      {% if channel.abstract is not none %}
-      <p id="chatroom-description">{{ channel.abstract }}</p>
-      {% endif %}
-      {% if uid == channel.uid %}
+      <p id="chatroom-name">{ channels.ch_name }}</p>
+      <!-- % if channels.summary is not none % -->
+      <p id="chatroom-description">{ channels.summary
+        }}あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</p>
+      <!--% endif %-->
+      <!-- % if udser_id == channels.user_id % -->
       <button id='channel-update' class="basic-btn smaller-btn">編集</button>
       {% include 'modal/update-channel.html' %}
-      {% endif %}
+      <!-- % endif % -->
     </div>
     <div id="message-area">
-      {% if messages|length > 0 %}
-      {% for message in messages %}
-      {% if message.uid == uid %}
+      <!-- % if messages|length > 0 % -->
+      <!-- % for message in messages % -->
+      <!-- % if messages.user_id == user_id % -->
       <div class="my-messages">
-        <p class="box box-right">{{ message.message }}</p>
+        <p class="box box-right">{ messages.message }}</p>
         <form action="/delete_message" method="POST">
-          <input type="hidden" value="{{ channel.id }}" name="channel_id" />
-          <button class="delete-message-btn" name="message_id" value="{{ message.id }}">
-            <ion-icon name="trash-bin-outline"></ion-icon>
+          <input type="hidden" value="{ channel.id }}" name="channel_id" />
+          <button class="delete-message-btn" name="message_id" value="{ message.id }}">
+            <!-- <ion-icon name="trash-bin-outline"></ion-icon> -->
           </button>
         </form>
       </div>
-      {% else %}
+      <!-- % else % -->
       <div class="messages_box">
-
         <figure class="chat_user"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
             width="50" height="50" viewBox="0 0 24 24">
             <g fill="none" fill-rule="evenodd">
@@ -49,31 +42,45 @@
             </g>
           </svg>
         </figure>
-
         <div class="messages">
-          <p class="user-name">{{ message.user_name }}</p>
-          <p class="box box-left">{{ message.message }}</p>
+          <p class="user-name">{ messages.user_name }}</p>
+          <p class="box box-left">{ messages.message }}</p>
         </div>
       </div>
-      {% endif %}
-      {% endfor %}
-      {% else %}
+      <!-- % endif % -->
+      <!-- % endfor % -->
+      <!-- % else % -->
       <div>
-        <p>まだメッセージがありません</p>
+        <p class="center">まだメッセージがありません</p>
       </div>
-      {% endif %}
+      <!-- % endif % -->
     </div>
     <div class="typing-box-wrapper">
       <form class="typing-box" action="/message" method="POST">
         <textarea name="message" id="message" autofocus></textarea>
-        <input type="hidden" name="channel_id" value="{{ channel.id }}" />
+        <input type="hidden" name="channel_id" value="{ channel.id }}" />
         <button type="submit" id="add-message-btn">
-          <ion-icon name="paper-plane"></ion-icon>
+          <i class="fa-solid fa-paper-plane"></i>
+          <!-- <ion-icon name="paper-plane"></ion-icon> -->
         </button>
       </form>
     </div>
   </div>
+  {% include 'modal/update-channel.html' %}
 </div>
+<script>
+  function resizeContents() {
+    let head_height = document.getElementById('chat-header').offsetHeight;
+    let pddTop = head_height + 15;
+    document.getElementById("message-area").style.paddingTop = `${pddTop}px`;
+  }
+  window.onload = function () {
+    resizeContents();
+  };
+  window.onresize = function () {
+    resizeContents();
+  };
+</script>
 {% endblock %}
 {% block script %}
 <script type="text/javascript">
