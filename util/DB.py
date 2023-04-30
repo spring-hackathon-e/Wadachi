@@ -16,4 +16,4 @@ class DB:
         #エラー処理
         except(ConnectionError):
             print("コネクションエラーです")
-            conn.close() #DB接続を閉じる
+            conn.close()
