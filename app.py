@@ -58,9 +58,10 @@ def add_message():
 
     message = request.form.get('message')
     ch_id = request.form.get('channel_id')
+    reaction = 0 #reaction数の初期値:0
 
     if message:
-        dbConnect.createMessamge(user_id,ch_id,message) #reactionは別で更新
+        dbConnect.addMessamge(user_id,ch_id,message,reaction)
 
     channel = dbConnect.getChannelById(ch_id)
     messages = dbConnect.getMessageAll(ch_id)
@@ -96,7 +97,7 @@ def reaction_message():
     if message_id:
         dbConnect.addReaction(message_id)
 
-    channnel = dbConnect.getChannelById(ch_id)
+    channel = dbConnect.getChannelById(ch_id)
     messages = dbConnect.getMessageAll(ch_id)
 
-    return render_template('detail.html',messages=messages,user_id=user_id)
+    return render_template('detail.html',messages=messages,channel=channel,user_id=user_id)
