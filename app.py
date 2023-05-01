@@ -48,3 +48,64 @@ def signup(): #登録情報の取得
         session['user_id'] = UserId
         return redirect('/')
     return redirect('/signup')  #間違ってる所をクリア、色塗りの方がいいんじゃ
+
+# チャンネル一覧
+@app.route('/')
+def index():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+    else:
+      channels = dbConnect.getChannelAll()
+        return render_template('index.html', channels=channels, user_id=user_id)
+
+# チャンネル作成
+@app.route('/add_channel', methods=['POST'])
+def add_channel():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+    ch_name = request.form.get('ch_name')
+    channel = dbConnect.getChannelByName(ch_name)
+    if channel == None:
+        channel_summary = request.form.get('channel-summary')
+        dbConnect.addChannel(user_id,ch_name,channel_summary)
+        return redirect('/')
+    else:
+        error = '既に同じチャンネルが存在します'
+        return render_template('error/error.html', error_message=error)
+
+# チャンネル編集
+@app.route('/update_channel',methods=['POST'])
+def update_channel():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+
+    ch_id = request.form.get('ch_id')
+    ch_name = request.form.get('ch_name')
+    channel_summary = request.form.get('channel_summary')
+
+    res = dbConnect.updateChannel(user_id, ch_id, channel_summary)
+    channel = dbConnect.getChannelById(ch_id)
+    messages = dbConnect.getMessageAll(ch_id)
+    return render_template('detail.html', message=messsage, channel=channel, user_id=user_id)
+
+# チャンネル削除
+@app.route('/delete/<ch_id>')
+def delete_channel(ch_id):
+    user_id = session.get('user_id')
+    print(user_id)
+    if user_id is None:
+        return redirect('/login')
+    else:
+      channel = dbConnect.getChannelById(ch_id)
+      print(channel["user_id"] == user_id)
+      if channel["user_id"] != user_id:
+          flash('チャンネルは作成者のみ削除可能です')
+          return redirect ('/')
+      else:
+        dbConnect.deleteChannel(ch_id)
+        channels = dbConnect.getChannelAll()
+        return render_template('index.html', channels=channels, user_id=user_id)
+
