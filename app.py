@@ -109,3 +109,4 @@ def delete_channel(ch_id):
         channels = dbConnect.getChannelAll()
         return render_template('index.html', channels=channels, user_id=user_id)
 
+
