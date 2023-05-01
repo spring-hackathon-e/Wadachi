@@ -1,11 +1,7 @@
-
-DROP DATABASE chatapp;
-DROP USER 'testuser'@'localhost';
-
-CREATE USER 'testuser'@'localhost' IDENTIFIED BY 'testuser';
-CREATE DATABASE chatapp;
-USE chatapp
-GRANT ALL PRIVILEGES ON chatapp.* TO 'testuser'@'localhost';
+CREATE USER 'gruper'@'localhost' IDENTIFIED BY 'spring_e';
+CREATE DATABASE Wadachi;
+USE Wadachi
+GRANT ALL PRIVILEGES ON Wadachi.* TO 'gruper'@'localhost';
 
 --usersテーブルの作成
 CREATE TABLE users (
