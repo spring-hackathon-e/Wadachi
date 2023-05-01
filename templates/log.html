@@ -2,16 +2,24 @@
 {% block title %}
 <title>Study Log</title>
 {% endblock %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
 {% block body %}
 <div class="main-container log_main">
     <div class="main-content">
         <h1>みんなの学習記録一覧</h1>
         <ul class="log-box">
             <li class="personalog">
-                <button class="reaction"><i class="fa-regular fa-star"></i></button>
+                <div class="reaction_area">
+                    <button type="submit" name="reaction" class="reaction_btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="24"
+                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" class="reaction_svg"></path>
+                            <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572">
+                            </path>
+                        </svg>
+                    </button>
+                    <p>nn</p>
+                </div>
                 <figure class="log_left"><svg xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" width="60" height="60" viewBox="0 0 24 24">
                         <g fill="none" fill-rule="evenodd">
@@ -37,7 +45,7 @@
                 </div>
             </li>
             <li class="personalog">
-                <button type="button" aria-label="Trash" data-balloon-pos="left" class="trash reaction"><span><i
+                <button type="button" aria-label="Trash" data-balloon-pos="left" class="trash reaction_area"><span><i
                             class="fa-solid fa-trash-can"></i></span></button>
                 <figure class="log_left"><svg xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" width="60" height="60" viewBox="0 0 24 24">
@@ -64,8 +72,18 @@
                 </div>
             </li>
             <li class="personalog">
-                <button class="reaction"><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"
-                        style="display: none;"></i></button>
+                <div class="reaction_area">
+                    <button type="submit" name="reaction" class="reaction_btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="24"
+                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" class="reaction_svg"></path>
+                            <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572">
+                            </path>
+                        </svg>
+                    </button>
+                    <p>nn</p>
+                </div>
                 <figure class="log_left"><svg xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" width="60" height="60" viewBox="0 0 24 24">
                         <g fill="none" fill-rule="evenodd">
@@ -91,116 +109,18 @@
                 </div>
             </li>
             <li class="personalog">
-                <button class="reaction"><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"
-                        style="display: none;"></i></button>
-                <figure class="log_left"><svg xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" width="60" height="60" viewBox="0 0 24 24">
-                        <g fill="none" fill-rule="evenodd">
-                            <path d="M0 0h24v24H0z"></path>
-                            <path fill="#52B7AE"
-                                d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2ZM8.5 8.5a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0Zm-3.222 7.84C6.927 14.992 9.335 14 12 14s5.073.992 6.722 2.34A7.993 7.993 0 0 1 12 20a7.993 7.993 0 0 1-6.722-3.66Z">
+                <div class="reaction_area">
+                    <button type="submit" name="reaction" class="reaction_btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="24"
+                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" class="reaction_svg"></path>
+                            <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572">
                             </path>
-                        </g>
-                    </svg>
-                    <figcaption>
-                        <p class="user-name">ユーザーさん</p>
-                    </figcaption>
-                </figure>
-                <div class="log_right">
-                    <dl>
-                        <dt>目標</dt>
-                        <dd>hogehogeをいついつまでになになにさせる。</dd>
-                    </dl>
-                    <dl>
-                        <dt>内容</dt>
-                        <dd>学習記録のタイトルが表示される</dd>
-                    </dl>
+                        </svg>
+                    </button>
+                    <p>nn</p>
                 </div>
-            </li>
-            <li class="personalog">
-                <button class="reaction"><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"
-                        style="display: none;"></i></button>
-                <figure class="log_left"><svg xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" width="60" height="60" viewBox="0 0 24 24">
-                        <g fill="none" fill-rule="evenodd">
-                            <path d="M0 0h24v24H0z"></path>
-                            <path fill="#52B7AE"
-                                d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2ZM8.5 8.5a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0Zm-3.222 7.84C6.927 14.992 9.335 14 12 14s5.073.992 6.722 2.34A7.993 7.993 0 0 1 12 20a7.993 7.993 0 0 1-6.722-3.66Z">
-                            </path>
-                        </g>
-                    </svg>
-                    <figcaption>
-                        <p class="user-name">ユーザーさん</p>
-                    </figcaption>
-                </figure>
-                <div class="log_right">
-                    <dl>
-                        <dt>目標</dt>
-                        <dd>hogehogeをいついつまでになになにさせる。</dd>
-                    </dl>
-                    <dl>
-                        <dt>内容</dt>
-                        <dd>学習記録のタイトルが表示される</dd>
-                    </dl>
-                </div>
-            </li>
-            <li class="personalog">
-                <button class="reaction"><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"
-                        style="display: none;"></i></button>
-                <figure class="log_left"><svg xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" width="60" height="60" viewBox="0 0 24 24">
-                        <g fill="none" fill-rule="evenodd">
-                            <path d="M0 0h24v24H0z"></path>
-                            <path fill="#52B7AE"
-                                d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2ZM8.5 8.5a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0Zm-3.222 7.84C6.927 14.992 9.335 14 12 14s5.073.992 6.722 2.34A7.993 7.993 0 0 1 12 20a7.993 7.993 0 0 1-6.722-3.66Z">
-                            </path>
-                        </g>
-                    </svg>
-                    <figcaption>
-                        <p class="user-name">ユーザーさん</p>
-                    </figcaption>
-                </figure>
-                <div class="log_right">
-                    <dl>
-                        <dt>目標</dt>
-                        <dd>hogehogeをいついつまでになになにさせる。</dd>
-                    </dl>
-                    <dl>
-                        <dt>内容</dt>
-                        <dd>学習記録のタイトルが表示される</dd>
-                    </dl>
-                </div>
-            </li>
-            <li class="personalog">
-                <button class="reaction"><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"
-                        style="display: none;"></i></button>
-                <figure class="log_left"><svg xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" width="60" height="60" viewBox="0 0 24 24">
-                        <g fill="none" fill-rule="evenodd">
-                            <path d="M0 0h24v24H0z"></path>
-                            <path fill="#52B7AE"
-                                d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2ZM8.5 8.5a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0Zm-3.222 7.84C6.927 14.992 9.335 14 12 14s5.073.992 6.722 2.34A7.993 7.993 0 0 1 12 20a7.993 7.993 0 0 1-6.722-3.66Z">
-                            </path>
-                        </g>
-                    </svg>
-                    <figcaption>
-                        <p class="user-name">ユーザーさん</p>
-                    </figcaption>
-                </figure>
-                <div class="log_right">
-                    <dl>
-                        <dt>目標</dt>
-                        <dd>hogehogeをいついつまでになになにさせる。</dd>
-                    </dl>
-                    <dl>
-                        <dt>内容</dt>
-                        <dd>学習記録のタイトルが表示される</dd>
-                    </dl>
-                </div>
-            </li>
-            <li class="personalog">
-                <button class="reaction"><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"
-                        style="display: none;"></i></button>
                 <figure class="log_left"><svg xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" width="60" height="60" viewBox="0 0 24 24">
                         <g fill="none" fill-rule="evenodd">
@@ -237,6 +157,18 @@
     {% include 'modal/personallog.html' %}
     {% include 'modal/delete-log.html' %}
 </div>
+<script>
+    // ボタン装飾確認用　後で消す
+    const btns = document.querySelectorAll('.reaction_btn svg');
+
+    btns.forEach((element, index) => {
+        element.addEventListener('click', (event) => {
+            element.setAttribute("fill", "#52B8AE");
+            //console.log(index);
+        });
+    });
+
+</script>
 {% endblock %}
 {% block script %}
 <script type="text/javascript">

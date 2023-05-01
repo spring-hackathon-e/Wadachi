@@ -26,7 +26,7 @@
         <form action="/delete_message" method="POST">
           <input type="hidden" value="{ channel.id }}" name="channel_id" />
           <button class="delete-message-btn" name="message_id" value="{ message.id }}">
-            <!-- <ion-icon name="trash-bin-outline"></ion-icon> -->
+            <span name="trash-bin-outline"></span><i class="fa-solid fa-trash-can"></i></span>
           </button>
         </form>
       </div>
@@ -46,6 +46,17 @@
           <p class="user-name">{ messages.user_name }}</p>
           <p class="box box-left">{ messages.message }}</p>
         </div>
+        <div class="reaction_area">
+          <button type="submit" name="reaction" class="reaction_btn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="24" height="24"
+              viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" class="reaction_svg"></path>
+              <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path>
+            </svg>
+          </button>
+          <p>nn</p>
+        </div>
       </div>
       <!-- % endif % -->
       <!-- % endfor % -->
@@ -61,7 +72,6 @@
         <input type="hidden" name="channel_id" value="{ channel.id }}" />
         <button type="submit" id="add-message-btn">
           <i class="fa-solid fa-paper-plane"></i>
-          <!-- <ion-icon name="paper-plane"></ion-icon> -->
         </button>
       </form>
     </div>
@@ -69,6 +79,7 @@
   {% include 'modal/update-channel.html' %}
 </div>
 <script>
+  // ヘッダー調整
   function resizeContents() {
     let head_height = document.getElementById('chat-header').offsetHeight;
     let pddTop = head_height + 15;
@@ -80,6 +91,15 @@
   window.onresize = function () {
     resizeContents();
   };
+
+  // ボタン押下挙動デモ用
+  var rBtn = document.querySelector('.reaction_btn svg');
+  rBtn.addEventListener('click', function () {
+    this.setAttribute("fill", "#52B8AE");
+    console.log(this);
+  });
+
+
 </script>
 {% endblock %}
 {% block script %}

@@ -11,9 +11,13 @@
   background: var(--main);
   padding-right: 1em;
 }
-
+.navigation li a{
+  transition: 0.4s;
+}
 .navigation li a:hover {
   color: var(--black);
+  background: rgb(255,255,255);
+background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
 }
 
 .navigation ul {
@@ -24,25 +28,15 @@
   padding-left: 16px; */
 }
 
-.navigation ul li {
-  list-style: none;
-  display: block;
-  position: relative;
-  width: 100%;
-  border-radius: 15px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
 .navigation ul li:hover {
   opacity: 0.7;
 }
 
-.navigation ul li.active {
+/* .navigation ul li.active {
   background-color: var(--carbon);
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-}
+} */
 
 .navigation ul li a {
   display: block;
@@ -55,7 +49,7 @@
   color: var(--white);
 }
 
-.navigation ul li.active a::before {
+/* .navigation ul li.active a::before {
   content: "";
   position: absolute;
   width: 30px;
@@ -64,17 +58,7 @@
   right: 0;
   border-radius: 50%;
   box-shadow: 15px 15px 0 var(--carbon);
-}
-.navigation ul li.active a::after {
-  content: "";
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  top: 60px;
-  right: 0;
-  border-radius: 50%;
-  box-shadow: 15px -15px 0 var(--carbon);
-}
+} */
 
 .navigation ul li a .icon {
   display: flex;
@@ -90,28 +74,11 @@
 }
 
 .navigation ul li a .title {
-  padding-left: 10px;
+  padding-left: 5px;
   height: 60px;
   line-height: 60px;
   white-space: nowrap;
   font-size: 17px;
-}
-
-main {
-  display: flex;
-  position: relative;
-}
-
-main nav {
-  width: 25vw;
-  background: var(--samplemain);
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 50;
-  padding-top: 4rem;
-  padding-left: 1rem;
 }
 
 .fixed {
@@ -146,10 +113,92 @@ header ul {
 
 @media screen and (max-width: 639px) {
   .navigation {
-    display: none;
+    left: -201px;
+    margin-top: 2rem;
+transition:  all 0.4s;
+  }
+  .navigation.active{
+    left: 0;
+    transition:  all 0.4s;
+  }
+  .bg_wd.active{
+    content: "";
+    background: #00000080;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 2rem;
+    z-index: 60;
+    transition: all 0.4s;
   }
 
   .main-container {
     padding-left: 0;
   }
+  .menu_btn{
+    position: relative;/*ボタン内側の基点となるためrelativeを指定*/
+    cursor: pointer;
+      width: 50px;
+      height:50px;
+    border-radius: 5px;
+  }
+  
+  /*ボタン内側*/
+  .menu_btn span{
+      display: inline-block;
+      transition: all .4s;/*アニメーションの設定*/
+      position: absolute;
+      left: 14px;
+      height: 3px;
+      border-radius: 2px;
+    background: var(--accentgreen);
+      width: 45%;
+    }
+  
+  .menu_btn span:nth-of-type(1) {
+    top:0.6rem; 
+  }
+  
+  .menu_btn span:nth-of-type(2) {
+    top:1.0rem;
+  }
+  
+  .menu_btn span:nth-of-type(3) {
+    top:1.4rem;
+  }
+  
+  /*activeクラスが付与されると線が回転して×に*/
+  
+  .active .menu_btn span:nth-of-type(1) {
+      top: 0.6rem;
+      left: 12px;
+      transform: translateY(6px) rotate(-45deg);
+      width: 1.6rem;
+  }
+  
+  .active .menu_btn span:nth-of-type(2) {
+    opacity: 0;/*真ん中の線は透過*/
+  }
+  
+  .active .menu_btn span:nth-of-type(3){
+      top: 1.2rem;
+      left: 12px;
+      transform: translateY(-6px) rotate(45deg);
+      width: 1.6rem;
+  }
+
+  
+  .btn-block{
+    width:200px;  
+    padding: 30px;
+  }
+  .hamburger{
+    position: fixed;
+    z-index: 90;
+  }
+}
+@media screen and (min-width: 640px) {
+.sp{
+  display: none;
+}
 }

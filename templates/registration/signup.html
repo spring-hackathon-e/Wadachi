@@ -1,23 +1,16 @@
-{% extends 'registration/base.html' %} {% block title %}
-<title>signup</title>
-<style>
-  @import url(/static/css/color.css); /* 後で消す */
-  @import url(/static/css/base.css);
-  @import url(/static/css/login.css);
-</style>
-{% endblock %} {% block body %}
-<div class="main">
-  <div class="contents">
+{% extends 'registration/base.html' %}
+{% block title %}
+<title>signin</title>
+{% endblock %}
+{% block body %}
+<div class="main_regi">
+  <div class="contents_regi">
     <h1 class="center">WADACHI</h1>
     <form class="fotm_ts" method="post">
       <input type="text" placeholder="ユーザーネーム" name="name" />
       <input type="text" placeholder="メールアドレス" name="email" />
       <input type="password" placeholder="パスワード" name="password1" />
-      <input
-        type="password"
-        placeholder="パスワード（確認用）"
-        name="password2"
-      />
+      <input type="password" placeholder="パスワード（確認用）" name="password2" />
       <button>ユーザー登録</button>
       {% with messages = get_flashed_messages() %} {% if messages %}
       <ul class="flashes">
@@ -27,9 +20,7 @@
       </ul>
       {% endif %} {% endwith %}
     </form>
-    <p class="center"><a href="{{ url_for('login') }}">ログインはこちら</a></p>
+    <p class="center"><a href="{ url_for('login') }}">ログインはこちら</a></p>
   </div>
 </div>
 {% endblock %}
-
-<!--main -->

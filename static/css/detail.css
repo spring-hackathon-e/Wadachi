@@ -47,14 +47,14 @@ white-space: nowrap;
   min-height: 100vh;
   width: 100%;
   padding-top: calc(2rem + 10px);
-  padding-right: 1rem;
+  padding-right: 0.5rem;
   padding-bottom: calc(20vh + 10px);
-  padding-left: 1rem;
+  padding-left: 0.5rem;
   overflow-y: scroll;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 1rem;
 }
 .messages_box{
   display: flex;
@@ -63,20 +63,23 @@ align-items: center;
 .messages {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  flex-basis: 50%;
   padding-left: 10px;
+padding-right: 10px;
 }
-
-.user-name {
-
-}
-
 .my-messages {
   display: flex;
+  justify-content: flex-end;
+}
+
+.my-messages .box-right {
+  flex-basis: 50%;
+  margin-left: 0;
+  margin-left: 15px;
 }
 
 .delete-message-btn {
-  background-color: var(--carbon);
+  background-color: var(--main);
   height: 40px;
   width: 40px;
   line-height: 47px;
@@ -92,20 +95,34 @@ align-items: center;
 
 .box {
   position: relative;
-  width: 60%;
+  width: 100%;
   margin: 0;
   padding: 0.7em 0 0.4em 1em;
   border-radius: 10px;
-  color: var(--snow);
   font-weight: bold;
   font-size: 14px;
   line-height: 1.5;
   letter-spacing: 0.1em;
 }
+.reaction_btn{
+  background: initial;
+  color: var(--accentgreen);
+  padding: 0;
+  margin: 0;
+}
+.messages_box button + p{
+    line-height: 1;
+    margin-top: -10px;
+    font-size: 14px;
+    text-align: center;
+}
 
 .box-left {
   border: 1px solid var(--dark_pink);
   background-color: var(--baby_pink);
+}
+.chat-box .user-name{
+  font-size: 12px;
 }
 
 .box-right {
@@ -139,8 +156,6 @@ align-items: center;
   content: "";
 }
 
-/* ========================================================== */
-
 .typing-box-wrapper {
   position: fixed;
   /* bottom: 2%; */
@@ -154,6 +169,7 @@ align-items: center;
   display: flex;
   align-items: center;
   justify-content: start;
+  box-shadow: 0px 0px 10px #00000040;
 }
 
 .typing-box {
@@ -166,8 +182,6 @@ align-items: center;
 
 .typing-box textarea {
   background-color: transparent;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   width: 100%;
   padding: 4px 55px 4px 12px;
   border-radius: 16px;
@@ -203,18 +217,19 @@ align-items: center;
 .chat_user figcaption{
 font-size: 70%;
 }
-@media screen and (max-width: 550px) {
+
+@media screen and (max-width: 639px) {
   #chatroom-description {
     display: none;
   }
-}
 
-@media screen and (max-width: 639px) {
+  .typing-box-wrapper{
+    width: 95%;
+  }
   .chat-box {
     padding-left: 0;
   }
 
-  .typing-box-wrapper,
   #chat-header {
     width: 100%;
   }
@@ -226,10 +241,15 @@ font-size: 70%;
   #gif {
     display: none;
   }
+
+  .messages{
+flex-basis: 65%;
+  }
+  .my-messages .box-right{
+    flex-basis: 60%;
+  }
 }
 
 @media only screen and (min-width: 640px) {
-  .box {
-    width: 40%;
-  }
+
 }

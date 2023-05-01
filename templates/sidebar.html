@@ -1,6 +1,5 @@
 <div class="fixed">
   <header>
-
     <ul>
       <li>
         <ul>
@@ -21,25 +20,42 @@
               </svg></a></li>
         </ul>
   </header>
-  <ul></ul>
-  <div class="navigation">
-    <a href="index.html">
-      <h1 class="center">WADACHI</h1>
-    </a>
-    <ul>
-      <li class="list active">
-        <a href="">
-          <span class="icon"><i class="fa-solid fa-comments"></i></span>
-          <span class="title">チャット</span>
-        </a>
-      </li>
-      <li class="list">
-        <a href="#">
-          <span class="icon"><i class="fa-solid fa-pencil"></i></span>
-          <span class="title">みんなの勉強記録</span>
-        </a>
-      </li>
-    </ul>
-    <nav>
+  <div class="hamburger sp">
+    <div class="menu_btn">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="bg_wd">
+    <div class="navigation" id="sidemenu">
+      <a href="index.html">
+        <h1 class="center">WADACHI</h1>
+      </a>
+      <ul>
+        <li class="list active">
+          <a href="">
+            <span class="icon"><i class="fa-solid fa-comments"></i></span>
+            <span class="title">チャット</span>
+          </a>
+        </li>
+        <li class="list">
+          <a href="#">
+            <span class="icon"><i class="fa-solid fa-pencil"></i></span>
+            <span class="title">みんなの勉強記録</span>
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
+<script>
+  const menubtn = document.getElementsByClassName('hamburger')[0];
+  const bg = document.getElementsByClassName('bg_wd')[0];
+  const slidemenu = document.getElementById('sidemenu');
+  menubtn.addEventListener('click', function () {
+    this.classList.toggle('active');
+    slidemenu.classList.toggle('active');
+    bg.classList.toggle('active');
+  });
+
+
+</script>

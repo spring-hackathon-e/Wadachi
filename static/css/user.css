@@ -104,3 +104,15 @@ input[type="checkbox"]:checked + #popup{
   display:block;
   transition:.2s;
 }
+@media screen and (max-width: 639px) {
+.index_main{
+  width: 100%;
+  margin: auto;
+}
+.index_main .content_ind{
+padding-top: 2.5rem;
+}
+.btn_green.btn_green_short{
+  width: initial;
+}
+}
