@@ -19,15 +19,14 @@ def signup():
 def usersignup():   # 登録情報の取得
     user_name = request.form.get('user_name')
     email = request.form.get('email')
-    user_id = request.form.get('name')
-    password = request.form.get('password')
-    password_chk = request.form.get('password_chk')
+    password = request.form.get('password1')
+    password_chk = request.form.get('password2')
 
     def isMail(email):
         pattern = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
         return re.match(pattern, email)
 
-    if user_id == '' or email =='' or password == '' or password_chk == '':
+    if user_name == '' or email =='' or password == '' or password_chk == '':
         flash('空のフォームがあります')
     elif password != password_chk :
         flash('パスワードが一致していません。')
@@ -37,19 +36,16 @@ def usersignup():   # 登録情報の取得
         user_id = uuid.uuid4
         password = hashlib.sha256(password.encode('utf-8')).hexdigest()
         user = User(user_id, user_name, email, password)
-        DbUserMail = dbConnect.getUser(email)
-        DbUserId = dbConnect.getUser(user_id)
+        DbUser = dbConnect.getUser(email)
 
-    if DbUserMail != None:   # emailが登録済み
-        flash('すでに登録済みのユーザーです。')
-    elif DbUserId != None:
+    if DbUser != None:   # emailが登録済み
         flash('すでに登録済みのユーザーです。')
     else:
         dbConnect.createUser(user)
         UserId = str(user_id)
         session['user_id'] = UserId
         return redirect('/')
-    return redirect('/signup')   # 間違ってる所をクリア、色塗りの方がいいんじゃ
+    return redirect('/signup')   # 入力情報のクリア
 
 #ログイン
 @app.route('/login')
@@ -57,11 +53,11 @@ def login():
     return render_template('registration/login.html')
 
 @app.route('/login', methods=['POST'])
-def userlogin():   # user_idとemailを格納先と照合
-    user_id = request.form.get('user_id')
+def userlogin(): #user_idとemailを格納先と照合
+    email = request.form.get('email')
     password = request.form.get('password')
     
-    user = dbConnect.getUserId(user_id)
+    user = dbConnect.getUserId(email)
 
     if user == None:
         flash('ユーザーIDが間違っています。')
