@@ -56,7 +56,7 @@ def index():
     if user_id is None:
         return redirect('/login')
     else:
-      channels = dbConnect.getChannelAll()
+        channels = dbConnect.getChannelAll()
         return render_template('index.html', channels=channels, user_id=user_id)
 
 # チャンネル作成
@@ -99,14 +99,14 @@ def delete_channel(ch_id):
     if user_id is None:
         return redirect('/login')
     else:
-      channel = dbConnect.getChannelById(ch_id)
-      print(channel["user_id"] == user_id)
-      if channel["user_id"] != user_id:
-          flash('チャンネルは作成者のみ削除可能です')
-          return redirect ('/')
-      else:
-        dbConnect.deleteChannel(ch_id)
-        channels = dbConnect.getChannelAll()
+        channel = dbConnect.getChannelById(ch_id)
+        print(channel["user_id"] == user_id)
+        if channel["user_id"] != user_id:
+            flash('チャンネルは作成者のみ削除可能です')
+            return redirect ('/')
+        else:
+            dbConnect.deleteChannel(ch_id)
+            channels = dbConnect.getChannelAll()
         return render_template('index.html', channels=channels, user_id=user_id)
 
 

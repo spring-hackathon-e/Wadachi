@@ -1,3 +1,7 @@
+
+DROP DATABASE Wadachi;
+DROP USER 'gruper'@'localhost';
+
 CREATE USER 'gruper'@'localhost' IDENTIFIED BY 'spring_e';
 CREATE DATABASE Wadachi;
 USE Wadachi
@@ -5,12 +9,12 @@ GRANT ALL PRIVILEGES ON Wadachi.* TO 'gruper'@'localhost';
 
 --usersテーブルの作成
 CREATE TABLE users (
-     user_id VARCHAR(255) PRIMARY KEY, NOT NULL,
-     user_name VARCHAR(255) UNIQUE, NOT NULL,
-     email VARCHAR(255) UNIQUE, NOT NULL,
-     password VARCHAR(50) NOT NULL,
-     goal TEXT,
-     start_date DATE, NOT NULL
+    user_id VARCHAR(255) PRIMARY KEY, NOT NULL,
+    user_name VARCHAR(255) UNIQUE, NOT NULL,
+    email VARCHAR(255) UNIQUE, NOT NULL,
+    password VARCHAR(50) NOT NULL,
+    goal TEXT,
+    start_date DATE, NOT NULL
 );
 
 --channelsテーブルの作成
