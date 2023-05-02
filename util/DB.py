@@ -8,7 +8,7 @@ class DB:
                 host="localhost",
                 db="Wadachi",
                 user="gruper",
-                password="spring_e",
+                password="Spring_e6",
                 charset="utf8",
                 cursorclass=pymysql.cursors.DictCursor
             )
