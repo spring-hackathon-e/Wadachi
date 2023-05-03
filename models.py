@@ -7,9 +7,8 @@ class dbConnect:
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "INSERT INTO users (user_id, user_name, email, user.password) VALUES (%s,%s,%s,%s);"
-            cursor.execute(sql, (user.user_id, user.user_name,
-                           user.email, user.password))
+            sql = "INSERT INTO users (user_id, user_name, email, password) VALUES (%s,%s,%s,%s);"
+            cursor.execute(sql, (user.user_id, user.user_name, user.email, user.password))
             connect.commit()
         except Exception as e:
             print(str(e) + 'が発生しています。')
