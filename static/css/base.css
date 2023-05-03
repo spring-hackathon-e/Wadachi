@@ -55,6 +55,7 @@ textarea {
   width: 100%;
   letter-spacing: 0.1em;
   font-size: 16px;
+  
 }
 
 input {
@@ -103,12 +104,8 @@ button.green:hover {
   background-color: var(--middle_green);
 }
 
-.text-pink {
-  color: var(--baby_pink);
-}
-
-.text-green {
-  color: var(--tiffany_green);
+.span_btn{
+  cursor: pointer;
 }
 
 .main-container {

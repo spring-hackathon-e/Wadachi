@@ -2,6 +2,8 @@
     /* max-height: 100vh; */
     padding-right: 1rem;
     padding-top: 3rem;
+    justify-content: flex-start;
+    flex-direction: column;
 }
 
 .log_main h1{
@@ -22,13 +24,14 @@
     color: var(--accentgreen);
     padding:0;
     margin: 0;
+    text-align: right;
 }
 
 .log_left{
     width: 100px;
     text-align: center;
 }
-.log_left .user-name{
+.log_left span{
     /* word-break: keep-all; */
     font-size: clamp(10px,70%,12px);
     font-weight: bold;
@@ -52,6 +55,9 @@ width: calc(100% - 3em);
 
 .log_ttl h3{
     font-size: 110%;
+}
+.log_main h4{
+    margin-top: 1rem;;
 }
 
 @media screen and (max-width: 639px) {

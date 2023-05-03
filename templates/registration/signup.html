@@ -1,6 +1,6 @@
 {% extends 'registration/base.html' %}
 {% block title %}
-<title>signin</title>
+<title>signup</title>
 {% endblock %}
 {% block body %}
 <div class="main_regi">
@@ -12,7 +12,8 @@
       <input type="password" placeholder="パスワード" name="password1" />
       <input type="password" placeholder="パスワード（確認用）" name="password2" />
       <button>ユーザー登録</button>
-      {% with messages = get_flashed_messages() %} {% if messages %}
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
       <ul class="flashes">
         {% for message in messages %}
         <li>{{ message }}</li>
@@ -20,6 +21,7 @@
       </ul>
       {% endif %} {% endwith %}
     </form>
+    <!-- TODO: 書式修正 -->
     <p class="center"><a href="{ url_for('login') }}">ログインはこちら</a></p>
   </div>
 </div>

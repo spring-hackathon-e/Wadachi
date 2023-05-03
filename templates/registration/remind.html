@@ -5,12 +5,15 @@
 
 {% block body %}
 <nav class="remind">
-    <a>
+    <!-- TODO: 書式修正 -->
+    <a href="{ url_for('login') }}">
         <h1>WADACHI</h1>
     </a>
     <ul>
-        <li class="signin_wd obj_center"><a href="signup.html">新規登録</a></li>
-        <li class="login_wd obj_center"><a href="login.html">ログイン</a></li>
+        <!-- TODO: 書式修正 -->
+        <li class="signin_wd obj_center"><a href="{ url_for('signup') }}">新規登録</a></li>
+        <!-- TODO: 書式修正 -->
+        <li class="login_wd obj_center"><a href="{ url_for('login') }}">ログイン</a></li>
     </ul>
 </nav>
 <div class="main_regi main_remind">
@@ -20,9 +23,14 @@
         <div class="fotm_ts mt2r_wd">
             <small>ご登録済みのメールアドレス</small>
             <input type="text" placeholder="メールアドレス">
-            <button class="center mt1r_wd mauto_dw"><a href="/index.html" class="cha_white_wd">送信する</button>
+            <button class="center mt1r_wd mauto_dw">
+                <!-- TODO: 書式修正 -->
+                <a href="{ url_for('login') }}" class="cha_white_wd">送信する</button>
         </div>
-        <p class="center"><a href="/login.html" class="cha_bk_wd">ログインはこちら</a></p>
+        <p class="center">
+            <!-- TODO: 書式修正 -->
+            <a href="{ url_for('login') }}" class="cha_bk_wd">ログインはこちら</a>
+        </p>
     </div>
 </div>
 {% endblock %}
