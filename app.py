@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.secret_key = uuid.uuid4().hex
 app.permanent_session_lifetime = timedelta(days=30)
 
-#サインイン
+#サインアップ
 @app.route('/signup')
 def signup():
     return render_template('registration/signup.html')
@@ -53,7 +53,7 @@ def login():
     return render_template('registration/login.html')
 
 @app.route('/login', methods=['POST'])
-def userlogin(): #user_idとemailを格納先と照合
+def userlogin():   # user_idとemailを格納先と照合
     email = request.form.get('email')
     password = request.form.get('password')
     
