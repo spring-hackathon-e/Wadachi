@@ -18,38 +18,35 @@
             <div class="user_detail">
                 <div class="user_inn">
                     <h2>ユーザーネーム</h2>
-                    <!-- TODO: 清書式に修正 -->
-                    <p class="user-name"> { users.user_name }} </p>
+                    <p class="user-name"> {{ users.user_name }} </p>
                 </div>
                 <div class="user_inn">
                     <h2>勉強開始日</h2>
-                    <!-- TODO: 清書式に修正 -->
-                    <p> { users.start_date }} </p>
+                    <p> {{ users.start_date }} </p>
                 </div>
             </div>
         </div>
         <div class="mokuhyo">
             <h2>目標</h2>
-            <!-- TODO: 清書式に修正 -->
-            <p>{ users.goal }}</p>
+            <p>{{ users.goal }}</p>
             <span class="edit_ico span_btn" id="goal_edit_modal"><i class="fa-solid fa-pen-to-square"></i></span>
         </div>
         <div class="study_edit">
             <h2 class="center mt1r_wd">学習記録を投稿する</h2>
-            <form class="study-logging" action="study-logging" method="POST">
+            <form class="study-logging" method="POST" action="/">
+                <!-- TODO: 勉強した日の格納は設計になかったかも！あとで削除の可能性あり -->
                 <h3 class="mt1r_wd">勉強した日</h3>
-                <input type="date" class="study_day short" placeholder="YYYY/MM/DD（半角英数）">
+                <input type="date" class="study_day short" placeholder="YYYY/MM/DD（半角英数）" name="">
                 <h3 class="mt1r_wd">勉強時間</h3>
-                <input type="number" class="study_time short" placeholder="勉強時間(H)">
+                <input type="number" class="study_time short" placeholder="勉強時間(H)" name="study_time">
                 <h3 class="mt1r_wd">内容</h3>
-                <textarea type="text" class="study_log" aria-label="記述式テキスト（長文回答）"
-                    placeholder="学習記録を入力してください"></textarea>
+                <textarea type="text" class="study_log" aria-label="記述式テキスト（長文回答）" placeholder="学習記録を入力してください"
+                    name="post"></textarea>
                 <input class="btn_green btn_green_short" type="submit" value="学習記録を投稿する">
             </form>
         </div>
         <div class="tologlink">
-            <!-- TODO: 書式修正 -->
-            <a href="{ url_for('log') }}">
+            <a href="{{ url_for('log') }}">
                 <p class="btn_green center">みんなの学習記録を見る</p>
             </a>
         </div>

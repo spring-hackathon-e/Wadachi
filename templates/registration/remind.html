@@ -5,31 +5,26 @@
 
 {% block body %}
 <nav class="remind">
-    <!-- TODO: 書式修正 -->
-    <a href="{ url_for('login') }}">
+    <a href="{{ url_for('login') }}">
         <h1>WADACHI</h1>
     </a>
     <ul>
-        <!-- TODO: 書式修正 -->
-        <li class="signin_wd obj_center"><a href="{ url_for('signup') }}">新規登録</a></li>
-        <!-- TODO: 書式修正 -->
-        <li class="login_wd obj_center"><a href="{ url_for('login') }}">ログイン</a></li>
+        <li class="signin_wd obj_center"><a href="{{ url_for('signup') }}">新規登録</a></li>
+        <li class="login_wd obj_center"><a href="{{ url_for('login') }}">ログイン</a></li>
     </ul>
 </nav>
 <div class="main_regi main_remind">
     <div class="contents_regi">
         <h2 class="center">パスワードの再設定</h2>
         <p class="mt2r_wd" style="font-weight: normal;">ご登録済みのメールアドレスに、パスワード再設定のご案内を送付いたします。</p>
-        <div class="fotm_ts mt2r_wd">
+        <form class="fotm_ts mt2r_wd" action="/" method="post">
             <small>ご登録済みのメールアドレス</small>
-            <input type="text" placeholder="メールアドレス">
-            <button class="center mt1r_wd mauto_dw">
-                <!-- TODO: 書式修正 -->
-                <a href="{ url_for('login') }}" class="cha_white_wd">送信する</button>
-        </div>
+            <input type="text" placeholder="メールアドレス" name="email">
+            <button class="center mt1r_wd mauto_dw" type="submit">
+                <a href="{{ url_for('login') }}" class="cha_white_wd">送信する</button>
+        </form>
         <p class="center">
-            <!-- TODO: 書式修正 -->
-            <a href="{ url_for('login') }}" class="cha_bk_wd">ログインはこちら</a>
+            <a href="{{ url_for('login') }}" class="cha_bk_wd">ログインはこちら</a>
         </p>
     </div>
 </div>

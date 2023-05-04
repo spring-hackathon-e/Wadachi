@@ -10,9 +10,7 @@
     <form class="fotm_ts" method="post">
       <input type="text" placeholder="メールアドレス" name="email">
       <input type="password" placeholder="パスワード" name="password">
-      <!-- TODO: 正書式に修正-->
-      <p><a href="{ url_for('remind') }}">パスワードをお忘れの方はこちら</a></p>
-      <!-- TODO: 修正エリア終了-->
+      <p><a href="{{ url_for('remind') }}">パスワードをお忘れの方はこちら</a></p>
       <button class="center">ログイン</button>
       {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -23,8 +21,7 @@
       </ul>
       {% endif %}
       {% endwith %}
-      <!-- TODO: 正書式に修正-->
-      <p><a href="{ url_for('signup') }}">新規登録はこちら</a></p>
+      <p><a href="{{ url_for('signup') }}">新規登録はこちら</a></p>
     </form>
   </div>
 </div>

@@ -7,41 +7,29 @@
   <div class="chat-box">
     <div id="chat-header">
       <!-- もしuidとチャンネル作成者が同じならタイトル、説明を編集可能にする -->
-      <!-- TODO: 書式修正 -->
-      <p id="chatroom-name">{ channels.ch_name }}</p>
-      <!-- TODO: 書式修正 -->
-      % if channels.summary is not none %}
-      <!-- TODO: 書式修正 -->
-      <p id="chatroom-description">{ channels.summary }}</p>
-      <!-- TODO: 書式修正 -->
-      % endif %}
-      <!-- TODO: 書式修正 -->
-      % if udser_id == channels.user_id %}
+      <p id="chatroom-name">{{ channels.ch_name }}</p>
+      {% if channels.summary is not none %}
+      <p id="chatroom-description">{{ channels.summary }}</p>
+      {% endif %}
+      {% if udser_id == channels.user_id %}
       <button id='channel-update' class="basic-btn smaller-btn">編集</button>
       {% include 'modal/update-channel.html' %}
-      <!-- TODO: 書式修正 -->
-      % endif %}
+      {% endif %}
     </div>
     <div id="message-area">
-      <!-- TODO: 書式修正 -->
-      % if messages|length > 0 %}
-      <!-- TODO: 書式修正 -->
-      % for message in messages %}
-      % if messages.user_id == user_id %}
+      {% if messages|length > 0 %}
+      {% for message in messages %}
+      {% if messages.user_id == user_id %}
       <div class="my-messages">
-        <!-- TODO: 書式修正 -->
-        <p class="box box-right">{ messages.message }}</p>
-        <form action="/delete_message" method="POST">
-          <!-- TODO: 書式修正 -->
-          <input type="hidden" value="{ channel.ch_id }}" name="ch_id" />
-          <!-- TODO: 書式修正 -->
-          <button class="delete-message-btn" name="message_id" value="{ message.id }}">
+        <p class="box box-right">{{ messages.message }}</p>
+        <form action="/deleteMessage" method="POST">
+          <input type="hidden" value="{{ channel.ch_id }}" name="ch_id" />
+          <button class="delete-message-btn" name="message_id" value="{{ message.message_id }}">
             <span name="trash-bin-outline"></span><i class="fa-solid fa-trash-can"></i></span>
           </button>
         </form>
       </div>
-      <!-- TODO: 書式修正 -->
-      % else %}
+      {% else %}
       <div class="messages_box">
         <figure class="chat_user"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
             width="50" height="50" viewBox="0 0 24 24">
@@ -55,39 +43,36 @@
         </figure>
         <!-- 相手側メッセージ -->
         <div class="messages">
-          <!-- TODO: 書式修正 -->
-          <p class="user-name">{ messages.user_name }}</p>
-          <p class="box box-left">{ messages.message }}</p>
+          <p class="user-name">{{ messages.user_name }}</p>
+          <p class="box box-left">{{ messages.message }}</p>
         </div>
         <!-- TODO: リアクションボタンに関する実装、未確定。後で変更が入ります。 -->
         <div class="reaction_area">
-          <button type="submit" name="reaction" class="reaction_btn">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="24" height="24"
-              viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" class="reaction_svg"></path>
-              <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path>
-            </svg>
-          </button>
-          <!-- TODO: 書式修正 -->
-          <p>{ messages.reaction }}</p>
+          <form action="/addReaction" method="post">
+            <button type="submit" name="reactions" class="reaction_btn">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="24" height="24"
+                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" class="reaction_svg"></path>
+                <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path>
+              </svg>
+            </button>
+          </form>
+          <p>{{ messages.reaction }}</p>
         </div>
       </div>
-      <!-- TODO: 書式修正 -->
-      % endif %}
-      % endfor %}
-      % else %}
+      {% endif %}
+      {% endfor %}
+      {% else %}
       <div>
         <p class="center">まだメッセージがありません</p>
       </div>
-      <!-- TODO: 書式修正 -->
-      % endif %}
+      {% endif %}
     </div>
     <div class="typing-box-wrapper">
-      <form class="typing-box" action="/message" method="POST">
+      <form class="typing-box" action="/addMessage" method="POST">
         <textarea name="message" id="message" autofocus></textarea>
-        <!-- TODO: 書式修正 -->
-        <input type="hidden" name="ch_id" value="{ channels.ch_id }}" />
+        <input type="hidden" name="ch_id" value="{{ channels.ch_id }}" />
         <button type="submit" id="add-message-btn">
           <i class="fa-solid fa-paper-plane"></i>
         </button>
