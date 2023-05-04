@@ -75,3 +75,6 @@ def userlogin():   # user_idとemailを格納先と照合
 def logout():
     session.clear()
     return redirect('/login')
+
+if __name__ == '__main__':
+    app.run(debug=True)
