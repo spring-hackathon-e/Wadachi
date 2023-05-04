@@ -57,7 +57,7 @@ def userlogin():   # user_idとemailを格納先と照合
     email = request.form.get('email')
     password = request.form.get('password')
     
-    user = dbConnect.getUserId(email)
+    user = dbConnect.getUser(email)
 
     if user == None:
         flash('ユーザーIDが間違っています。')
