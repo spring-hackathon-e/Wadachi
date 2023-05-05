@@ -5,15 +5,15 @@
     padding-top: 3rem;
     /* max-height: 100vh; */
     overflow-y: hidden;
+    justify-content: flex-start;
   }
 
   .main-content {
     z-index: 3;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
   }
-  
   .channel-title {
     display: flex;
     border-bottom: 1px solid var(--grymiddle);
@@ -21,7 +21,7 @@
   }
   
   .channel-title button {
-    /* margin: 30px 0; */
+    margin: 0 0.5rem 0.5rem;
     background-color: var(--accentgreen);
   }
   .addbtn{
@@ -52,11 +52,10 @@
     cursor: pointer;
   }
   
-  
-  .channel-box li a:hover {
-    color: var(--dark_pink);
+  .summary_row{
+display: flex;
+justify-content: flex-start;
   }
-  
   .pagination-container,
   .pagination {
     display: flex;
@@ -189,6 +188,7 @@ border: 2px solid var(--white);
       padding-right: 0rem;
       padding-top: 2.5rem;
       overflow-y: hidden;
+      max-height: initial;
     }
 
   }
@@ -210,6 +210,9 @@ justify-content: space-between;
     }
     .channel-box li a {
       font-size: 16px;
+    }
+    .channel-title button{
+      padding: 0.5em 1em;
     }
   
   }

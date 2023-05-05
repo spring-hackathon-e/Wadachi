@@ -13,12 +13,23 @@ padding: 1rem 1rem 2rem;
 .usrinfo figure{
   padding-right: 0.5rem;
 }
+.user_inn{
+  display: flex;
+  justify-content: flex-start;
+}
+.user_inn p{
+ padding-left: 1em;
+}
 .mokuhyo {
   background: var(--white);
   padding: 0.5rem;
   border-radius: 0.4vw;
   margin-top: 0.5rem;
   position: relative;
+}
+.study_edit textarea{
+  border: 1px solid var(--grymiddle);
+    border-radius: 0.4vw;
 }
 .edit_ico{
   position: absolute;
@@ -111,6 +122,9 @@ input[type="checkbox"]:checked + #popup{
 }
 .index_main .content_ind{
 padding-top: 2.5rem;
+}
+.user_inn{
+  flex-direction: column;
 }
 .btn_green.btn_green_short{
   width: initial;

@@ -1,5 +1,5 @@
 <div class="modal popup" id="edit-goal-modal">
-  <div class="edit_box">
+  <form class="edit_box" action="" method="post">
     <button
       type="button"
       aria-label="Close"
@@ -10,18 +10,19 @@
       <span><i class="fa-sharp fa-solid fa-circle-xmark"></i></span>
     </button>
     <h3 class="center">目標を設定する</h3>
-    <input
+    <textarea
       type="text"
       class="study_log"
       aria-label="記述式テキスト（長文回答）"
       placeholder="新しい目標を記入する"
       style="border: 1px solid var(--grydark); border-radius: 0.4vw"
-    />
+      name="goal"
+    ></textarea>
     <input
       class="btn_green btn_green_short"
       id="set-goal-complete-btn"
       type="submit"
       value="変更を反映する"
     />
-  </div>
+  </form>
 </div>

@@ -17,16 +17,17 @@
         type="text"
         placeholder="チャンネル名"
         class="channel-form-input"
-        name="channel-title"
+        name="newCh_Name"
       />
       <input
         type="text"
         placeholder="チャンネルの説明"
         class="channel-form-input"
-        name="channel-description"
+        name="newChannel_summary"
       />
-      <input type="hidden" name="cid" value="（（ channel.id ））" />
+      <input type="hidden" name="ch_id" value="{{ channels.ch_id }}" />
       <button id="update-channel-complete-btn">変更</button>
+      >>>>>>> c30bba1367cbac88eb375d03e58fcd87ee3124a0
     </form>
   </div>
 </div>
