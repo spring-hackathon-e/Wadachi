@@ -12,8 +12,8 @@
       <p id="chatroom-description">{ channels.summary
         }}あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</p>
       <!--% endif %-->
-      <!-- % if udser_id == channels.user_id % -->
-      <button id='channel-update' class="basic-btn smaller-btn">編集</button>
+      <!-- % if user_id == channels.user_id % -->
+      <button id='update-channel-btn' class="basic-btn smaller-btn">編集</button>
       {% include 'modal/update-channel.html' %}
       <!-- % endif % -->
     </div>

@@ -2,14 +2,31 @@
   <div class="modal-content edit_box">
     <div class="center">
       <h5>チャンネル変更</h5>
-      <button type="button" aria-label="Close" data-balloon-pos="left" class="modalClose close"
-        id="delete-page-close-btn"><span><i class="fa-sharp fa-solid fa-circle-xmark"></i></span></button>
+      <button
+        type="button"
+        aria-label="Close"
+        data-balloon-pos="left"
+        class="modalClose close"
+        id="update-channel-close-btn"
+      >
+        <span><i class="fa-sharp fa-solid fa-circle-xmark"></i></span>
+      </button>
     </div>
     <form class="modal-body" action="/update_channel" method="POST">
-      <input type="text" placeholder="チャンネル名" class="channel-form-input" name="channel-title" />
-      <input type="text" placeholder="チャンネルの説明" class="channel-form-input" name="channel-description" />
-      <input type="hidden" name='cid' value='（（ channel.id ））'>
-      <button>変更</button>
+      <input
+        type="text"
+        placeholder="チャンネル名"
+        class="channel-form-input"
+        name="channel-title"
+      />
+      <input
+        type="text"
+        placeholder="チャンネルの説明"
+        class="channel-form-input"
+        name="channel-description"
+      />
+      <input type="hidden" name="cid" value="（（ channel.id ））" />
+      <button id="update-channel-complete-btn">変更</button>
     </form>
   </div>
 </div>
