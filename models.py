@@ -1,7 +1,6 @@
 import pymysql
 from util.DB import DB
 
-
 class dbConnect:
     def createUser(user):   # ユーザ情報追加
         try:
