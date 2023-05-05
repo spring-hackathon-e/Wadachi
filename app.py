@@ -37,14 +37,14 @@ def usersignup():   # 登録情報の取得
         password = hashlib.sha256(password.encode('utf-8')).hexdigest()
         user = User(user_id, user_name, email, password)
         DbUser = dbConnect.getUser(email)
-
-    if DbUser != None:   # emailが登録済み
-        flash('すでに登録済みのユーザーです。')
-    else:
-        dbConnect.createUser(user)
-        UserId = str(user_id)
-        session['user_id'] = UserId
-        return redirect('/')
+ 
+        if DbUser != None:   # emailが登録済み
+            flash('すでに登録済みのユーザーです。')
+        else:
+            dbConnect.createUser(user)
+            UserId = str(user_id)
+            session['user_id'] = UserId
+            return redirect('/')
     return redirect('/signup')   # 入力情報のクリア
 
 #ログイン
@@ -75,6 +75,7 @@ def userlogin():   # user_idとemailを格納先と照合
 def logout():
     session.clear()
     return redirect('/login')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
