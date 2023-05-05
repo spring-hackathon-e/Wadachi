@@ -1,0 +1,61 @@
+<div class="fixed">
+  <header>
+    <ul>
+      <li>
+        <ul>
+          <li><a href="{{ url_for('index') }}"><svg xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 24 24">
+                <g fill="none" fill-rule="evenodd">
+                  <path d="M0 0h24v24H0z"></path>
+                  <path fill="#52B7AE"
+                    d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2ZM8.5 8.5a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0Zm-3.222 7.84C6.927 14.992 9.335 14 12 14s5.073.992 6.722 2.34A7.993 7.993 0 0 1 12 20a7.993 7.993 0 0 1-6.722-3.66Z">
+                  </path>
+                </g>
+              </svg></a></li>
+          <li><a href="{{ url_for('login') }}"><svg xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 24 24">
+                <path fill="#333333"
+                  d="M4 12a1 1 0 0 0 1 1h7.59l-2.3 2.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l4-4a1 1 0 0 0 .21-.33a1 1 0 0 0 0-.76a1 1 0 0 0-.21-.33l-4-4a1 1 0 1 0-1.42 1.42l2.3 2.29H5a1 1 0 0 0-1 1ZM17 2H7a3 3 0 0 0-3 3v3a1 1 0 0 0 2 0V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-3a1 1 0 0 0-2 0v3a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3Z">
+                </path>
+              </svg></a></li>
+        </ul>
+  </header>
+  <div class="hamburger sp">
+    <div class="menu_btn">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="bg_wd">
+    <div class="navigation" id="sidemenu">
+      <a href="{{ url_for('index') }}">
+        <h1 class=" center">WADACHI</h1>
+      </a>
+      <ul>
+        <li class="list active">
+          <a href="{{ url_for('chat') }}">
+            <span class="icon"><i class="fa-solid fa-comments"></i></span>
+            <span class="title">チャット</span>
+          </a>
+        </li>
+        <li class="list">
+          <a href="{{ url_for('log') }}">
+            <span class="icon"><i class="fa-solid fa-pencil"></i></span>
+            <span class="title">みんなの勉強記録</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script>
+  const menubtn = document.getElementsByClassName('hamburger')[0];
+  const bg = document.getElementsByClassName('bg_wd')[0];
+  const slidemenu = document.getElementById('sidemenu');
+  menubtn.addEventListener('click', function () {
+    this.classList.toggle('active');
+    slidemenu.classList.toggle('active');
+    bg.classList.toggle('active');
+  });
+
+
+</script>

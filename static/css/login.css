@@ -1,0 +1,46 @@
+h1 {
+  color: var(--accentgreen);
+}
+
+.main {
+  content: "";
+  background: var(--offwhite);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.contents {
+  display: flex;
+  color: var(--bk);
+  flex-direction: column;
+  justify-content: center;
+}
+
+.fotm_ts {
+  /*background: var(--white); box-shadow: 0px 0px 10px 10px rgba(0,0,0,0.1);*/
+  width: clamp(0px, 45vw, 30rem);
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+.fotm_ts > * {
+  margin-bottom: 1rem;
+}
+
+.fotm_ts a {
+  text-decoration: underline;
+}
+
+.fotm_ts p {
+  text-decoration: underline;
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 480px) {
+}

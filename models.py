@@ -16,7 +16,7 @@ class dbConnect:
             cursor.close()
 
     def getUser(email): #emailが登録済みか判別
-        try: 
+        try:
             connect = DB.getConnection()
             cursor = connect.cursor()
             sql = "SELECT email FROM users WHERE email=%s" ##app.pyでgetしたemail
@@ -29,7 +29,7 @@ class dbConnect:
         finally:
             cursor.close()
 
-    def getUserId(user_id):　#user_idが登録済か判別
+    def getUserId(user_id): #user_idが登録済か判別
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
@@ -43,82 +43,82 @@ class dbConnect:
         finally:
             cursor.close()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def getChannelAll():# チャンネル一覧機能
+    #メッセージを全て取得
+    def getMessageAll(ch_id):
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "SELECT message_id,u.user_id,message,reaction FROM messages AS m INNER JOIN users AS u ON m.user_id WHERE ch_id = %s;"
+            cursor.excecute(sql,(ch_id))
+            messages = cursor.fetchall()
+            return messages
+        except Exception as e:
+            print(e + 'が発生しています')
+            return None
+        finally:
+            cursor.close()
+
+    #メッセージを追加
+    def addMessage(user_id,ch_id,message):
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "INSERT INTO messages(user_id,ch_id,message) VALUES (%s,%s,%s)"
+            cursor.execute(sql,(user_id,ch_id,message))
+            connect.commit()
+        except Exception as e:
+            print(e + "が発生しています")
+            return None
+        finally:
+            cursor.close()
+
+    #メッセージを削除
+    def deleteMessage(message_id):
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "DELETE FROM messages WHERE message_id=%s;"
+            cursor.execute(sql,(message_id))
+            connect.commit()
+        except Exception as e:
+            print(e + "が発生しています")
+            return None
+        finally:
+            cursor.close()
+
+    #リアクションの総数を収集
+    def correctReaction(message_id):
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "SELECT reaction FROM messages WHERE message_id=%s"
+            cursor.excecute(sql,(message_id))
+            sum_reaction = cursor.fetchone()
+            return sum_reaction
+        except Exception as e:
+            print(e + 'が発生しています')
+            return None
+        finally:
+            cursor.close()
+
+    #リアクション(いいね)を追加
+    def addReaction(self,message_id):
+        reactions = self.correctReaction(message_id)
+        reactions = reactions + 1 #いいねボタンを押されるとカウント１増やす
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "UPDATE messages SET reaction=%s WHERE message_id=%s"
+            cursor.execute(sql,(reactions,message_id))
+            connect.commit()
+        except Exception as e:
+            print(e + "が発生しています")
+            return None
+        finally:
+            cursor.close()
+
+    # チャンネル一覧機能
+    def getChannelAll():
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
@@ -132,8 +132,8 @@ class dbConnect:
         finally:
             cursor.close()
 
-
-    def getChannelById(ch_id):# チャンネル作成機能
+    # チャンネル作成機能
+    def getChannelById(ch_id):
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
@@ -176,7 +176,6 @@ class dbConnect:
         finally:
             cursor.close()
 
-
     def getChannelByName(ch_name):
         try:
             connect = DB.getConnection()
@@ -191,8 +190,8 @@ class dbConnect:
             cursor.close()
             return channel
 
-
-    def updateChannel(user_id, newCh_Name, newChannel_summary, ch_id): # チャンネル編集機能
+    # チャンネル編集機能
+    def updateChannel(user_id, newCh_Name, newChannel_summary, ch_id):
         connect = DB.getConnection()
         cursor = connect.cursor()
         sql = "UPDATE channels SET user_id=%s, name=%s, abstract=%s WHERE id=%s;"
@@ -200,7 +199,8 @@ class dbConnect:
         connect.commit()
         cursor.close()
 
-    def deleteChannel(ch_id): # チャンネル削除機能
+    # チャンネル削除機能
+    def deleteChannel(ch_id):
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
@@ -212,4 +212,3 @@ class dbConnect:
             return None
         finally:
             cursor.close()
-

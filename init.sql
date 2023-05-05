@@ -2,7 +2,7 @@
 DROP DATABASE Wadachi;
 DROP USER 'gruper'@'localhost';
 
-CREATE USER 'gruper'@'localhost' IDENTIFIED BY 'spring_e';
+CREATE USER 'gruper'@'localhost' IDENTIFIED BY 'Spring_e6';
 CREATE DATABASE Wadachi;
 USE Wadachi
 GRANT ALL PRIVILEGES ON Wadachi.* TO 'gruper'@'localhost';
@@ -47,9 +47,3 @@ CREATE TABLE posts (
     created_date TIMESTAMP not null default current_timestamp,
     study_time INT
 );
-
---VALUE以降が不明だったので一旦コメント化しています。
---INSERT INTO users(user_id, user_name, email, password, goal, start_date)VALUES('970af84c-dd40-47ff-af23-282b72b7cca8','テスト','test@gmail.com','37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578');--
---INSERT INTO channels(ch_id, user_id, ch_name, summary, main_category, sub_category, created_date)VALUES(1, '970af84c-dd40-47ff-af23-282b72b7cca8','ぼっち部屋','テストさんの孤独な部屋です');
---INSERT INTO messages(message_id, user_id, ch_id, message, created_date, reaction)VALUES(1, '970af84c-dd40-47ff-af23-282b72b7cca8', '1', '誰かかまってください、、')
---INSERT INTO posts(post_id, user_id, title, post, created_date, study_time)VALUES(1, '970af84c-dd40-47ff-af23-282b72b7cca8', '1', '誰かかまってください、、')

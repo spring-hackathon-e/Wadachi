@@ -1,0 +1,132 @@
+.index_main {
+ width: calc(100% - 200px);
+ display: flex;
+ flex-direction: column;
+ margin: 3rem 0 auto auto;
+}
+.content_ind{
+padding: 1rem 1rem 2rem;
+}
+.usrinfo{
+  align-items: center;
+}
+.usrinfo figure{
+  padding-right: 0.5rem;
+}
+.user_inn{
+  display: flex;
+  justify-content: flex-start;
+}
+.user_inn p{
+ padding-left: 1em;
+}
+.mokuhyo {
+  background: var(--white);
+  padding: 0.5rem;
+  border-radius: 0.4vw;
+  margin-top: 0.5rem;
+  position: relative;
+}
+.study_edit textarea{
+  border: 1px solid var(--grymiddle);
+    border-radius: 0.4vw;
+}
+.edit_ico{
+  position: absolute;
+  top:5px;
+right: 5px;
+}
+.study_edit {
+  background: var(--white);
+  padding: 1rem;
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: 0.4vw;
+}
+.study_edit input{
+  border: 1px solid var(--grymiddle);
+  border-radius: 0.4vw;
+}
+.study_edit input.short{
+max-width: 20rem;
+}
+.btn_green.btn_green_short{
+width: 70%;
+margin: 1rem auto;
+border: none;
+}
+.study_log {
+  height: 5em;
+  width: 100%;
+}
+.btn_green {
+  margin-top: 1rem;
+  background: var(--accentgreen);
+  color: var(--white);
+  padding: 0.5em;
+  border-radius: 0.4vw;
+  display: block;
+}
+.tologlink{
+  margin-bottom: 2rem;
+}
+.btn_wd {
+  display: block;
+}
+
+.edit_box{
+  background: var(--white);
+  width: clamp(0px,90vw,70%);
+  margin: auto;
+  padding: 2rem 1rem;
+  border-radius: 0.5vw;
+  position: relative;
+}
+.close{
+position: absolute;
+top:5px;
+right: 5px;
+background: inherit;
+padding: 0;
+color: inherit;
+margin: inherit;
+}
+.edit_box h3{
+margin-bottom: 1rem;
+}
+.taikai_box{
+  text-align: right;
+  margin-top: 1rem;
+}
+label{
+  display:block;
+}
+label span{
+  line-height: 40px;
+}
+label span:hover{
+  cursor:pointer;
+}
+input[type="checkbox"]{
+  display:none;
+}
+
+input[type="checkbox"]:checked + #popup{
+  display:block;
+  transition:.2s;
+}
+@media screen and (max-width: 639px) {
+.index_main{
+  width: 100%;
+  margin: auto;
+}
+.index_main .content_ind{
+padding-top: 2.5rem;
+}
+.user_inn{
+  flex-direction: column;
+}
+.btn_green.btn_green_short{
+  width: initial;
+}
+}
