@@ -49,6 +49,59 @@ def signup(): #登録情報の取得
         return redirect('/')
     return redirect('/signup')  #間違ってる所をクリア、色塗りの方がいいんじゃ
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # チャンネル一覧
 @app.route('/')
 def index():
