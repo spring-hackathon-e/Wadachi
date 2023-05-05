@@ -8,7 +8,8 @@ class dbConnect:
             connect = DB.getConnection()
             cursor = connect.cursor()
             sql = "INSERT INTO users (user_id, user_name, email, password) VALUES (%s,%s,%s,%s);"
-            cursor.execute(sql, (user.user_id, user.user_name, user.email, user.password))
+            cursor.execute(sql, (user.user_id, user.user_name,
+                           user.email, user.password))
             connect.commit()
         except Exception as e:
             print(str(e) + 'が発生しています。')
@@ -16,15 +17,15 @@ class dbConnect:
         finally:
             cursor.close()
 
-    def getUserId(email):   # emailが登録済みか判別
+    def getUserId(email):
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
             sql = "SELECT user_id FROM users WHERE email=%s"   # app.pyでgetしたemail
             cursor.execute(sql, (email,))
             id = cursor.fetchone()
-            return id   # 登録済みのemailを返す。無ければNone
-        except Exception as e:   # エラーの見える化
+            return id
+        except Exception as e:
             print(str(e) + 'が発生しています。')
             return None
         finally:
