@@ -48,3 +48,56 @@ def signup(): #登録情報の取得
         session['user_id'] = UserId
         return redirect('/')
     return redirect('/signup')  #間違ってる所をクリア、色塗りの方がいいんじゃ
+
+#メッセージ追加
+app.route('/message',methods=['POST'])
+def add_message():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+
+    message = request.form.get('message')
+    ch_id = request.form.get('channel_id')
+    reaction = 0 #reaction数の初期値:0
+
+    if message:
+        dbConnect.addMessamge(user_id,ch_id,message,reaction)
+
+    channel = dbConnect.getChannelById(ch_id)
+    messages = dbConnect.getMessageAll(ch_id)
+
+    return render_template('detail.html',messages=messages,channel=channel,user_id=user_id)
+
+#メッセージ削除
+app.route('delete_message',methods=['POST'])
+def delete_message():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+
+    message_id = request.form.get('message_id')
+    ch_id = request.form.get('channel_id')
+    if message_id:
+        dbConnect.deleteMessage(message_id)
+
+    channel = dbConnect.getChannelById(ch_id)
+    messages = dbConnect.getMessageAll(ch_id)
+
+    return render_template('detail.html',messages=messages,channel=channel,user_id=user_id)
+
+#リアクション追加
+app.route('reaction_message',methods=['POST'])
+def reaction_message():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+
+    message_id = request.form.get('message_id')
+    ch_id = request.form.get('channel_id')
+    if message_id:
+        dbConnect.addReaction(message_id)
+
+    channel = dbConnect.getChannelById(ch_id)
+    messages = dbConnect.getMessageAll(ch_id)
+
+    return render_template('detail.html',messages=messages,channel=channel,user_id=user_id)
