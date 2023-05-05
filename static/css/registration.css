@@ -1,0 +1,178 @@
+.main_regi {
+  background-color: var(--offwhite);
+  position: relative;
+}
+.main_regi h1 {
+  color: var(--accentgreen);
+  font-size: 30px;
+}
+.contents_regi {
+  height: fit-content;
+  max-width: 30rem;
+  margin: auto;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  line-height: 1em;
+  text-align: center;
+  text-align: left;
+  font-weight: 900;
+  line-height: 1.3em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  color: var(--black);
+}
+
+.fotm_ts {
+  /*background: var(--white); box-shadow: 0px 0px 10px 10px rgba(0,0,0,0.1);*/
+  width: clamp(0px, 90vw, 30rem);
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem;
+  border-radius: 10px;
+}
+
+.fotm_ts > * {
+  margin-bottom: 1rem;
+}
+
+.registration-title {
+  color: grey;
+  font-size: 45px;
+  margin-bottom: 0;
+  margin: 0;
+}
+
+.main_regi input {
+  border: none;
+  outline: none;
+  margin-bottom: 10px;
+  line-height: 50px;
+  width: 100%;
+  padding-bottom: 1px;
+}
+
+.main_regi input:hover {
+  padding-bottom: 0;
+  border-bottom: 1px lightgrey solid;
+}
+
+.main_regi input:focus {
+  padding-bottom: 0;
+  border-bottom: 1px grey solid;
+}
+
+.switch-register-mode {
+  color: grey;
+  line-height: 45px;
+  font-size: smaller;
+  padding-bottom: 1px;
+}
+
+.switch-register-mode:hover {
+  color: var(--carbon);
+  border-bottom: 1px solid var(--carbon);
+  padding-bottom: 0;
+}
+
+.flashes {
+  line-height: 40px;
+  margin-top: 0;
+  position: fixed;
+  right: 40px;
+  bottom: 20px;
+  text-align: center;
+  font-size: 18px;
+  color: red;
+}
+
+nav.remind a {
+  text-decoration: none;
+  color: inherit;
+}
+
+nav.remind {
+  background: var(--main);
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+nav.remind h1 {
+  color: var(--white);
+}
+
+nav.remind ul {
+  display: flex;
+}
+
+nav.remind ul li {
+  margin-right: 0.5rem;
+  padding: 0 0.5em;
+  border-radius: 0.2em;
+  transition: 0.3s;
+  ;
+}
+
+nav.remind ul li:hover {
+  opacity: 0.8;
+  outline: 2px solid var(--grylight);
+}
+.signin_wd,
+.login_wd:hover {
+    background: var(--white);
+    border: 1px solid var(--main);
+    color: var(--main);
+}
+
+.login_wd,
+.signin_wd:hover {
+    background: var(--main);
+    border: 1px solid var(--white);
+    color: var(--white);
+}
+
+
+@media screen and (max-width: 640px) {
+  nav.remind {
+    flex-direction: column;
+}
+
+nav.remind h1 {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 0.5rem;
+}
+
+nav.remind ul li {
+    width: 50%;
+    padding: 0.5em;
+}
+.main_remind .contents_regi{
+padding-top: 2rem;
+position: initial;
+
+}
+.main_remind .fotm_ts{
+  padding: 2rem 0.5rem 1rem;
+}
+
+}
+
+@media only screen and (min-width: 640px) and (max-width: 1023px) {
+  .registration-main {
+    font-size: 150px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .registration-main {
+    font-size: 150px;
+  }
+
+}
