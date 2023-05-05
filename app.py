@@ -76,6 +76,11 @@ def logout():
     session.clear()
     return redirect('/login')
 
+# パスワードリマインド機能
+@app.route('/remind')
+def remind():
+    return render_template('registration/remind.html')
 
+#app.run
 if __name__ == '__main__':
     app.run(debug=True)
