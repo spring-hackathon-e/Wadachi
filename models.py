@@ -137,7 +137,7 @@ class dbConnect:
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "SELECT * FROM channels WHERE id=%s;"
+            sql = "SELECT * FROM channels WHERE ch_id=%s;"
             cursor.execute(sql, (ch_id))
             channel = cursor.fetchone()
             return channel
@@ -152,7 +152,7 @@ class dbConnect:
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "SELECT * FROM channels WHERE name=%s;"
+            sql = "SELECT * FROM channels WHERE ch_name=%s;"
             cursor.execute(sql, (ch_name))
             channel = cursor.fetchone()
             return channel
@@ -167,7 +167,7 @@ class dbConnect:
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "INSERT INTO channels (user_id, name, abstract) VALUES (%s, %s, %s);"
+            sql = "INSERT INTO channels (user_id, ch_name, summary) VALUES (%s, %s, %s);"
             cursor.execute(sql, (user_id, newCh_Name, newChannel_summary))
             connect.commit()
         except Exception as e:
@@ -180,7 +180,7 @@ class dbConnect:
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "SELECT * FROM channels WHERE name=%s;"
+            sql = "SELECT * FROM channels WHERE cd_name=%s;"
             cursor.execute(sql, (ch_name))
             channel = cursor.fetchone()
         except Exception as e:
@@ -194,7 +194,7 @@ class dbConnect:
     def updateChannel(user_id, newCh_Name, newChannel_summary, ch_id):
         connect = DB.getConnection()
         cursor = connect.cursor()
-        sql = "UPDATE channels SET user_id=%s, name=%s, abstract=%s WHERE id=%s;"
+        sql = "UPDATE channels SET user_id=%s, ch_name=%s, summary=%s WHERE ch_id=%s;"
         cursor.execute(sql, (user_id, newCh_Name, newChannel_summary, ch_id))
         connect.commit()
         cursor.close()
@@ -204,7 +204,7 @@ class dbConnect:
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "DELETE FROM channels WHERE id=%s;"
+            sql = "DELETE FROM channels WHERE ch_id=%s;"
             cursor.execute(sql, (ch_id))
             connect.commit()
         except Exception as e:
