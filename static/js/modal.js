@@ -78,25 +78,40 @@ const withdrawalButtonClose = document.getElementById("withdrawal-close-btn");
 
 // modalCloseに各モーダルを閉じる為の引数を渡す
 // TODO: 保留 バツ印ボタンはサンプルから取ってきた処理２個以外保留中(HTMLのバツじるし)
-(addChannelConfirmBtn || addPageButtonClose).addEventListener("click", () => {
+// FIXME: 保留　一旦エラーが出るためor演算子でない書き方にするが、冗長的なコードを後で見直す
+// チャンネル追加
+addChannelConfirmBtn.addEventListener("click", () => {
   modalClose("addChannel");
 });
-(deleteChannelConfirmBtn || deletePageButtonClose).addEventListener(
-  "click",
-  () => {
-    modalClose("deleteChannel");
-  }
-);
-(setGoalCompleteBtn || editGoalButtonClose).addEventListener("click", () => {
+addPageButtonClose.addEventListener("click", () => {
+  modalClose("addChannel");
+});
+// チャンネル削除
+deleteChannelConfirmBtn.addEventListener("click", () => {
+  modalClose("deleteChannel");
+});
+deletePageButtonClose.addEventListener("click", () => {
+  modalClose("deleteChannel");
+});
+// 目標編集
+setGoalCompleteBtn.addEventListener("click", () => {
   modalClose("editGoal");
 });
-(updateChannelCompleteBtn || updateChannelButtonClose).addEventListener(
-  "click",
-  () => {
-    modalClose("updateChannel");
-  }
-);
-(quitCompleteBtn || withdrawalButtonClose).addEventListener("click", () => {
+editGoalButtonClose.addEventListener("click", () => {
+  modalClose("editGoal");
+});
+// チャンネル編集
+updateChannelCompleteBtn.addEventListener("click", () => {
+  modalClose("updateChannel");
+});
+updateChannelButtonClose.addEventListener("click", () => {
+  modalClose("updateChannel");
+});
+// 退会
+quitCompleteBtn.addEventListener("click", () => {
+  modalClose("withdrawalConfirm");
+});
+withdrawalButtonClose.addEventListener("click", () => {
   modalClose("withdrawalConfirm");
 });
 
