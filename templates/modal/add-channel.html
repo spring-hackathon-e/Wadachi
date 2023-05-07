@@ -2,14 +2,30 @@
   <div class="modal-content edit_box channel_dev">
     <div class="modal-header">
       <h3 class="center">チャンネルを作成する</h3>
-      <button type="button" aria-label="Close" data-balloon-pos="left" class="close"><span><i
-            class="fa-sharp fa-solid fa-circle-xmark"></i></span></button>
+      <button
+        type="button"
+        aria-label="Close"
+        data-balloon-pos="left"
+        class="close add-channel-close-btn"
+      >
+        <span><i class="fa-sharp fa-solid fa-circle-xmark"></i></span>
+      </button>
     </div>
     <form class="modal-body" action="/add-channel" method="POST">
       <p>チャンネル名</p>
-      <input type="text" placeholder="チャンネル名" name="ch_name" class="channel-form-input" />
+      <input
+        type="text"
+        placeholder="チャンネル名"
+        name="ch_name"
+        class="channel-form-input"
+      />
       <p>概要</p>
-      <input type="text" placeholder="チャンネルの説明" class="channel-form-input" name="summary" />
+      <input
+        type="text"
+        placeholder="チャンネルの説明"
+        class="channel-form-input"
+        name="summary"
+      />
       <!-- TODO: カテゴリの選定が果てしなかったので単純化しました。内容は要相談 -->
       <label for="nanido-select">カテゴリ1</label>
       <select id="nanido-select" name="main_category">
@@ -32,7 +48,9 @@
         <option value="uiux">UI/UX</option>
         <option value="other">その他</option>
       </select>
-      <button id="add-channel-confirmation-btn" type="submit">チャンネル作成</button>
+      <button class="add-channel-close-btn" type="submit">
+        チャンネル作成
+      </button>
     </form>
   </div>
 </div>
