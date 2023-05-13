@@ -2,8 +2,8 @@ import pymysql
 from util.DB import DB
 
 
-# ユーザ情報追加
 class dbConnect:
+    # ユーザー情報追加
     def createUser(user):
         try:
             connect = DB.getConnection()
