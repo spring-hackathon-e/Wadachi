@@ -1,0 +1,89 @@
+{% extends 'base.html' %} {% block title %}
+<title>chat</title>
+{% endblock %}
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+{% block body %}
+<div class="main-container channelpage">
+  <div class="main-content">
+    <div class="channel-title">
+      <h1>チャンネル一覧</h1>
+      <button id="add-channel-btn" class="addbtn">チャンネル追加</button>
+    </div>
+    <!-- FIXME: このul,バックとJS連携後は不要なので削除する。見た目の調整のため使用中です。そのためulタグ内のTODO修正しておりません。-->
+    <ul class="channel-box">
+      <li class="example_list">
+        <!-- TODO: 書式修正 -->
+        <a href="{ url_for('detail') }}">
+          <div class="toukou">
+            <!-- TODO: 書式修正 -->
+            <h2>{ channels.ch_name }}</h2>
+            <!-- TODO: 書式修正 -->
+            <p class="toukou_day">
+              <span>作成日:</span><time>{ channels.create_date }}</time>
+            </p>
+            <!-- TODO: 書式修正 -->
+            <p class="toukou_day">
+              <span>概要:</span><span>{ channels.summary }}</span>
+            </p>
+            <ul class="categorytag">
+              <!-- TODO: 書式修正 -->
+              <li>{ channels.main_category }}</li>
+              <!-- TODO: 書式修正 -->
+              <li>{ channels.sub_category }}</li>
+            </ul>
+            <!-- もしuidとチャンネル作成者が同じなら削除可能にする -->
+            <!-- TODO: if文未入力 -->
+            <!-- TODO: バックの処理が完了しHTML変更する際チャンネル削除モーダルのid(orクラス)属性見直し -->
+            <button
+              type="button"
+              aria-label="Trash"
+              data-balloon-pos="left"
+              class="trash"
+              id="delete-channel-btn"
+            >
+              <span><i class="fa-solid fa-trash-can"></i></span>
+            </button>
+          </div>
+        </a>
+      </li>
+      <li class="example_list">
+        <div class="toukou">
+          <h2>チャンネル名：例えば他ユーザーの投稿が表示されたらこんなふう</h2>
+          <p class="toukou_day"><span>作成日</span><time>2023/05/31</time></p>
+          <h3>概要</h3>
+          <p>概要の中身</p>
+          <ul class="categorytag">
+            <li>カテゴリ１</li>
+            <li>カテゴリ２</li>
+          </ul>
+          <button
+            type="button"
+            aria-label="Trash"
+            data-balloon-pos="left"
+            class="trash is-none"
+          >
+            <span><i class="fa-solid fa-trash-can"></i></span>
+          </button>
+        </div>
+      </li>
+    </ul>
+    <!-- バック・js実装後生きるulはこっち。チャンネル一覧が読み込まれる-->
+    <ul class="channel-box"></ul>
+    <!-- ページ繰りボタン -->
+    <div class="pagination-container">
+      <p id="prev"><< /li></p>
+
+      <ul class="pagination"></ul>
+      <p id="next">></p>
+    </div>
+  </div>
+  {% include 'modal/add-channel.html' %} {% include
+  'modal/delete-confirmation.html' %}
+</div>
+{% endblock %} {% block script %} {% endblock %}
