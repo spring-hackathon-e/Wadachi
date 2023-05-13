@@ -288,6 +288,16 @@ def reaction_post():
 
     return render_template('post.html', posts=posts, user=user)
 
+#エラー番号404の際に遷移
+@app.errorhandler(404)
+def show_error404(error):
+    return render_template('error/404.html')
+
+#エラー番号500の際に遷移
+@app.errorhandler(500)
+def show_error500(error):
+    return render_template('error/500.html')
+
 # app.run
 if __name__ == '__main__':
     app.run(debug=True)
