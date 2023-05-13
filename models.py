@@ -92,7 +92,7 @@ class dbConnect:
             cursor.close()
 
     # リアクションの総数を収集
-    def correctReaction(message_id):
+    def correctMeReaction(message_id): #Me = Message
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
@@ -107,8 +107,8 @@ class dbConnect:
             cursor.close()
 
     # リアクション(いいね)を追加
-    def addReaction(self, message_id):
-        reactions = self.correctReaction(message_id)
+    def addMeReaction(self, message_id):
+        reactions = self.correctMeReaction(message_id)
         reactions = reactions + 1  # いいねボタンを押されるとカウント１増やす
         try:
             connect = DB.getConnection()
@@ -212,6 +212,49 @@ class dbConnect:
             connect.commit()
         except Exception as e:
             print(e + 'が発生しています')
+            return None
+        finally:
+            cursor.close()
+
+    #全ての勉強記録を取得
+    def getPostAll():
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "SELECT * FROM posts;"
+            cursor.excecute(sql)
+            messages = cursor.fetchall()
+            return messages
+        except Exception as e:
+            print(e + 'が発生しています')
+            return None
+        finally:
+            cursor.close()
+
+    #勉強記録の追加
+    def addPost(user_id, post, study_time, reaction):
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "INSERT INTO posts(user_id, post, study_time, reaction) VALUES (%s,%s,%s,%s)"
+            cursor.execute(sql, (user_id, post, study_time, reaction))
+            connect.commit()
+        except Exception as e:
+            print(e + "が発生しています")
+            return None
+        finally:
+            cursor.close()
+
+    #勉強記録の削除
+    def delete(post_id):
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "DELETE FROM posts WHERE post_id=%s;"
+            cursor.execute(sql, (post_id))
+            connect.commit()
+        except Exception as e:
+            print(e + "が発生しています")
             return None
         finally:
             cursor.close()
