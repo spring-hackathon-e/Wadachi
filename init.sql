@@ -1,4 +1,3 @@
-
 DROP DATABASE Wadachi;
 DROP USER 'gruper'@'localhost';
 

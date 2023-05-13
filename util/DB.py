@@ -1,8 +1,9 @@
 import pymysql
 
+
 class DB:
     def getConnection():
-        #例外処理
+        # 例外処理
         try:
             conn = pymysql.connect(
                 host="localhost",
@@ -12,8 +13,7 @@ class DB:
                 charset="utf8",
                 cursorclass=pymysql.cursors.DictCursor
             )
-            return conn
-        #エラー処理
-        except(ConnectionError):
+        # エラー処理
+        except (ConnectionError):
             print("コネクションエラーです")
             conn.close()
