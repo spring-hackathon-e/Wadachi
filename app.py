@@ -104,7 +104,7 @@ def add_message():
 
 
 # メッセージ削除
-app.route('delete_message', methods=['POST'])
+app.route('/delete_message', methods=['POST'])
 
 
 def delete_message():
@@ -124,7 +124,7 @@ def delete_message():
 
 
 # リアクション追加
-app.route('reaction_message', methods=['POST'])
+app.route('/reaction_message', methods=['POST'])
 
 
 def reaction_message():
