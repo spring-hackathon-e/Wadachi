@@ -135,7 +135,7 @@ def reaction_message():
     message_id = request.form.get('message_id')
     ch_id = request.form.get('channel_id')
     if message_id:
-        dbConnect.addReaction(message_id)
+        dbConnect.addMessageReaction(message_id)
 
     channel = dbConnect.getChannelById(ch_id)
     messages = dbConnect.getMessageAll(ch_id)
