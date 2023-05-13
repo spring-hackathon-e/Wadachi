@@ -256,6 +256,38 @@ def add_post():
 
     return render_template('post.html', posts=posts, user=user)
 
+#勉強記録削除
+@app.route('/delete_post',methods=['POST'])
+def delete_post():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+
+    post_id = request.form.get('post_id')
+    if post_id:
+        dbConnect.deletePost(post_id)
+
+    posts = dbConnect.getpostsAll()
+    user = dbConnect.getUser(user_id)
+
+    return render_template('post.html', posts=posts, user=user)
+
+#勉強記録へのいいね追加
+@app.route('/reaction_post',methods=['POST'])
+def reaction_post():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+
+    post_id = request.form.get('post_id')
+    if post_id:
+        dbConnect.addPostReaction(post_id)
+
+    posts = dbConnect.getpostsAll()
+    user = dbConnect.getUser(user_id)
+
+    return render_template('post.html', posts=posts, user=user)
+
 # app.run
 if __name__ == '__main__':
     app.run(debug=True)
