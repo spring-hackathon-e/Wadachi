@@ -1,0 +1,19 @@
+<!-- FIXME: テーブルにタイムスタンプがあるので、表示する？ -->
+<!--TODO: クリックした投稿と、表示するユーザーを紐づける文が必要？ -->
+<div class="modal popup" id="personal-log-modal">
+  <div class="edit_box">
+    <button
+      type="button"
+      aria-label="Close"
+      data-balloon-pos="left"
+      class="close"
+    >
+      <span><i class="fa-sharp fa-solid fa-circle-xmark"></i></span>
+    </button>
+    <h3 class="center">{{ users.user_name }}さんの学習記録詳細</h3>
+    <h4>{{ posts.title }}</h4>
+    <p>{{ posts.post }}</p>
+    <h4>勉強時間</h4>
+    <p><span>{{ posts.study_time }}</span><span>時間</span></p>
+  </div>
+</div>
