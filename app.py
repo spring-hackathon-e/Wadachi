@@ -213,6 +213,48 @@ def delete_channel(ch_id):
             return redirect('/')
     return redirect('/login')
 
+#サイドバー（みんなの勉強記録を見る）から勉強記録一覧への遷移
+@app.route('/post')
+def index_post():
+    user_id = session.get("user_id")
+    if user_id is None:
+        return redirect('/login')
+    else:
+        posts = dbConnect.getPostAll()
+        user = dbConnect.getUser(user_id)
+
+    return render_template('post.html', posts=posts, user=user)
+
+#トップ画面（index.html）から勉強記録一覧への遷移
+@app.route('/migration_post')
+def mig_post():
+    user_id = session.get("user_id")
+    if user_id is None:
+        return redirect('/login')
+    else:
+        posts = dbConnect.getPostAll()
+        user = dbConnect.getUser(user_id)
+    return render_template('post.html', posts=posts, user=user)
+
+#勉強記録追加
+@app.route('/add_posts',methods=['POST'])
+def add_post():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+
+    post = request.form.get('post')
+    study_time = request.form.get('study_time')
+    reaction = 0;  #reaction数の初期値
+
+    if post:
+        dbConnect.addposts(user_id, post, study_time, reaction)
+        return redirect('/')
+
+    posts = dbConnect.getpostsAll()
+    user = dbConnect.getUser(user_id)
+
+    return render_template('post.html', posts=posts, user=user)
 
 # app.run
 if __name__ == '__main__':
