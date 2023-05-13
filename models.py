@@ -258,3 +258,34 @@ class dbConnect:
             return None
         finally:
             cursor.close()
+
+    # リアクションの総数を収集
+    def correctPoReaction(post_id): #Po = post
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "SELECT reaction FROM posts WHERE post_id=%s"
+            cursor.excecute(sql, (post_id))
+            sum_reaction = cursor.fetchone()
+            return sum_reaction
+        except Exception as e:
+            print(e + 'が発生しています')
+            return None
+        finally:
+            cursor.close()
+
+    # リアクション(いいね)を追加
+    def addPoReaction(self, post_id):
+        reactions = self.correctPoReaction(post_id)
+        reactions = reactions + 1  # いいねボタンを押されるとカウント１増やす
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "UPDATE posts SET reaction=%s WHERE post_id=%s"
+            cursor.execute(sql, (reactions, post_id))
+            connect.commit()
+        except Exception as e:
+            print(e + "が発生しています")
+            return None
+        finally:
+            cursor.close()
