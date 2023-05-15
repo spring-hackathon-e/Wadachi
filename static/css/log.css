@@ -51,6 +51,7 @@ width: 3em;
 }
 .log_right dd{
 width: calc(100% - 3em);
+word-break: break-all;
 }
 
 .log_ttl h3{

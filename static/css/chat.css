@@ -168,7 +168,7 @@ border: 2px solid var(--white);
   @media screen and (max-width: 639px) {
     .main-content {
       width: 90vw;
-      margin: auto;;
+      margin: 0 auto;
     }
     .channel-title {
       flex-direction: column;
