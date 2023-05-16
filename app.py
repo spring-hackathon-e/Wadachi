@@ -94,13 +94,13 @@ def remind():　
 def message_base64_encode(message):
     return base64.urlsafe_b64encode(message.as_bytes()).decode()
 
-def send_mail():
+def send_mail(email):
     scopes = ['https://mail.google.com/']
     creds = Credentials.from_authorized_user_file('token.json', scopes)
     service = build('gmail', 'v1', credentials=creds)
 
-    message = MIMEText('ここからpassword再設定画面に飛べよ')
-    message['To'] = 'orpomme@gmail.com'
+    message = MIMEText('ここからpassword再設定画面に飛ぶ')
+    message['To'] = email
     message['From'] = 'hiro6grassroots@gmail.com'
     message['Subject'] = 'パスワードリマインド'
     raw = {'raw': message_base64_encode(message)}
@@ -117,7 +117,7 @@ def send_mail():
 def user_remind():
     if request.method == 'POST':
         email = request.form.get('email')
-        send_mail()
+        send_mail(email)
         # return redirect('/login')
     else:
         return "Method Not Allowed", 405
