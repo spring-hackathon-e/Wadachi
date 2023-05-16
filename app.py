@@ -6,6 +6,11 @@ from itsdangerous.url_safe import URLSafeTimedSerializer  # リマインド機�
 import hashlib
 import uuid
 import re
+from itsdangerous.url_safe import URLSafeTimedSerializer
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+from email.mime.text import MIMEText
+import base64
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().hex
@@ -80,6 +85,52 @@ def logout():
     session.clear()
     return redirect('/login')
 
+# パスワードリマインド機能
+@app.route('/remind')
+def remind():　
+    return render_template('registration/remind.html')
+
+# メール送信準備（GmailAPI）
+def message_base64_encode(message):
+    return base64.urlsafe_b64encode(message.as_bytes()).decode()
+
+def send_mail():
+    scopes = ['https://mail.google.com/']
+    creds = Credentials.from_authorized_user_file('token.json', scopes)
+    service = build('gmail', 'v1', credentials=creds)
+
+    message = MIMEText('ここからpassword再設定画面に飛べよ')
+    message['To'] = 'orpomme@gmail.com'
+    message['From'] = 'hiro6grassroots@gmail.com'
+    message['Subject'] = 'パスワードリマインド'
+    raw = {'raw': message_base64_encode(message)}
+
+    service.users().messages().send(
+        userId='me',
+        body=raw
+    ).execute()
+    
+#URL作成
+    
+#email取得、メール送信
+@app.route('/remind', methods=['GET','POST'])
+def user_remind():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        send_mail()
+        # return redirect('/login')
+    else:
+        return "Method Not Allowed", 405
+    
+# パスワード削除、新規パスワード設定　追加要
+
+# ユーザー削除　確認要
+@app.route('/del', methods=['DELETE'])
+def user_delete(user_id):
+    reg_user_id = dbConnect.getUserId(user_id)
+    dbConnect.session.delete(reg_user_id)
+    dbConnect.session.commit()
+    return redirect('/signup')
 
 # メッセージ追加
 app.route('/message', methods=['POST'])
