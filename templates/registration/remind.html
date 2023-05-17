@@ -17,11 +17,10 @@
     <div class="contents_regi">
         <h2 class="center">パスワードの再設定</h2>
         <p class="mt2r_wd" style="font-weight: normal;">ご登録済みのメールアドレスに、パスワード再設定のご案内を送付いたします。</p>
-        <form class="fotm_ts mt2r_wd" action="/" method="post">
+        <form class="fotm_ts mt2r_wd" action="/remind" method="post">
             <small>ご登録済みのメールアドレス</small>
             <input type="text" placeholder="メールアドレス" name="email">
-            <button class="center mt1r_wd mauto_dw" type="submit">
-                <a href="{{ url_for('login') }}" class="cha_white_wd">送信する</button>
+            <button class="center mt1r_wd mauto_dw" type="submit">送信する</button>
         </form>
         <p class="center">
             <a href="{{ url_for('login') }}" class="cha_bk_wd">ログインはこちら</a>
