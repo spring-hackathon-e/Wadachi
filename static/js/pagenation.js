@@ -27,23 +27,24 @@ const pagination = () => {
 
     const first = (page - 1) * STEP + 1;
     const last = page * STEP;
-    console.log(user_id);
+    //console.log(user_id.user_id);
     channels.forEach((item, i) => {
       if (i < first - 1 || i > last - 1) return;
       const a = document.createElement("a");
       const li = document.createElement("li");
       const url = `/detail/${item.ch_id}`;
+     //console.log(item.user_id);
 
-// チャンネル名の表示
-const ttl = document.createElement("h2");
-ttl.innerText = item.ch_name;
-a.prepend(ttl);
+      // チャンネル名の表示
+      const ttl = document.createElement("h2");
+      ttl.innerText = item.ch_name;
+      a.prepend(ttl);
 
-// サマリーの表示
-const summ = document.createElement("p");
-summ.innerText = item.summary;
-a.appendChild(summ);
-//a.insertafter(summ, ttl);
+      // サマリーの表示
+      const summ = document.createElement("p");
+      summ.innerText = item.summary;
+      a.appendChild(summ);
+      //a.insertafter(summ, ttl);
 
       //カテゴリの表示
       const ctgul = document.createElement("ul");
@@ -59,11 +60,12 @@ a.appendChild(summ);
       ctgul.className = 'categorytag';
       //a.innerText = item.name;
 
-      a.setAttribute("href", url);
+      const urlforid = `/detail/${item.ch_id}`;
+      a.setAttribute("href", urlforid);
       li.appendChild(a);
 
       //// もしチャンネル作成者user_idとuser_idが同じだったら削除ボタンを追加
-      if (user_id == item.user) {
+      if (user_id.user_id == item.user_id) {
         const deleteButton = document.createElement("button");
         deleteButton.innerHTML = '<span><i class="fa-solid fa-trash-can"></i></span>';
         deleteButton.classList.add("trash");
@@ -74,10 +76,10 @@ a.appendChild(summ);
           const confirmationButtonLink = document.getElementById(
             "delete-confirm-link"
           ); // aタグ
-          const url = `/delete/${item.id}`;
+          const url = `/delete/${item.ch_id}`;
           confirmationButtonLink.setAttribute("href", url);
         });
-                //close-btnクラスを持つボタンをクリックで消す
+        //close-btnクラスを持つボタンをクリックで消す
         let CloseBtn = document.getElementsByClassName("close-btn");
         let ArrayCloseBtn = Array.from(CloseBtn);
         //console.log(CloseBtn);

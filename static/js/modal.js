@@ -32,6 +32,7 @@ if (editGoalBtn !== null) {
   addChannelBtn.addEventListener("click", () => {
   modalOpen("addChannel");  
   });
+} else if(deleteChannelBtn !== null){
 deleteChannelBtn.addEventListener("click", () => {
   modalOpen("deleteChannel");
   });
