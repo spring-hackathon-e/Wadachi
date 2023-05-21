@@ -86,6 +86,10 @@
     {% include 'modal/goal.html' %} {% include 'modal/quit.html' %}
   </div>
   {% endblock %} {% block script %}
+      </div>
+  <script type="text/javascript">
+        const user = JSON.parse('{{ user|tojson }}');
+  </script>      
   <script
     src="{{url_for('static',filename='js/modal.js')}}"
     type="text/javascript"
