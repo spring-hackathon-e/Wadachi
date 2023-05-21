@@ -66,15 +66,16 @@ justify-content: flex-start;
   .pagination-container {
     width: 100%;
     padding-bottom: 0.5rem;
+    color: var(--accentgreen);
   }
   
   .pagination {
     padding-left: 0;
   }
-  
+
   .pagination li.colored {
-    background-color: var(--navy);
-    color: var(--snow);
+    background-color: var(--accentgreen);
+    color: var(--white);
   }
   
   #prev,
@@ -95,7 +96,7 @@ justify-content: flex-start;
   }
   
 /* チャンネル表示スタイル */
-.toukou{
+.channel-box li{
   border-radius: 0.4vw;
   padding: 0.5rem;
   position: relative;

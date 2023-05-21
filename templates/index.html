@@ -24,17 +24,17 @@
       <div class="user_detail">
         <div class="user_inn">
           <h2>ユーザーネーム</h2>
-          <p class="user-name">{{ users.user_name }}</p>
+          <p class="user-name">{{ user.user_name }}</p>
         </div>
         <div class="user_inn">
           <h2>勉強開始日</h2>
-          <p>{{ users.start_date }}</p>
+          <p>{{ user.start_date }}</p>
         </div>
       </div>
     </div>
     <div class="mokuhyo">
       <h2>目標</h2>
-      <p>{{ users.goal }}</p>
+      <p>{{ user.goal }}</p>
       <div class="limit_wd">
         <h2>目標達成の期限</h2>
         <p class="limit_txt">limit</p>
@@ -76,11 +76,7 @@
         />
       </form>
     </div>
-    <div class="tologlink">
-      <a href="{{ url_for('migration_post') }}">
-        <p class="btn_green center">みんなの学習記録を見る</p>
-      </a>
-    </div>
+
     <hr />
     <div class="taikai_box">
       <button id="withdrawal-btn">退会する</button>
