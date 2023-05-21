@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, session, flash
+from flask import Flask, request, redirect, render_template, session, flash, url_for
 from models import dbConnect
 from util.user import User
 from datetime import timedelta
@@ -11,11 +11,12 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from email.mime.text import MIMEText
 import base64
+import flask
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().hex
 app.permanent_session_lifetime = timedelta(days=30)
-
+SALT = 'shio'
 
 # サインアップ
 @app.route('/signup')
@@ -39,7 +40,7 @@ def usersignup():   # 登録情報の取得
     elif re.match(pattern, email) is None:
         flash('正しいメールアドレスを記入してください。')
     else:
-        user_id = uuid.uuid4
+        user_id = uuid.uuid4()
         password = hashlib.sha256(password.encode('utf-8')).hexdigest()
         user = User(user_id, user_name, email, password)
         DbUser = dbConnect.getUser(email)
@@ -90,11 +91,21 @@ def logout():
 def remind():　
     return render_template('registration/remind.html')
 
+# トークン生成
+def create_token(user_id, secret_key, salt):
+    serializer = URLSafeTimedSerializer(secret_key)
+    return serializer.dumps(user_id, salt=salt)
+
+# トークンからuser_id と time を取得
+def load_token(token, secret_key, salt):
+    serializer = URLSafeTimedSerializer(secret_key)
+    return serializer.loads(token, salt=salt, max_age=6000)
+
 # メール送信準備（GmailAPI）
 def message_base64_encode(message):
     return base64.urlsafe_b64encode(message.as_bytes()).decode()
 
-def send_mail(email):
+def send_mail(email,url):
     scopes = ['https://mail.google.com/']
     creds = Credentials.from_authorized_user_file('token.json', scopes)
     service = build('gmail', 'v1', credentials=creds)
@@ -115,10 +126,15 @@ def send_mail(email):
 #email取得、メール送信
 @app.route('/remind', methods=['GET','POST'])
 def user_remind():
-    if request.method == 'POST':
+     if request.method == 'POST':
+        app.config['SERVER_NAME']= '127.0.0.1:5000'
         email = request.form.get('email')
-        send_mail(email)
-        # return redirect('/login')
+        token = create_token(email, app.secret_key, SALT)
+        with app.app_context():
+            url = url_for('reset', token=token, _external=True) # ここができない。, 
+        print(url)
+        send_mail(email, url)
+        return redirect('/login')
     else:
         return "Method Not Allowed", 405
     
@@ -131,6 +147,30 @@ def user_delete(user_id):
     dbConnect.session.delete(reg_user_id)
     dbConnect.session.commit()
     return redirect('/signup')
+
+@app.route('/reset')
+def reset():
+    return render_template('registration/reset.html')
+
+@app.route('/reset', methods=['GET', 'POST'])
+# パスワード削除、新規パスワード設定
+# 新規パスワード取得
+def reset_password():
+    if request.method == 'GET':
+            token = flask.request.args.get('token')
+            user_id = load_token(token, app.secret_key, SALT)
+            password = request.form.get('password1')
+            password_chk = request.form.get('password2')
+            user = dbConnect.getUserById(user_id)
+            if password == '' or password_chk == '':
+                flash('空のフォームがあります')
+            elif password != password_chk:
+                flash('パスワードが一致していません。')
+            else:
+                dbConnect.reset_password(user_id, password)
+            return redirect('/login')
+    else:
+        return redirect('/reset')
 
 # メッセージ追加
 app.route('/message', methods=['POST'])
