@@ -47,7 +47,7 @@
 .log_right dl{display: flex;}
 .log_right dt{
 font-weight: bold;
-width: 3em;
+width: 5em;
 }
 .log_right dd{
 width: calc(100% - 3em);
@@ -62,7 +62,16 @@ word-break: break-all;
 }
 
 @media screen and (max-width: 639px) {
-    .log_main .usrinfo{
+    .log_main .usrinfo, .log_right dl, .personalog{
       flex-direction: column;
+    }
+    .log_right{width: 100%;}
+    .log_right dl{
+        margin-bottom: 0.5em;
+    } 
+    .log_left{display: flex; align-items: center;}
+    .log_left svg{width: 60px;}
+    .log_main .reaction_area{
+        top:15px;
     }
   }

@@ -6,14 +6,12 @@
 <div class="main-container log_main">
     <div class="main-content">
         <h1>みんなの学習記録一覧</h1>
+        {% if posts|length > 0 %}
         <ul class="log-box">
-            {% if posts|length > 0 %}
-            <!-- TODO: 書式修正-->
-            {% for posts in posts %}
+            {% for post in posts %}
             <li class="personalog">
-
                 <!-- もしidとログ作成者が同じなら削除可能にする -->
-                {% if user_id == posts.user_id %}
+                {% if user_id == user_id %}
                 <button type="button" aria-label="Trash" data-balloon-pos="left" class="trash reaction_area"
                     id="delete-studylog-btn"><span><i class="fa-solid fa-trash-can"></i></span></button>
                 {% else %}
@@ -51,24 +49,28 @@
                         <dt>目標</dt>
                         <dd>{{ user.goal }}</dd>
                     </dl>
-                    <h3>
-                        <dd>{{ posts.titile }}</dd>
-                    </h3>
+                    <!-- <h3>
+                        <dd>{ posts.titile }}</dd>
+                    </h3> -->
                     <dl>
-                        <dt>内容</dt>
-                        <dd>{{ posts.post
-                            }}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                        <dt>勉強内容</dt>
+                        <dd>{{ posts.post }}
                         </dd>
+                    </dl>
+                    <dl>
+                        <dt>勉強時間</dt>
+                        <dd>{{ posts.study_time }}
+                        時間</dd>
                     </dl>
                 </div>
             </li>
             {% endfor %}
-            {% else %}
-            <div>
-                <p>まだ学習記録の投稿がありません</p>
-            </div>
-            {% endif %}
         </ul>
+        {% else %}
+        <div>
+            <p>まだ学習記録の投稿がありません</p>
+        </div>
+        {% endif %}
     </div>
     <!-- 　TODO: 一覧で詳細表示にすればページ繰りボタン不要なので、書式破壊のうえ一旦非表示 -->
     <!-- % include 'modal/personallog.html' %} -->
@@ -91,6 +93,11 @@
 <script type="text/javascript">
     const posts = JSON.parse('{{ posts|tojson }}');
     const user = JSON.parse('{{ user|tojson }}');
-</script>  
+</script>
+<script>
+    console.log(posts);
+    console.log(typeof posts);
+    console.log(user);
+</script>
 <script src="{{url_for('static',filename='js/modal.js')}}" type="text/javascript"></script>
 {% endblock %}
