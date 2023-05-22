@@ -5,12 +5,13 @@ from util.DB import DB
 class dbConnect:
     # ユーザー情報追加
     def createUser(user):
+        goal = ""
+        start_date = "2022/04/12"
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "INSERT INTO users (user_id, user_name, email, user.password) VALUES (%s,%s,%s,%s);"
-            cursor.execute(sql, (user.user_id, user.user_name,
-                           user.email, user.password))
+            sql = "INSERT INTO users (user_id, user_name, email, password,goal,start_date) VALUES (%s,%s,%s,%s,%s,%s);"
+            cursor.execute(sql, (user.user_id, user.user_name,user.email, user.password,goal,start_date))
             connect.commit()
         except Exception as e:
             print(str(e) + 'が発生しています。')
@@ -23,15 +24,29 @@ class dbConnect:
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "SELECT email FROM users WHERE email=%s"
-            cursor.execute(sql, (email,))
-            reg_email = cursor.fetchone()
-            return reg_email
+            sql = "SELECT * FROM users WHERE email=%s;"
+            cursor.execute(sql, (email))
+            user = cursor.fetchone()
+            return user
         except Exception as e:
             print(str(e) + 'が発生しています。')
             return None
         finally:
             cursor.close()
+
+    def getUserById(user_id):
+            try:
+                connect = DB.getConnection()
+                cursor = connect.cursor()
+                sql = "SELECT * FROM users WHERE user_id=%s;"
+                cursor.execute(sql, (user_id))
+                user = cursor.fetchone()
+                return user
+            except Exception as e:
+                print(str(e) + 'が発生しています。')
+                return None
+            finally:
+                cursor.close()
 
     # user_idが登録済か判別
     def getUserId(user_id):
@@ -166,32 +181,18 @@ class dbConnect:
         finally:
             cursor.close()
 
-    def addChannel(user_id, newCh_Name, newChannel_summary):
+    def addChannel(user_id, newCh_Name, newChannel_summary,main,sub):
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "INSERT INTO channels (user_id, ch_name, summary) VALUES (%s, %s, %s);"
-            cursor.execute(sql, (user_id, newCh_Name, newChannel_summary))
+            sql = "INSERT INTO channels (user_id, ch_name, summary,main_category,sub_category) VALUES (%s, %s, %s,%s, %s);"
+            cursor.execute(sql, (user_id, newCh_Name, newChannel_summary,main,sub))
             connect.commit()
         except Exception as e:
             print(e + 'が発生しています')
             return None
         finally:
             cursor.close()
-
-    def getChannelByName(ch_name):
-        try:
-            connect = DB.getConnection()
-            cursor = connect.cursor()
-            sql = "SELECT * FROM channels WHERE cd_name=%s;"
-            cursor.execute(sql, (ch_name))
-            channel = cursor.fetchone()
-        except Exception as e:
-            print(e + 'が発生しました')
-            return None
-        finally:
-            cursor.close()
-            return channel
 
     # チャンネル編集機能
     def updateChannel(user_id, newCh_Name, newChannel_summary, ch_id):
@@ -222,7 +223,7 @@ class dbConnect:
             connect = DB.getConnection()
             cursor = connect.cursor()
             sql = "SELECT * FROM posts;"
-            cursor.excecute(sql)
+            cursor.execute(sql)
             messages = cursor.fetchall()
             return messages
         except Exception as e:
@@ -246,7 +247,7 @@ class dbConnect:
             cursor.close()
 
     #勉強記録の削除
-    def delete(post_id):
+    def deletePost(post_id):
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
