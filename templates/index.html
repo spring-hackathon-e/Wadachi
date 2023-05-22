@@ -24,24 +24,24 @@
       <div class="user_detail">
         <div class="user_inn">
           <h2>ユーザーネーム</h2>
-          <p class="user-name">{{ users.user_name }}</p>
+          <p class="user-name">{{ user.user_name }}</p>
         </div>
         <div class="user_inn">
           <h2>勉強開始日</h2>
-          <p>{{ users.start_date }}</p>
+          <p>{{ user.start_date }}</p>
         </div>
       </div>
     </div>
     <div class="mokuhyo">
       <h2>目標</h2>
-      <p>{{ users.goal }}</p>
+      <p>{{ user.goal }}</p>
       <span class="edit_ico span_btn" id="edit-goal-btn"
         ><i class="fa-solid fa-pen-to-square"></i
       ></span>
     </div>
     <div class="study_edit">
       <h2 class="center mt1r_wd">学習記録を投稿する</h2>
-      <form class="study-logging" method="POST" action="/">
+      <form class="study-logging" method="POST" action="/add_posts">
         <!-- TODO: 勉強した日の格納は設計になかったかも！あとで削除の可能性あり -->
         <h3 class="mt1r_wd">勉強した日</h3>
         <input
@@ -90,6 +90,5 @@
     src="{{url_for('static',filename='js/modal.js')}}"
     type="text/javascript"
   ></script>
-  {% endblock %} <<<<<<< HEAD ======= {% block script %} {% endblock %} >>>>>>>
-  c30bba1367cbac88eb375d03e58fcd87ee3124a0
+  {% endblock %}
 </div>
