@@ -110,7 +110,7 @@ def send_mail(email,url):
     creds = Credentials.from_authorized_user_file('token.json', scopes)
     service = build('gmail', 'v1', credentials=creds)
 
-    message = MIMEText('ここからpassword再設定画面に飛ぶ')
+    message = MIMEText(url)
     message['To'] = email
     message['From'] = 'hiro6grassroots@gmail.com'
     message['Subject'] = 'パスワードリマインド'
@@ -121,7 +121,6 @@ def send_mail(email,url):
         body=raw
     ).execute()
     
-#URL作成
     
 #email取得、メール送信
 @app.route('/remind', methods=['GET','POST'])
@@ -131,14 +130,32 @@ def user_remind():
         email = request.form.get('email')
         token = create_token(email, app.secret_key, SALT)
         with app.app_context():
-            url = url_for('reset', token=token, _external=True) # ここができない。, 
+            url = url_for('reset', token=token, _external=True)
         print(url)
         send_mail(email, url)
         return redirect('/login')
     else:
         return "Method Not Allowed", 405
     
-# パスワード削除、新規パスワード設定　追加要
+# パスワードリセット機能
+@app.route('/reset', methods=['GET', 'POST'])
+def reset_password():
+    print("リセットパスワード")
+    if request.method == 'POST':
+            token = flask.request.args.get('token')
+            email = load_token(token, app.secret_key, SALT)
+            password = request.form.get('password1')
+            password_chk = request.form.get('password2')
+            if password == '' or password_chk == '':
+                flash('空のフォームがあります')
+            elif password != password_chk:
+                flash('パスワードが一致していません。')
+            else:
+                password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+                dbConnect.reset_password(email, password)
+            return redirect('/login')
+    else:
+        return redirect('/remind')
 
 # ユーザー削除　確認要
 @app.route('/del', methods=['DELETE'])
@@ -148,34 +165,9 @@ def user_delete(user_id):
     dbConnect.session.commit()
     return redirect('/signup')
 
-@app.route('/reset')
-def reset():
-    return render_template('registration/reset.html')
-
-@app.route('/reset', methods=['GET', 'POST'])
-# パスワード削除、新規パスワード設定
-# 新規パスワード取得
-def reset_password():
-    if request.method == 'GET':
-            token = flask.request.args.get('token')
-            user_id = load_token(token, app.secret_key, SALT)
-            password = request.form.get('password1')
-            password_chk = request.form.get('password2')
-            user = dbConnect.getUserById(user_id)
-            if password == '' or password_chk == '':
-                flash('空のフォームがあります')
-            elif password != password_chk:
-                flash('パスワードが一致していません。')
-            else:
-                dbConnect.reset_password(user_id, password)
-            return redirect('/login')
-    else:
-        return redirect('/reset')
 
 # メッセージ追加
 app.route('/message', methods=['POST'])
-
-
 def add_message():
     user_id = session.get('user_id')
     if user_id is None:
@@ -196,8 +188,6 @@ def add_message():
 
 # メッセージ削除
 app.route('delete_message', methods=['POST'])
-
-
 def delete_message():
     user_id = session.get('user_id')
     if user_id is None:
@@ -216,8 +206,6 @@ def delete_message():
 
 # リアクション追加
 app.route('reaction_message', methods=['POST'])
-
-
 def reaction_message():
     user_id = session.get('user_id')
     if user_id is None:
