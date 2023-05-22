@@ -45,7 +45,8 @@ def usersignup():   # 登録情報の取得
             dbConnect.createUser(user)
             UserId = str(user_id)
             session['user_id'] = UserId
-            return redirect('/')
+            user = dbConnect.getUser(email)
+            return render_template('index.html', user=user)
     return redirect('/signup')   # 入力情報のクリア
 
 
@@ -70,7 +71,7 @@ def userlogin():  # user_idとemailを格納先と照合
             flash('パスワードが間違っています。')
         else:
             session['user_id'] = user["user_id"]
-            return redirect('/')
+            return render_template('index.html', user=user)
     return redirect('/login')
 
 
@@ -143,19 +144,54 @@ def reaction_message():
     return render_template('detail.html', messages=messages, channel=channel, user_id=user_id)
 
 
-# チャンネル一覧
+# トップ画面へ遷移
 @app.route('/')
 def index():
     user_id = session.get('user_id')
     if user_id is None:
         return redirect('/login')
     else:
+        user = dbConnect.getUserById(user_id)
         channels = dbConnect.getChannelAll()
-        return render_template('index.html', channels=channels, user_id=user_id)
+    return render_template('index.html', channels=channels, user=user)
+
+#チャンネル一覧へ遷移
+@app.route('/channel')
+def chat():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+    else:
+        channels = dbConnect.getChannelAll()
+    return render_template('chat.html', channels=channels, user_id=user_id)
+
+#チャット画面へ遷移
+@app.route('/detail/<ch_id>')
+def detail(ch_id):
+    user_id = session.get("user_id")
+    if user_id is None:
+        return redirect('/login')
+    ch_id = ch_id
+    channel = dbConnect.getChannelById(ch_id)
+    messages = dbConnect.getMessageAll(ch_id)
+
+    return render_template('detail.html', messages=messages, channel=channel, user_id=user_id)
+
+#勉強記録一蘭へ遷移
+@app.route('/log')
+def log():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+    else:
+        users = dbConnect.getUserById(user_id)
+        channels = dbConnect.getChannelAll()
+        posts = dbConnect.getPostAll()
+        return render_template('log.html', channels=channels, users=users,posts=posts)
 
 
 # チャンネル作成
-@app.route('/add_channel', methods=['POST'])
+@app.route('/add-channel', methods=['POST'])
 def add_channel():
     user_id = session.get('user_id')
     if user_id is None:
@@ -164,8 +200,10 @@ def add_channel():
     channel = dbConnect.getChannelByName(ch_name)
     if channel == None:
         channel_summary = request.form.get('summary')
-        dbConnect.addChannel(user_id, ch_name, channel_summary)
-        return redirect('/')
+        main_ca = request.form.get('main_category')
+        sub_ca = request.form.get('sub_category')
+        dbConnect.addChannel(user_id, ch_name, channel_summary,main_ca,sub_ca)
+        return redirect('/chat')
     else:
         error = '既に同じチャンネルが存在します'
         return render_template('error/error.html', error_message=error)
@@ -248,10 +286,10 @@ def add_post():
     reaction = 0;  #reaction数の初期値
 
     if post:
-        dbConnect.addposts(user_id, post, study_time, reaction)
+        dbConnect.addPost(user_id, post, study_time, reaction)
         return redirect('/')
 
-    posts = dbConnect.getpostsAll()
+    posts = dbConnect.getPostAll()
     user = dbConnect.getUser(user_id)
 
     return render_template('post.html', posts=posts, user=user)
@@ -267,7 +305,7 @@ def delete_post():
     if post_id:
         dbConnect.deletePost(post_id)
 
-    posts = dbConnect.getpostsAll()
+    posts = dbConnect.getPostAll()
     user = dbConnect.getUser(user_id)
 
     return render_template('post.html', posts=posts, user=user)
@@ -283,7 +321,7 @@ def reaction_post():
     if post_id:
         dbConnect.addPoReaction(post_id)
 
-    posts = dbConnect.getpostsAll()
+    posts = dbConnect.getPostAll()
     user = dbConnect.getUser(user_id)
 
     return render_template('post.html', posts=posts, user=user)
