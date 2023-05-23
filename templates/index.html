@@ -97,7 +97,7 @@
   const submitBtn = document.querySelector("#submit-btn");
 
   submitBtn.addEventListener("click", () => {
-    const lines = input.value.split("\n");
+    const lines = textValue.split("\n");
     const updatedLines = lines.map((line) => {
       if (line.startsWith("・")) {
         return line;
@@ -106,7 +106,6 @@
       }
     });
     textValue = updatedLines.join("\n");
-    console.log(textValue);
   });
 </script>
 {% endblock %}
