@@ -13,7 +13,8 @@ class DB:
                 charset="utf8",
                 cursorclass=pymysql.cursors.DictCursor
             )
-        # エラー処理
+            return conn
+        # エラー表示
         except (ConnectionError):
             print("コネクションエラーです")
             conn.close()
