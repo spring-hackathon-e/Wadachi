@@ -17,13 +17,13 @@ const withdrawalBtn = document.getElementById("withdrawal-btn");
 
 
 // modalOpenに各モーダルを開くための引数を渡す
-if (editGoalBtn !== null) {
-  editGoalBtn.addEventListener("click", () => {
-    modalOpen("editGoalBtn");
-  });
-  withdrawalBtn.addEventListener("click", () => {
-    modalOpen("withdrawalConfirm");
-  });
+  if(editGoalBtn !== null){
+    editGoalBtn.addEventListener("click", () => {
+      modalOpen("editGoal");
+    });
+    withdrawalBtn.addEventListener("click", () => {
+      modalOpen("withdrawalConfirm");
+    });
 } else if (updateChannelBtn !== null) {
   updateChannelBtn.addEventListener("click", () => {
     modalOpen("updateChannel");
@@ -44,7 +44,7 @@ deleteChannelBtn.addEventListener("click", () => {
 
 // modalOpen(引数)でモーダルを開く
 function modalOpen(mode) {
-//  console.log(mode);
+  //console.log(mode);
   if (mode === "addChannel" || addChannelModal !== null) {
     if(mode === "addChannel"){
       addChannelModal.style.display = "block";
@@ -52,12 +52,14 @@ function modalOpen(mode) {
       mode === "deleteChannel"){
     deleteChannelModal.style.display = "block";
   }
-  } else if (mode === "editGoal" || editGoalModal !== null) {
-    editGoalModal.style.display = "block";
+  } else if (editGoalModal !== null) {
+    if(mode === "editGoal"){
+      editGoalModal.style.display = "block";
+    }else if(mode === "withdrawalConfirm"){
+      withdrawalModal.style.display = "block";
+    }
   } else if (mode === "updateChannel" || updateChannelModal !== null) {
     updateChannelModal.style.display = "block";
-  } else if (mode === "withdrawalConfirm" || withdrawalModal !== null) {
-    withdrawalModal.style.display = "block";
   } else if (mode === "deletelog" || deleteLogModal !== null) {
     deleteLogModal.style.display = "block";
   }
