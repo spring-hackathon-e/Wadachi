@@ -70,9 +70,11 @@
           name="post"
         ></textarea>
         <input
+          id="submit-btn"
           class="btn_green btn_green_short"
           type="submit"
-          value="学習記録を投稿する"
+          value="学習記録を投稿する(200字以内)"
+          maxlength="200"
         />
       </form>
     </div>
@@ -82,9 +84,9 @@
       <button id="withdrawal-btn">退会する</button>
     </div>
   </div>
-    </div>
-    {% include 'modal/goal.html' %} {% include 'modal/quit.html' %}
-  {% endblock %} {% block script %}
+</div>
+{% include 'modal/goal.html' %} {% include 'modal/quit.html' %} {% endblock %}
+{% block script %}
 <script
   src="{{url_for('static',filename='js/modal.js')}}"
   type="text/javascript"
