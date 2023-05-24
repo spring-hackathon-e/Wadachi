@@ -1,5 +1,5 @@
 <div class="modal popup" id="edit-goal-modal">
-  <form class="edit_box" action="" method="post">
+  <form class="edit_box" action="/set_goal" method="post">
     <button
       type="button"
       aria-label="Close"
@@ -24,3 +24,5 @@
     />
   </form>
 </div>
+
+goal = request.form.get('goal')
