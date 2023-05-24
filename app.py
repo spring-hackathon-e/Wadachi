@@ -161,3 +161,22 @@ def delete_channel(ch_id):
             dbConnect.deleteChannel(ch_id)
             channels = dbConnect.getChannelAll()
         return render_template('index.html', channels=channels, user_id=user_id)
+
+# 目標の設定
+@app.route('/set_goal',methods=['POST'])
+def set_goal():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+
+    goal = request.form.get('goal')
+    return render_template('index.html', goal=goal)
+
+# 目標の編集
+@app.route('/update_goal',methods=['POST'])
+def update_goal():
+    goal = session.get('user_id')
+    if goal is None:
+        return redirect('')
+
+    goal = dbConnect.updateGoal(goal)
