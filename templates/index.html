@@ -84,15 +84,26 @@
   </div>
     </div>
     {% include 'modal/goal.html' %} {% include 'modal/quit.html' %}
-  </div>
   {% endblock %} {% block script %}
-      </div>
-  <script type="text/javascript">
-        const user = JSON.parse('{{ user|tojson }}');
-  </script>      
-  <script
-    src="{{url_for('static',filename='js/modal.js')}}"
-    type="text/javascript"
-  ></script>
-  {% endblock %}
-</div>
+<script
+  src="{{url_for('static',filename='js/modal.js')}}"
+  type="text/javascript"
+></script>
+<script>
+  let input = document.querySelector(".study_log");
+  let textValue = input.value;
+  const submitBtn = document.querySelector("#submit-btn");
+
+  submitBtn.addEventListener("click", () => {
+    const lines = textValue.split("\n");
+    const updatedLines = lines.map((line) => {
+      if (line.startsWith("・")) {
+        return line;
+      } else {
+        return "・" + line;
+      }
+    });
+    textValue = updatedLines.join("\n");
+  });
+</script>
+{% endblock %}
