@@ -1,13 +1,9 @@
 {% extends 'base.html' %} {% block title %}
 <title>chat</title>
 {% endblock %}
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-/>
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
 {% block body %}
 <div class="main-container channelpage">
   <div class="main-content">
@@ -40,13 +36,7 @@
             <!-- もしuidとチャンネル作成者が同じなら削除可能にする -->
             <!-- TODO: if文未入力 -->
             <!-- TODO: バックの処理が完了しHTML変更する際チャンネル削除モーダルのid(orクラス)属性見直し -->
-            <button
-              type="button"
-              aria-label="Trash"
-              data-balloon-pos="left"
-              class="trash"
-              id="delete-channel-btn"
-            >
+            <button type="button" aria-label="Trash" data-balloon-pos="left" class="trash" id="delete-channel-btn">
               <span><i class="fa-solid fa-trash-can"></i></span>
             </button>
           </div>
@@ -62,12 +52,7 @@
             <li>カテゴリ１</li>
             <li>カテゴリ２</li>
           </ul>
-          <button
-            type="button"
-            aria-label="Trash"
-            data-balloon-pos="left"
-            class="trash is-none"
-          >
+          <button type="button" aria-label="Trash" data-balloon-pos="left" class="trash is-none">
             <span><i class="fa-solid fa-trash-can"></i></span>
           </button>
         </div>
@@ -77,7 +62,9 @@
     <ul class="channel-box"></ul>
     <!-- ページ繰りボタン -->
     <div class="pagination-container">
-      <p id="prev"><< /li></p>
+      <p id="prev">
+        << /li>
+      </p>
 
       <ul class="pagination"></ul>
       <p id="next">></p>
@@ -87,3 +74,4 @@
   'modal/delete-confirmation.html' %}
 </div>
 {% endblock %} {% block script %} {% endblock %}
+<script src="{{url_for('static',filename='js/modal.js')}}" type="text/javascript"></script>{% endblock %}
