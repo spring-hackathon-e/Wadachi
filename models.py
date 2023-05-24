@@ -11,7 +11,7 @@ class dbConnect:
             connect = DB.getConnection()
             cursor = connect.cursor()
             sql = "INSERT INTO users (user_id, user_name, email, password,goal,start_date) VALUES (%s,%s,%s,%s,%s,%s);"
-            cursor.execute(sql, (user.user_id, user.user_name, user.email, user.password,goal,start_date))
+            cursor.execute(sql, (user.user_id, user.user_name,user.email, user.password,goal,start_date))
             connect.commit()
         except Exception as e:
             print(str(e) + 'が発生しています。')
@@ -34,21 +34,19 @@ class dbConnect:
         finally:
             cursor.close()
 
-
     def getUserById(user_id):
-        try:
-            connect = DB.getConnection()
-            cursor = connect.cursor()
-            sql = "SELECT * FROM users WHERE user_id=%s;"
-            cursor.execute(sql, (user_id))
-            user = cursor.fetchone()
-            return user
-        except Exception as e:
-            print(str(e) + 'が発生しています。')
-            return None
-        finally:
-            cursor.close()
-
+            try:
+                connect = DB.getConnection()
+                cursor = connect.cursor()
+                sql = "SELECT * FROM users WHERE user_id=%s;"
+                cursor.execute(sql, (user_id))
+                user = cursor.fetchone()
+                return user
+            except Exception as e:
+                print(str(e) + 'が発生しています。')
+                return None
+            finally:
+                cursor.close()
 
     # user_idが登録済か判別
     def getUserId(user_id):
@@ -224,20 +222,6 @@ class dbConnect:
             return None
         finally:
             cursor.close()
-
-    def getChannelByName(ch_name):
-        try:
-            connect = DB.getConnection()
-            cursor = connect.cursor()
-            sql = "SELECT * FROM channels WHERE cd_name=%s;"
-            cursor.execute(sql, (ch_name))
-            channel = cursor.fetchone()
-        except Exception as e:
-            print(e + 'が発生しました')
-            return None
-        finally:
-            cursor.close()
-            return channel
 
     # チャンネル編集機能
     def updateChannel(user_id, newCh_Name, newChannel_summary, ch_id):
