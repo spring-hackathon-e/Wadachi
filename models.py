@@ -62,11 +62,23 @@ class dbConnect:
             return None
         finally:
             cursor.close()
-
+            
+    def getUserById(user_id):
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "SELECT * FROM users WHERE user_id=%s;"
+            cursor.execute(sql, (user_id,))
+            user = cursor.fetchone()
+            return user
+        except Exception as e:
+            print(str(e) + 'が発生しています。')
+            return None
+        finally:
+            cursor.close()
 
     #パスワードリセット
     def reset_password(email, password):
-        print("modelsに到達")
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
@@ -79,7 +91,7 @@ class dbConnect:
         finally:
             cursor.close()
 
-
+                        
     # メッセージを全て取得
     def getMessageAll(ch_id):
         try:

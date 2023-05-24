@@ -188,8 +188,6 @@ def user_delete(user_id):
 
 # メッセージ追加
 app.route('/message', methods=['POST'])
-
-
 def add_message():
     user_id = session.get('user_id')
     if user_id is None:
@@ -229,9 +227,7 @@ def delete_message():
 
 
 # リアクション追加
-app.route('/reaction_message', methods=['POST'])
-
-
+app.route('reaction_message', methods=['POST'])
 def reaction_message():
     user_id = session.get('user_id')
     if user_id is None:
@@ -443,3 +439,4 @@ def show_error500(error):
 # app.run
 if __name__ == '__main__':
     app.run(debug=True)
+    
