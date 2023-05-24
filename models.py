@@ -5,11 +5,13 @@ from util.DB import DB
 class dbConnect:
     # ユーザー情報追加
     def createUser(user):
+        goal = ""
+        start_date = "2022/04/12"
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "INSERT INTO users (user_id, user_name, email, user.password) VALUES (%s,%s,%s,%s);"
-            cursor.execute(sql, (user.user_id, user.user_name,user.email, user.password))
+            sql = "INSERT INTO users (user_id, user_name, email, password,goal,start_date) VALUES (%s,%s,%s,%s,%s,%s);"
+            cursor.execute(sql, (user.user_id, user.user_name,user.email, user.password,goal,start_date))
             connect.commit()
         except Exception as e:
             print(str(e) + 'が発生しています。')
@@ -31,6 +33,20 @@ class dbConnect:
             return None
         finally:
             cursor.close()
+
+    def getUserById(user_id):
+            try:
+                connect = DB.getConnection()
+                cursor = connect.cursor()
+                sql = "SELECT * FROM users WHERE user_id=%s;"
+                cursor.execute(sql, (user_id))
+                user = cursor.fetchone()
+                return user
+            except Exception as e:
+                print(str(e) + 'が発生しています。')
+                return None
+            finally:
+                cursor.close()
 
     # user_idが登録済か判別
     def getUserId(user_id):
@@ -120,7 +136,7 @@ class dbConnect:
             cursor.close()
 
     # リアクションの総数を収集
-    def correctReaction(message_id):
+    def correctMeReaction(message_id): #Me = Message
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
@@ -135,8 +151,8 @@ class dbConnect:
             cursor.close()
 
     # リアクション(いいね)を追加
-    def addReaction(self, message_id):
-        reactions = self.correctReaction(message_id)
+    def addMeReaction(self, message_id):
+        reactions = self.correctMeReaction(message_id)
         reactions = reactions + 1  # いいねボタンを押されるとカウント１増やす
         try:
             connect = DB.getConnection()
@@ -194,32 +210,18 @@ class dbConnect:
         finally:
             cursor.close()
 
-    def addChannel(user_id, newCh_Name, newChannel_summary):
+    def addChannel(user_id, newCh_Name, newChannel_summary,main,sub):
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "INSERT INTO channels (user_id, ch_name, summary) VALUES (%s, %s, %s);"
-            cursor.execute(sql, (user_id, newCh_Name, newChannel_summary))
+            sql = "INSERT INTO channels (user_id, ch_name, summary,main_category,sub_category) VALUES (%s, %s, %s,%s, %s);"
+            cursor.execute(sql, (user_id, newCh_Name, newChannel_summary,main,sub))
             connect.commit()
         except Exception as e:
             print(e + 'が発生しています')
             return None
         finally:
             cursor.close()
-
-    def getChannelByName(ch_name):
-        try:
-            connect = DB.getConnection()
-            cursor = connect.cursor()
-            sql = "SELECT * FROM channels WHERE cd_name=%s;"
-            cursor.execute(sql, (ch_name))
-            channel = cursor.fetchone()
-        except Exception as e:
-            print(e + 'が発生しました')
-            return None
-        finally:
-            cursor.close()
-            return channel
 
     # チャンネル編集機能
     def updateChannel(user_id, newCh_Name, newChannel_summary, ch_id):
@@ -240,6 +242,80 @@ class dbConnect:
             connect.commit()
         except Exception as e:
             print(e + 'が発生しています')
+            return None
+        finally:
+            cursor.close()
+
+    #全ての勉強記録を取得
+    def getPostAll():
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "SELECT * FROM posts;"
+            cursor.execute(sql)
+            messages = cursor.fetchall()
+            return messages
+        except Exception as e:
+            print(e + 'が発生しています')
+            return None
+        finally:
+            cursor.close()
+
+    #勉強記録の追加
+    def addPost(user_id, post, study_time, reaction):
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "INSERT INTO posts(user_id, post, study_time, reaction) VALUES (%s,%s,%s,%s)"
+            cursor.execute(sql, (user_id, post, study_time, reaction))
+            connect.commit()
+        except Exception as e:
+            print(e + "が発生しています")
+            return None
+        finally:
+            cursor.close()
+
+    #勉強記録の削除
+    def deletePost(post_id):
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "DELETE FROM posts WHERE post_id=%s;"
+            cursor.execute(sql, (post_id))
+            connect.commit()
+        except Exception as e:
+            print(e + "が発生しています")
+            return None
+        finally:
+            cursor.close()
+
+    # リアクションの総数を収集
+    def correctPoReaction(post_id): #Po = post
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "SELECT reaction FROM posts WHERE post_id=%s"
+            cursor.excecute(sql, (post_id))
+            sum_reaction = cursor.fetchone()
+            return sum_reaction
+        except Exception as e:
+            print(e + 'が発生しています')
+            return None
+        finally:
+            cursor.close()
+
+    # リアクション(いいね)を追加
+    def addPoReaction(self, post_id):
+        reactions = self.correctPoReaction(post_id)
+        reactions = reactions + 1  # いいねボタンを押されるとカウント１増やす
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "UPDATE posts SET reaction=%s WHERE post_id=%s"
+            cursor.execute(sql, (reactions, post_id))
+            connect.commit()
+        except Exception as e:
+            print(e + "が発生しています")
             return None
         finally:
             cursor.close()
