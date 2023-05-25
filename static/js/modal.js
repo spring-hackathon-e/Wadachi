@@ -42,9 +42,36 @@ deleteChannelBtn.addEventListener("click", () => {
   });
 }
 
+//postの削除ボタン
+let openPostDel = document.getElementsByClassName("trash");
+let ArrayPostDelBtn = Array.from(openPostDel);
+//console.log(openPostDel);
+
+ArrayPostDelBtn.forEach(function (target) {
+  target.addEventListener("click", () => {
+    if (deleteLogBtn !== null) {
+      modalOpen("deletelog");
+      let posValue = target.getAttribute("value");
+console.log(posValue);
+const postDelBtnLink = document.getElementById(
+  "delete-post-link"
+);
+// aタグ
+//const urlposdel = `/delete_post/${posValue}`;
+//postDelBtnLink.setAttribute("href", urlposdel);
+// aタグ
+const urlposdel = `/delete_post`;
+postDelBtnLink.setAttribute("href", urlposdel);
+//btnのvalue
+const delset = document.getElementById("posdel");
+delset.setAttribute("value", posValue);
+    } 
+  });
+});
+
 // modalOpen(引数)でモーダルを開く
 function modalOpen(mode) {
-  //console.log(mode);
+  console.log(mode);
   if (mode === "addChannel" || addChannelModal !== null) {
     if(mode === "addChannel"){
       addChannelModal.style.display = "block";

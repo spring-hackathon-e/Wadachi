@@ -83,31 +83,27 @@ def logout():
 
 
 # メッセージ追加
-app.route('/message', methods=['POST'])
-
-
+@app.route('/addMessage', methods=['POST'])
 def add_message():
     user_id = session.get('user_id')
     if user_id is None:
         return redirect('/login')
 
     message = request.form.get('message')
-    ch_id = request.form.get('channel_id')
+    ch_id = request.form.get('ch_id')
     reaction = 0  # reaction数の初期値:0
 
     if message:
-        dbConnect.addMessamge(user_id, ch_id, message, reaction)
+        dbConnect.addMessage(user_id, ch_id, message, reaction)
 
-    channel = dbConnect.getChannelById(ch_id)
+    channels = dbConnect.getChannelById(ch_id)
     messages = dbConnect.getMessageAll(ch_id)
 
-    return render_template('detail.html', messages=messages, channel=channel, user_id=user_id)
+    return render_template('detail.html', messages=messages, channels=channels, user_id=user_id)
 
 
 # メッセージ削除
-app.route('/delete_message', methods=['POST'])
-
-
+@app.route('/delete_message', methods=['POST'])
 def delete_message():
     user_id = session.get('user_id')
     if user_id is None:
@@ -118,16 +114,14 @@ def delete_message():
     if message_id:
         dbConnect.deleteMessage(message_id)
 
-    channel = dbConnect.getChannelById(ch_id)
+    channels = dbConnect.getChannelById(ch_id)
     messages = dbConnect.getMessageAll(ch_id)
 
-    return render_template('detail.html', messages=messages, channel=channel, user_id=user_id)
+    return render_template('detail.html', messages=messages, channels=channels, user_id=user_id)
 
 
 # リアクション追加
-app.route('/reaction_message', methods=['POST'])
-
-
+@app.route('/reaction_message', methods=['POST'])
 def reaction_message():
     user_id = session.get('user_id')
     if user_id is None:
@@ -162,8 +156,9 @@ def chat():
     if user_id is None:
         return redirect('/login')
     else:
+        user = dbConnect.getUserById(user_id)
         channels = dbConnect.getChannelAll()
-    return render_template('chat.html', channels=channels, user_id=user_id)
+    return render_template('chat.html', channels=channels, user=user)
 
 #チャット画面へ遷移
 @app.route('/detail/<ch_id>')
@@ -172,12 +167,12 @@ def detail(ch_id):
     if user_id is None:
         return redirect('/login')
     ch_id = ch_id
-    channel = dbConnect.getChannelById(ch_id)
+    channels = dbConnect.getChannelById(ch_id)
     messages = dbConnect.getMessageAll(ch_id)
 
-    return render_template('detail.html', messages=messages, channel=channel, user_id=user_id)
+    return render_template('detail.html', messages=messages, channels=channels, user_id=user_id)
 
-#勉強記録一蘭へ遷移
+#勉強記録一覧へ遷移
 @app.route('/log')
 def log():
     user_id = session.get('user_id')
@@ -187,7 +182,7 @@ def log():
         users = dbConnect.getUserById(user_id)
         channels = dbConnect.getChannelAll()
         posts = dbConnect.getPostAll()
-        return render_template('log.html', channels=channels, users=users,posts=posts)
+        return render_template('post.html', channels=channels, users=users,posts=posts)
 
 
 # チャンネル作成
@@ -203,7 +198,7 @@ def add_channel():
         main_ca = request.form.get('main_category')
         sub_ca = request.form.get('sub_category')
         dbConnect.addChannel(user_id, ch_name, channel_summary,main_ca,sub_ca)
-        return redirect('/chat')
+        return redirect('/channel')
     else:
         error = '既に同じチャンネルが存在します'
         return render_template('error/error.html', error_message=error)
@@ -217,13 +212,13 @@ def update_channel():
         return redirect('/login')
 
     ch_id = request.form.get('ch_id')
-    ch_name = request.form.get('newCh_name')
+    ch_name = request.form.get('newCh_Name')
     channel_summary = request.form.get('newChannel_summary')
 
-    res = dbConnect.updateChannel(user_id, ch_id, channel_summary)
-    channel = dbConnect.getChannelById(ch_id)
+    dbConnect.updateChannel(user_id,ch_name, channel_summary,ch_id)
+    channels = dbConnect.getChannelById(ch_id)
     messages = dbConnect.getMessageAll(ch_id)
-    return render_template('detail.html', message=messages, channel=channel, user_id=user_id)
+    return render_template('detail.html', messages=messages, channels=channels, user_id=user_id)
 
 
 # チャンネル削除
@@ -241,8 +236,9 @@ def delete_channel(ch_id):
             return redirect('/')
         else:
             dbConnect.deleteChannel(ch_id)
+            user = dbConnect.getUserById(user_id)
             channels = dbConnect.getChannelAll()
-        return render_template('index.html', channels=channels, user_id=user_id)
+        return render_template('chat.html', channels=channels, user=user)
         hashpassword = hashlib.sha256(password.encode('utf-8')).hexdigest()
         if hashpassword != user["password"]:
             flash('パスワードが間違っています。')
@@ -259,7 +255,7 @@ def index_post():
         return redirect('/login')
     else:
         posts = dbConnect.getPostAll()
-        user = dbConnect.getUser(user_id)
+        user = dbConnect.getUserById(user_id)
 
     return render_template('post.html', posts=posts, user=user)
 
@@ -271,7 +267,7 @@ def mig_post():
         return redirect('/login')
     else:
         posts = dbConnect.getPostAll()
-        user = dbConnect.getUser(user_id)
+        user = dbConnect.getUserById(user_id)
     return render_template('post.html', posts=posts, user=user)
 
 #勉強記録追加
@@ -281,18 +277,19 @@ def add_post():
     if user_id is None:
         return redirect('/login')
 
-    post = request.form.get('post')
-    study_time = request.form.get('study_time')
-    reaction = 0;  #reaction数の初期値
+    if request.method == 'POST':
+        post = request.form.get('post')
+        study_time = request.form.get('study_time')
 
-    if post:
-        dbConnect.addPost(user_id, post, study_time, reaction)
-        return redirect('/')
+        if post:
+            dbConnect.addPost(user_id, post, study_time)
 
-    posts = dbConnect.getPostAll()
-    user = dbConnect.getUser(user_id)
+        posts = dbConnect.getPostAll()
+        user = dbConnect.getUserById(user_id)
 
-    return render_template('post.html', posts=posts, user=user)
+        return render_template('post.html', posts=posts, user=user)
+    else:
+        return redirect('post.html')
 
 #勉強記録削除
 @app.route('/delete_post',methods=['POST'])
@@ -306,7 +303,7 @@ def delete_post():
         dbConnect.deletePost(post_id)
 
     posts = dbConnect.getPostAll()
-    user = dbConnect.getUser(user_id)
+    user = dbConnect.getUserById(user_id)
 
     return render_template('post.html', posts=posts, user=user)
 
@@ -322,7 +319,7 @@ def reaction_post():
         dbConnect.addPoReaction(post_id)
 
     posts = dbConnect.getPostAll()
-    user = dbConnect.getUser(user_id)
+    user = dbConnect.getUserById(user_id)
 
     return render_template('post.html', posts=posts, user=user)
 

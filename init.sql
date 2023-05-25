@@ -41,5 +41,4 @@ CREATE TABLE posts (
     post TEXT,
     created_date TIMESTAMP NOT NULL default current_timestamp,
     study_time INT
-    reaction INT
 );

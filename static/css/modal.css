@@ -101,6 +101,9 @@ width: clamp(0px, 90vw, 35rem);
   .modal-content {
     margin: 35% auto;
   }
+  .channel-form-input, select {
+    width: 100%;
+  }
 }
 
 @media only screen and (min-width: 640px) and (max-width: 1023px) {

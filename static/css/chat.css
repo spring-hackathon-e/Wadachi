@@ -135,9 +135,7 @@ justify-content: flex-start;
   border: 1px solid var(--grymiddle);
   border-radius: 3px;
 }
-.channel_dev p{
-  margin-top: 1rem;
-}
+
 .channel_del{
   display: flex;
   justify-content: center;
