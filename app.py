@@ -1,15 +1,23 @@
-from flask import Flask, request, redirect, render_template, session, flash
+from flask import Flask, request, redirect, render_template, session, flash, url_for
 from models import dbConnect
 from util.user import User
 from datetime import timedelta
+import datetime
 from itsdangerous.url_safe import URLSafeTimedSerializer  # リマインド機能
 import hashlib
 import uuid
 import re
+from itsdangerous.url_safe import URLSafeTimedSerializer
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+from email.mime.text import MIMEText
+import base64
+import flask
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().hex
 app.permanent_session_lifetime = timedelta(days=30)
+SALT = 'shio'
 
 
 # サインアップ
@@ -34,7 +42,7 @@ def usersignup():   # 登録情報の取得
     elif re.match(pattern, email) is None:
         flash('正しいメールアドレスを記入してください。')
     else:
-        user_id = uuid.uuid4
+        user_id = uuid.uuid4()
         password = hashlib.sha256(password.encode('utf-8')).hexdigest()
         user = User(user_id, user_name, email, password)
         DbUser = dbConnect.getUser(email)
@@ -64,7 +72,7 @@ def userlogin():  # user_idとemailを格納先と照合
     user = dbConnect.getUser(email)
 
     if user == None:
-        flash('ユーザーIDが間違っています。')
+        flash('emailが間違っています。')
     else:
         hashpassword = hashlib.sha256(password.encode('utf-8')).hexdigest()
         if hashpassword != user["password"]:
@@ -80,6 +88,104 @@ def userlogin():  # user_idとemailを格納先と照合
 def logout():
     session.clear()
     return redirect('/login')
+
+
+# パスワードリマインド機能
+@app.route('/remind')
+def remind(): # remind.htmlでの動作
+    return render_template('registration/remind.html')
+
+
+# トークン生成
+def create_token(email, secret_key, salt):
+    serializer = URLSafeTimedSerializer(secret_key)
+    return serializer.dumps(email, salt=salt)
+
+
+# トークンからuser_id と time を取得
+def load_token(token, secret_key, salt):
+    serializer = URLSafeTimedSerializer(secret_key)
+    return serializer.loads(token, salt=salt, max_age=6000)
+
+# メール送信準備（GmailAPI）
+def message_base64_encode(message):
+    return base64.urlsafe_b64encode(message.as_bytes()).decode()
+
+def send_mail(email,url):
+    scopes = ['https://mail.google.com/']
+    creds = Credentials.from_authorized_user_file('token.json', scopes)
+    service = build('gmail', 'v1', credentials=creds)
+
+    message = MIMEText(url)
+    message['To'] = email
+    message['From'] = 'hiro6grassroots@gmail.com'
+    message['Subject'] = 'パスワードリマインド'
+    raw = {'raw': message_base64_encode(message)}
+
+    service.users().messages().send(
+        userId='me',
+        body=raw
+    ).execute()
+
+
+#email取得、メール送信
+@app.route('/remind', methods=['GET','POST'])
+def user_remind():
+    if request.method == 'POST':
+        app.config['SERVER_NAME']= '127.0.0.1:5000'
+        email = request.form.get('email')
+        token = create_token(email, app.secret_key, SALT)
+        '''
+        DbUser = dbConnect.getUser(email)
+        if email == '':
+            flash('メールアドレスを入力してください。')
+        elif DbUser == None:
+            flash('メールアドレスは登録されていません。')
+        else:  # リマインドメール送付
+        '''
+        with app.app_context():
+            url = url_for('reset', token=token, _external=True)
+        print(url)
+        send_mail(email, url)
+        return redirect('/login')
+    else:
+        return "Method Not Allowed", 405
+
+
+@app.route('/reset')
+def reset():
+    return render_template('registration/reset.html')
+
+# パスワード削除、新規パスワード設定
+# 新規パスワード取得
+@app.route('/reset', methods=['GET', 'POST'])
+def reset_password():
+    print("リセットパスワード")
+    if request.method == 'POST':
+            token = flask.request.args.get('token')
+            email = load_token(token, app.secret_key, SALT)
+            print(email) # 確認用　emailが来てる
+            password = request.form.get('password1')
+            password_chk = request.form.get('password2')
+            if password == '' or password_chk == '':
+                flash('空のフォームがあります')
+            elif password != password_chk:
+                flash('パスワードが一致していません。')
+            else:
+                password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+                dbConnect.reset_password(email, password)
+            return redirect('/login')
+    else:
+        return redirect('/reset')
+
+
+# ユーザー削除
+@app.route('/del', methods=['DELETE'])
+def user_delete(user_id):
+    reg_user_id = dbConnect.getUserId(user_id)
+    dbConnect.session.delete(reg_user_id)
+    dbConnect.session.commit()
+    return redirect('/signup')
 
 
 # メッセージ追加
@@ -185,7 +291,7 @@ def log():
         return render_template('post.html', channels=channels, users=users,posts=posts)
 
 
-# チャンネル作成
+#チャンネル作成
 @app.route('/add-channel', methods=['POST'])
 def add_channel():
     user_id = session.get('user_id')
@@ -204,7 +310,7 @@ def add_channel():
         return render_template('error/error.html', error_message=error)
 
 
-# チャンネル編集
+#チャンネル編集
 @app.route('/update_channel', methods=['POST'])
 def update_channel():
     user_id = session.get('user_id')
@@ -221,7 +327,7 @@ def update_channel():
     return render_template('detail.html', messages=messages, channels=channels, user_id=user_id)
 
 
-# チャンネル削除
+#チャンネル削除
 @app.route('/delete/<ch_id>')
 def delete_channel(ch_id):
     user_id = session.get('user_id')
@@ -276,7 +382,6 @@ def add_post():
     user_id = session.get('user_id')
     if user_id is None:
         return redirect('/login')
-
     if request.method == 'POST':
         post = request.form.get('post')
         study_time = request.form.get('study_time')
@@ -332,6 +437,22 @@ def show_error404(error):
 @app.errorhandler(500)
 def show_error500(error):
     return render_template('error/500.html')
+
+#目標の編集
+@app.route('/set_goal',methods=['POST'])
+def update_goal():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('login')
+    goal = request.form.get('goal')
+    limit = request.form.get('limit')
+
+    if goal:
+        dbConnect.updateGoal(goal,limit,user_id)
+
+    user=dbConnect.getUserById(user_id)
+
+    return render_template('index.html',user=user)
 
 # app.run
 if __name__ == '__main__':

@@ -14,7 +14,7 @@ class DB:
                 cursorclass=pymysql.cursors.DictCursor
             )
             return conn
-        # エラー処理
+        # エラー表示
         except (ConnectionError):
             print("コネクションエラーです")
             conn.close()

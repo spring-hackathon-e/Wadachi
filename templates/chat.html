@@ -1,20 +1,16 @@
 {% extends 'base.html' %} {% block title %}
 <title>chat</title>
 {% endblock %}
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-/>
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
 {% block body %}
 <div class="main-container channelpage">
   <div class="main-content">
     <div class="channel-title">
       <h1>チャンネル一覧</h1>
       <button id="add-channel-btn" class="addbtn">チャンネル追加</button>
-    </div> 
+    </div>
     <!-- チャンネル一覧が読み込まれる-->
     <ul class="channel-box">
     </ul>
@@ -34,11 +30,5 @@
   const channels = JSON.parse('{{ channels|tojson }}');
   const user_id = JSON.parse('{{ user|tojson }}');
 </script>
-<script
-src="{{url_for('static',filename='js/pagenation.js')}}"
-type="text/javascript"
-></script>
-<script
-src="{{url_for('static',filename='js/modal.js')}}"
-type="text/javascript"
-></script>{% endblock %}
+<script src="{{url_for('static',filename='js/pagenation.js')}}" type="text/javascript"></script>
+<script src="{{url_for('static',filename='js/modal.js')}}" type="text/javascript"></script>{% endblock %}
