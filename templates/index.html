@@ -35,6 +35,10 @@
     <div class="mokuhyo">
       <h2>目標</h2>
       <p>{{ user.goal }}</p>
+      <div class="limit_wd">
+        <h2>目標達成の期限</h2>
+        <p class="limit_txt">limit</p>
+      </div>
       <span class="edit_ico span_btn" id="edit-goal-btn"
         ><i class="fa-solid fa-pen-to-square"></i
       ></span>
@@ -43,13 +47,13 @@
       <h2 class="center mt1r_wd">学習記録を投稿する</h2>
       <form class="study-logging" method="POST" action="/add_posts">
         <!-- TODO: 勉強した日の格納は設計になかったかも！あとで削除の可能性あり -->
-        <h3 class="mt1r_wd">勉強した日</h3>
+        <!-- <h3 class="mt1r_wd">勉強した日</h3>
         <input
           type="date"
           class="study_day short"
           placeholder="YYYY/MM/DD（半角英数）"
           name=""
-        />
+        /> -->
         <h3 class="mt1r_wd">勉強時間</h3>
         <input
           type="number"
@@ -74,11 +78,7 @@
         />
       </form>
     </div>
-    <div class="tologlink">
-      <a href="{{ url_for('log') }}">
-        <p class="btn_green center">みんなの学習記録を見る</p>
-      </a>
-    </div>
+
     <hr />
     <div class="taikai_box">
       <button id="withdrawal-btn">退会する</button>

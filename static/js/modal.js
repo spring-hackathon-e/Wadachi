@@ -1,7 +1,7 @@
-// TODO: personalLogに関してはそもそもいる認識かを確認
 // 各モーダル定義
 const addChannelModal = document.getElementById("add-channel-modal");
 const deleteChannelModal = document.getElementById("delete-channel-modal");
+const deleteLogModal = document.getElementById("delete-log-modal");
 const deleteStudyLogModal = document.getElementById("delete-log-modal");
 const editGoalModal = document.getElementById("edit-goal-modal");
 const withdrawalModal = document.getElementById("withdrawal-modal");
@@ -9,81 +9,84 @@ const updateChannelModal = document.getElementById("update-channel-modal");
 
 // モーダルを開くボタン定義
 const addChannelBtn = document.getElementById("add-channel-btn");
-const deleteChannelBtn = document.getElementsByClassName("delete-channel-btn");
-// TODO: 保留：学習記録削除ボタン(index内自分の記録をクリックした時に削除する？　どんな感じで削除??)
+const deleteChannelBtn = document.getElementById("delete-channel-btn");
+const deleteLogBtn = document.getElementById("delete-studylog-btn");
 const editGoalBtn = document.getElementById("edit-goal-btn");
-const updateChannelBtn = document.getElementById("update-channel-btn");
+const updateChannelBtn = document.getElementById("channel-update");
 const withdrawalBtn = document.getElementById("withdrawal-btn");
 
+
 // modalOpenに各モーダルを開くための引数を渡す
-// TODO: 保留：学習記録削除
-addChannelBtn.addEventListener("click", () => {
-  modalOpen("addChannel");
-});
+  if(editGoalBtn !== null){
+    editGoalBtn.addEventListener("click", () => {
+      modalOpen("editGoal");
+    });
+    withdrawalBtn.addEventListener("click", () => {
+      modalOpen("withdrawalConfirm");
+    });
+} else if (updateChannelBtn !== null) {
+  updateChannelBtn.addEventListener("click", () => {
+    modalOpen("updateChannel");
+  });
+} else if(addChannelBtn !== null){
+  addChannelBtn.addEventListener("click", () => {
+  modalOpen("addChannel");  
+  });
+} else if(deleteChannelBtn !== null){
 deleteChannelBtn.addEventListener("click", () => {
   modalOpen("deleteChannel");
-});
-editGoalBtn.addEventListener("click", () => {
-  modalOpen("editGoal");
-});
-updateChannelBtn.addEventListener("click", () => {
-  modalOpen("updateChannel");
-});
-withdrawalBtn.addEventListener("click", () => {
-  modalOpen("withdrawalConfirm");
-});
+  });
+}else if(deleteLogBtn !== null){
+  deleteLogBtn.addEventListener("click", () => {
+    modalOpen("deletelog");
+  });
+}
 
 // modalOpen(引数)でモーダルを開く
-// TODO: 保留：学習記録削除
 function modalOpen(mode) {
-  if (mode === "addChannel") {
-    addChannelModal.style.display = "block";
-  } else if (mode === "deleteChannel") {
+  //console.log(mode);
+  if (mode === "addChannel" || addChannelModal !== null) {
+    if(mode === "addChannel"){
+      addChannelModal.style.display = "block";
+    }else if(
+      mode === "deleteChannel"){
     deleteChannelModal.style.display = "block";
-  } else if (mode === "editGoal") {
-    editGoalModal.style.display = "block";
-  } else if (mode === "updateChannel") {
+  }
+  } else if (editGoalModal !== null) {
+    if(mode === "editGoal"){
+      editGoalModal.style.display = "block";
+    }else if(mode === "withdrawalConfirm"){
+      withdrawalModal.style.display = "block";
+    }
+  } else if (mode === "updateChannel" || updateChannelModal !== null) {
     updateChannelModal.style.display = "block";
-  } else if (mode === "withdrawalConfirm") {
-    withdrawalModal.style.display = "block";
+  } else if (mode === "deletelog" || deleteLogModal !== null) {
+    deleteLogModal.style.display = "block";
   }
 }
 
-// モーダル閉じるボタン
-// TODO: 保留：学習記録削除関連
-const addChannelCloseBtn = document.getElementsByClassName(
-  "add-channel-close-btn"
-);
-const deleteChannelCloseBtn = document.getElementsByClassName(
-  "delete-channel-close-btn"
-);
-const editGoalCloseBtn = document.getElementsByClassName("edit-goal-close-btn");
-const updateChannelCloseBtn = document.getElementsByClassName(
-  "update-channel-close-btn"
-);
-const withdrawalCloseBtn = document.getElementsByClassName(
-  "withdrawal-close-btn"
-);
+//close-btnクラスを持つボタンをクリックで消す
+let CloseBtn = document.getElementsByClassName("close-btn");
+//念のためletで
+let ArrayCloseBtn = Array.from(CloseBtn);
+console.log(CloseBtn);
 
-// modalCloseに各モーダルを閉じる為の引数を渡す
-addChannelCloseBtn.addEventListener("click", () => {
-  modalClose("addChannel");
-});
-deleteChannelCloseBtn.addEventListener("click", () => {
-  modalClose("deleteChannel");
-});
-editGoalCloseBtn.addEventListener("click", () => {
-  modalClose("editGoal");
-});
-updateChannelCloseBtn.addEventListener("click", () => {
-  modalClose("updateChannel");
-});
-withdrawalCloseBtn.addEventListener("click", () => {
-  modalClose("withdrawalConfirm");
+ArrayCloseBtn.forEach(function (target) {
+  target.addEventListener("click", () => {
+    if (editGoalModal !== null) {
+      modalClose("editGoal");
+      modalClose("withdrawalConfirm");
+    } else if (addChannelModal !== null) {
+      modalClose("addChannel");
+      modalClose("deleteChannel");
+    } else if (updateChannelModal !== null) {
+      modalClose("updateChannel");
+    } else if (deleteLogModal !== null) {
+      modalClose("deletelog");
+    }
+  });
 });
 
-// TODO: 保留：学習記録削除の処理も後でここに追加
-// modalCloseでモーダルを閉じる
 function modalClose(mode) {
   if (mode === "addChannel") {
     addChannelModal.style.display = "none";
@@ -95,6 +98,8 @@ function modalClose(mode) {
     updateChannelModal.style.display = "none";
   } else if (mode === "withdrawalConfirm") {
     withdrawalModal.style.display = "none";
+  } else if (mode === "deletelog") {
+    deleteLogModal.style.display = "none";
   }
 }
 
@@ -113,5 +118,7 @@ function outsideClose(e) {
     withdrawalModal.style.display = "none";
   } else if (e.target == updateChannelModal) {
     updateChannelModal.style.display = "none";
+  }else if (e.target == deleteLogModal) {
+    deleteLogModal.style.display = "none";
   }
 }
