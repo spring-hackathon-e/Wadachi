@@ -266,7 +266,7 @@ def user_delete(user_id):
 
 
 # メッセージ追加
-app.route('/message', methods=['POST'])
+@app.route('/message', methods=['POST'])
 def add_message():
     user_id = session.get('user_id')
     if user_id is None:
@@ -286,9 +286,7 @@ def add_message():
 
 
 # メッセージ削除
-app.route('/delete_message', methods=['POST'])
-
-
+@app.route('/delete_message', methods=['POST'])
 def delete_message():
     user_id = session.get('user_id')
     if user_id is None:
@@ -306,7 +304,7 @@ def delete_message():
 
 
 # リアクション追加
-app.route('reaction_message', methods=['POST'])
+@app.route('reaction_message', methods=['POST'])
 def reaction_message():
     user_id = session.get('user_id')
     if user_id is None:
@@ -356,7 +354,7 @@ def detail(ch_id):
 
     return render_template('detail.html', messages=messages, channel=channel, user_id=user_id)
 
-#勉強記録一蘭へ遷移
+#勉強記録一覧へ遷移
 @app.route('/log')
 def log():
     user_id = session.get('user_id')
