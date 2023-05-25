@@ -69,9 +69,12 @@ word-break: break-all;
     .log_right dl{
         margin-bottom: 0.5em;
     } 
-    .log_left{display: flex; align-items: center;}
+    .log_left{display: flex; align-items: center; width: 100%;}
     .log_left svg{width: 60px;}
     .log_main .reaction_area{
         top:15px;
+    }
+    .log_left span{
+        font-size: inherit;
     }
   }

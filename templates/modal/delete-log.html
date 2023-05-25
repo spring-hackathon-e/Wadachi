@@ -8,7 +8,12 @@
     >
       <span><i class="fa-sharp fa-solid fa-circle-xmark"></i></span>
     </button>
+    <form>
     <h3 class="center">選択した学習記録を削除しますか？</h3>
-    <a id="delete-log-link"><input class="btn_green btn_green_short close-btn" type="submit" value="削除する" /></a>
+    <a id="delete-post-link">
+    <button class="btn_green btn_green_short close-btn" type="submit" action="/delete_post" name="post_id" id="posdel" method="post">削除する</button>
+    </a>
+    <!-- <a id="delete-log-link"><input class="btn_green btn_green_short close-btn" type="submit" value="削除する" /></a> -->
+    </form>
   </div>
 </div>

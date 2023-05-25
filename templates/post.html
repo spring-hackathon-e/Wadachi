@@ -11,14 +11,15 @@
             {% for post in posts %}
             <li class="personalog">
                 <!-- もしidとログ作成者が同じなら削除可能にする -->
-                {% if user_id == user_id %}
-                <button type="button" aria-label="Trash" data-balloon-pos="left" class="trash reaction_area"
-                    id="delete-studylog-btn"><span><i class="fa-solid fa-trash-can"></i></span></button>
+                {% if user.user_id == post.user_id %}
+                <form action="/delete_post" method="POST">
+                    <button aria-label="Trash" class="trash reaction_area"
+                type="submit" value="{{ post.post_id }}" name="post_id" id="delete-studylog-btn"><span><i class="fa-solid fa-trash-can"></i></span></button></form>
                 {% else %}
                 <!-- もしidとログ作成者が違うならリアクション可能にする -->
                 <!-- TODO: リアクションボタンに関する実装、未確定 -->
                 <!-- TODO: このページリアクションボタン不要になる可能性あり 書式修正 せず。-->
-                <!-- <div class="reaction_area">
+                <div class="reaction_area">
                     <button type="submit" name="reaction" class="reaction_btn">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="24"
                             height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -29,7 +30,7 @@
                         </svg>
                     </button>
                     <p>{{ posts.reaction_post }}</p>
-                </div> -->
+                </div>
                 {% endif %}
                 <figure class="log_left"><svg xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" width="60" height="60" viewBox="0 0 24 24">
@@ -41,25 +42,25 @@
                         </g>
                     </svg>
                     <figcaption>
-                        <p class="user-name"><span>{{ user.user_name }}</span><span>さん</span></p>
+                        <p class="user-name"><span>{{ post.user_name }}</span><span>さん</span></p>
                     </figcaption>
                 </figure>
                 <div class="log_right">
                     <dl>
                         <dt>目標</dt>
-                        <dd>{{ user.goal }}</dd>
+                        <dd>{{ post.goal }}</dd>
                     </dl>
                     <!-- <h3>
                         <dd>{ posts.titile }}</dd>
                     </h3> -->
                     <dl>
                         <dt>勉強内容</dt>
-                        <dd>{{ posts.post }}
+                        <dd class="postpost">{{ post.post }}
                         </dd>
                     </dl>
                     <dl>
                         <dt>勉強時間</dt>
-                        <dd>{{ posts.study_time }}
+                        <dd>{{ post.study_time }}
                         時間</dd>
                     </dl>
                 </div>
@@ -73,10 +74,9 @@
         {% endif %}
     </div>
     <!-- 　TODO: 一覧で詳細表示にすればページ繰りボタン不要なので、書式破壊のうえ一旦非表示 -->
-    <!-- % include 'modal/personallog.html' %} -->
-    {% include 'modal/delete-log.html' %}
+    <!-- {% include 'modal/delete-log.html' %} -->
 </div>
-<!-- <script>
+<script>
     // ボタン装飾確認用　後で消す
     const btns = document.querySelectorAll('.reaction_btn svg');
 
@@ -87,17 +87,25 @@
         });
     });
 
-</script> -->
+</script>
 {% endblock %}
 {% block script %}
 <script type="text/javascript">
-    const posts = JSON.parse('{{ posts|tojson }}');
-    const user = JSON.parse('{{ user|tojson }}');
+     const posts = JSON.parse('{{ posts|tojson }}');
+     const user = JSON.parse('{{ user|tojson }}');
+
+//   let input = document.querySelector(".postpost");
+//   let textValue = input.innerHTML;
+
+//     const lines = textValue.split("\\n");
+//     const updatedLines = lines.map((line) => {
+//       if (line.startsWith("・")) {
+//         return line;
+//       } else {
+//         return "・" + line;
+//       }
+//     });
+//     textValue = updatedLines.join("\\n");
 </script>
-<script>
-    console.log(posts);
-    console.log(typeof posts);
-    console.log(user);
-</script>
-<script src="{{url_for('static',filename='js/modal.js')}}" type="text/javascript"></script>
+<!-- <script src="{{url_for('static',filename='js/modal.js')}}" type="text/javascript"></script> -->
 {% endblock %}
