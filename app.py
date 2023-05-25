@@ -70,7 +70,7 @@ def userlogin():  # user_idとemailを格納先と照合
     user = dbConnect.getUser(email)
 
     if user == None:
-        flash('ユーザーIDが間違っています。')
+        flash('emailが間違っています。')
     else:
         hashpassword = hashlib.sha256(password.encode('utf-8')).hexdigest()
         if hashpassword != user["password"]:
@@ -86,85 +86,6 @@ def userlogin():  # user_idとemailを格納先と照合
 def logout():
     session.clear()
     return redirect('/login')
-
-# パスワードリマインド機能
-@app.route('/remind')
-def remind():
-    return render_template('registration/remind.html')
-
-# トークン生成
-def create_token(user_id, secret_key, salt):
-    serializer = URLSafeTimedSerializer(secret_key)
-    return serializer.dumps(user_id, salt=salt)
-
-# トークンからuser_id と time を取得
-def load_token(token, secret_key, salt):
-    serializer = URLSafeTimedSerializer(secret_key)
-    return serializer.loads(token, salt=salt, max_age=6000)
-
-# メール送信準備（GmailAPI）
-def message_base64_encode(message):
-    return base64.urlsafe_b64encode(message.as_bytes()).decode()
-
-def send_mail(email,url):
-    scopes = ['https://mail.google.com/']
-    creds = Credentials.from_authorized_user_file('token.json', scopes)
-    service = build('gmail', 'v1', credentials=creds)
-
-    message = MIMEText(url)
-    message['To'] = email
-    message['From'] = 'hiro6grassroots@gmail.com'
-    message['Subject'] = 'パスワードリマインド'
-    raw = {'raw': message_base64_encode(message)}
-
-    service.users().messages().send(
-        userId='me',
-        body=raw
-    ).execute()
-    
-    
-#email取得、メール送信
-@app.route('/remind', methods=['GET','POST'])
-def user_remind():
-    if request.method == 'POST':
-        app.config['SERVER_NAME']= '127.0.0.1:5000'
-        email = request.form.get('email')
-        token = create_token(email, app.secret_key, SALT)
-        with app.app_context():
-            url = url_for('reset', token=token, _external=True)
-        print(url)
-        send_mail(email, url)
-        return redirect('/login')
-    else:
-        return "Method Not Allowed", 405
-    
-# パスワードリセット機能
-@app.route('/reset', methods=['GET', 'POST'])
-def reset_password():
-    print("リセットパスワード")
-    if request.method == 'POST':
-            token = flask.request.args.get('token')
-            email = load_token(token, app.secret_key, SALT)
-            password = request.form.get('password1')
-            password_chk = request.form.get('password2')
-            if password == '' or password_chk == '':
-                flash('空のフォームがあります')
-            elif password != password_chk:
-                flash('パスワードが一致していません。')
-            else:
-                password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-                dbConnect.reset_password(email, password)
-            return redirect('/login')
-    else:
-        return redirect('/remind')
-
-# ユーザー削除　確認要
-@app.route('/del', methods=['DELETE'])
-def user_delete(user_id):
-    reg_user_id = dbConnect.getUserId(user_id)
-    dbConnect.session.delete(reg_user_id)
-    dbConnect.session.commit()
-    return redirect('/signup')
 
 
 # パスワードリマインド機能
@@ -297,14 +218,14 @@ def delete_message():
     if message_id:
         dbConnect.deleteMessage(message_id)
 
-    channel = dbConnect.getChannelById(ch_id)
+    channels = dbConnect.getChannelById(ch_id)
     messages = dbConnect.getMessageAll(ch_id)
 
-    return render_template('detail.html', messages=messages, channel=channel, user_id=user_id)
+    return render_template('detail.html', messages=messages, channel=channels, user_id=user_id)
 
 
 # リアクション追加
-@app.route('reaction_message', methods=['POST'])
+@app.route('/reaction_message', methods=['POST'])
 def reaction_message():
     user_id = session.get('user_id')
     if user_id is None:
