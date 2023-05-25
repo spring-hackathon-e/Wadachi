@@ -2,6 +2,8 @@ from flask import Flask, request, redirect, render_template, session, flash, url
 from models import dbConnect
 from util.user import User
 from datetime import timedelta
+from itsdangerous.url_safe import URLSafeTimedSerializer  # リマインド機能
+from datetime import datetime
 import hashlib
 import uuid
 import re
@@ -286,9 +288,9 @@ def log():
         channels = dbConnect.getChannelAll()
         posts = dbConnect.getPostAll()
         return render_template('log.html', channels=channels, users=users,posts=posts)
-    
 
-# チャンネル作成
+
+#チャンネル作成
 @app.route('/add-channel', methods=['POST'])
 def add_channel():
     user_id = session.get('user_id')
@@ -307,7 +309,7 @@ def add_channel():
         return render_template('error/error.html', error_message=error)
 
 
-# チャンネル編集
+#チャンネル編集
 @app.route('/update_channel', methods=['POST'])
 def update_channel():
     user_id = session.get('user_id')
@@ -324,7 +326,7 @@ def update_channel():
     return render_template('detail.html', message=messages, channel=channel, user_id=user_id)
 
 
-# チャンネル削除
+#チャンネル削除
 @app.route('/delete/<ch_id>')
 def delete_channel(ch_id):
     user_id = session.get('user_id')
@@ -375,9 +377,6 @@ def mig_post():
 #勉強記録追加
 @app.route('/add_posts',methods=['POST'])
 def add_post():
-    user_id = session.get('user_id')
-    if user_id is None:
-        return redirect('/login')
 
     post = request.form.get('post')
     study_time = request.form.get('study_time')
@@ -437,3 +436,32 @@ def show_error500(error):
 # app.run
 if __name__ == '__main__':
     app.run(debug=True)
+
+#目標の設定
+@app.route('/set_goal',methods=['POST'])
+def set_goal():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+
+    goal = request.form.get('goal')
+    return render_template('index.html', goal=goal)
+
+#目標の編集
+@app.route('/update_goal',methods=['POST'])
+def update_goal():
+    goal = session.get('user_id')
+    if goal is None:
+        return redirect('')
+
+    goal = dbConnect.updateGoal(goal)
+
+#目標日数カウント
+@app.route('/count_goal',methods=['POST'])
+def count_goal():
+    end_day = datetime(2023, 12, 31)
+    today = datetime.now()
+    delta = end_day - today
+    days = delta.days + 1
+
+    print(days)

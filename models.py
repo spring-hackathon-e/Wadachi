@@ -62,7 +62,7 @@ class dbConnect:
             return None
         finally:
             cursor.close()
-            
+
     def getUserById(user_id):
         try:
             connect = DB.getConnection()
@@ -91,7 +91,7 @@ class dbConnect:
         finally:
             cursor.close()
 
-                        
+
     # メッセージを全て取得
     def getMessageAll(ch_id):
         try:
@@ -102,7 +102,7 @@ class dbConnect:
             messages = cursor.fetchall()
             return messages
         except Exception as e:
-            print(e + 'が発生しています')
+            print(str(e) + 'が発生しています')
             return None
         finally:
             cursor.close()
@@ -116,7 +116,7 @@ class dbConnect:
             cursor.execute(sql, (user_id, ch_id, message))
             connect.commit()
         except Exception as e:
-            print(e + "が発生しています")
+            print(str(e) + "が発生しています")
             return None
         finally:
             cursor.close()
@@ -130,7 +130,7 @@ class dbConnect:
             cursor.execute(sql, (message_id))
             connect.commit()
         except Exception as e:
-            print(e + "が発生しています")
+            print(str(e) + "が発生しています")
             return None
         finally:
             cursor.close()
@@ -145,7 +145,7 @@ class dbConnect:
             sum_reaction = cursor.fetchone()
             return sum_reaction
         except Exception as e:
-            print(e + 'が発生しています')
+            print(str(e) + 'が発生しています')
             return None
         finally:
             cursor.close()
@@ -161,7 +161,7 @@ class dbConnect:
             cursor.execute(sql, (reactions, message_id))
             connect.commit()
         except Exception as e:
-            print(e + "が発生しています")
+            print(str(e) + "が発生しています")
             return None
         finally:
             cursor.close()
@@ -176,12 +176,12 @@ class dbConnect:
             channels = cursor.fetchall()
             return channels
         except Exception as e:
-            print(e + 'が発生しています')
+            print(str(e) + 'が発生しています')
             return None
         finally:
             cursor.close()
 
-    # チャンネル作成機能
+    # チャンネル作成(ch_id)
     def getChannelById(ch_id):
         try:
             connect = DB.getConnection()
@@ -191,11 +191,12 @@ class dbConnect:
             channel = cursor.fetchone()
             return channel
         except Exception as e:
-            print(e + 'が発生しています')
+            print(str(e) + 'が発生しています')
             return None
         finally:
             cursor.close()
 
+    # チャンネル作成(ch_name)
     def getChannelByName(ch_name):
         try:
             connect = DB.getConnection()
@@ -205,11 +206,12 @@ class dbConnect:
             channel = cursor.fetchone()
             return channel
         except Exception as e:
-            print(e + 'が発生しています')
+            print(str(e) + 'が発生しています')
             return None
         finally:
             cursor.close()
 
+    # チャンネル作成(user_id, Ch_Name, Channel_summary, main_category, sub_category)
     def addChannel(user_id, newCh_Name, newChannel_summary,main,sub):
         try:
             connect = DB.getConnection()
@@ -218,17 +220,17 @@ class dbConnect:
             cursor.execute(sql, (user_id, newCh_Name, newChannel_summary,main,sub))
             connect.commit()
         except Exception as e:
-            print(e + 'が発生しています')
+            print(str(e) + 'が発生しています')
             return None
         finally:
             cursor.close()
 
     # チャンネル編集機能
-    def updateChannel(user_id, newCh_Name, newChannel_summary, ch_id):
+    def updateChannel(user_id, newCh_Name, newChannel_summary, newMain_category, newSub_category, ch_id):
         connect = DB.getConnection()
         cursor = connect.cursor()
-        sql = "UPDATE channels SET user_id=%s, ch_name=%s, summary=%s WHERE ch_id=%s;"
-        cursor.execute(sql, (user_id, newCh_Name, newChannel_summary, ch_id))
+        sql = "UPDATE channels SET user_id=%s, ch_name=%s, summary=%s category=%s WHERE ch_id=%s;"
+        cursor.execute(sql, (user_id, newCh_Name, newChannel_summary, newMain_category, newSub_category, ch_id))
         connect.commit()
         cursor.close()
 
@@ -241,7 +243,7 @@ class dbConnect:
             cursor.execute(sql, (ch_id))
             connect.commit()
         except Exception as e:
-            print(e + 'が発生しています')
+            print(str(e) + 'が発生しています')
             return None
         finally:
             cursor.close()
@@ -319,3 +321,42 @@ class dbConnect:
             return None
         finally:
             cursor.close()
+
+    # 目標設定の作成
+    def setGoal():
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "SELECT goal FROM users;"
+            cursor.execute(sql)
+            users = cursor.fetchone()
+            return users
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            return None
+        finally:
+            cursor.close()
+
+
+    # 目標設定の追加
+    def addGoal(goal):
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "INSERT INTO posts(goal) VALUES (%s)"
+            cursor.execute(sql, (goal))
+            connect.commit()
+        except Exception as e:
+            print(str(e) + "が発生しています")
+            return None
+        finally:
+            cursor.close()
+
+    # 目標設定の編集
+    def updateGoal(goal):
+        connect = DB.getConnection()
+        cursor = connect.cursor()
+        sql = "UPDATE users SET goal=%s;"
+        cursor.execute(sql, (goal))
+        connect.commit()
+        cursor.close()

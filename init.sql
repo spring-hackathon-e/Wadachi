@@ -6,6 +6,7 @@ CREATE DATABASE Wadachi;
 USE Wadachi
 GRANT ALL PRIVILEGES ON Wadachi.* TO 'gruper'@'localhost';
 
+-- usersテーブルの作成
 CREATE TABLE users (
     user_id VARCHAR(255) PRIMARY KEY NOT NULL,
     user_name VARCHAR(255) UNIQUE NOT NULL,
@@ -15,6 +16,7 @@ CREATE TABLE users (
     start_date DATE NOT NULL
 );
 
+-- channelsテーブルの作成
 CREATE TABLE channels (
     ch_id SERIAL PRIMARY KEY,
     user_id VARCHAR(255) REFERENCES users(user_id),
@@ -25,6 +27,7 @@ CREATE TABLE channels (
     created_date TIMESTAMP NOT NULL default current_timestamp
 );
 
+-- messagesテーブルの作成
 CREATE TABLE messages (
     message_id SERIAL PRIMARY KEY,
     user_id VARCHAR(255) REFERENCES users(user_id),
@@ -34,6 +37,7 @@ CREATE TABLE messages (
     reaction INT
 );
 
+-- postsテーブルの作成
 CREATE TABLE posts (
     post_id SERIAL PRIMARY KEY,
     user_id VARCHAR(255) REFERENCES users(user_id),
