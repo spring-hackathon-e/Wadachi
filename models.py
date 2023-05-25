@@ -53,7 +53,7 @@ class dbConnect:
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "SELECT user_id FROM users WHERE user_id=%s"
+            sql = "SELECT user_id FROM users WHERE user_id=%s;"
             cursor.execute(sql, (user_id,))
             reg_user_id = cursor.fetchone()
             return reg_user_id
@@ -62,6 +62,35 @@ class dbConnect:
             return None
         finally:
             cursor.close()
+
+    def getUserById(user_id):
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "SELECT * FROM users WHERE user_id=%s;"
+            cursor.execute(sql, (user_id,))
+            user = cursor.fetchone()
+            return user
+        except Exception as e:
+            print(str(e) + 'が発生しています。')
+            return None
+        finally:
+            cursor.close()
+
+    #パスワードリセット
+    def reset_password(email, password):
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "UPDATE users SET password = %s WHERE email = %s;"
+            cursor.execute(sql, (password, email))
+            connect.commit()
+        except Exception as e:
+            print(str(e) + 'が発生しています。')
+            return None
+        finally:
+            cursor.close()
+
 
     # メッセージを全て取得
     def getMessageAll(ch_id):
@@ -83,7 +112,7 @@ class dbConnect:
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "INSERT INTO messages(user_id,ch_id,message) VALUES (%s,%s,%s)"
+            sql = "INSERT INTO messages(user_id,ch_id,message) VALUES (%s,%s,%s);"
             cursor.execute(sql, (user_id, ch_id, message))
             connect.commit()
         except Exception as e:
@@ -111,7 +140,7 @@ class dbConnect:
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "SELECT reaction FROM messages WHERE message_id=%s"
+            sql = "SELECT reaction FROM messages WHERE message_id=%s;"
             cursor.excecute(sql, (message_id))
             sum_reaction = cursor.fetchone()
             return sum_reaction
@@ -128,7 +157,7 @@ class dbConnect:
         try:
             connect = DB.getConnection()
             cursor = connect.cursor()
-            sql = "UPDATE messages SET reaction=%s WHERE message_id=%s"
+            sql = "UPDATE messages SET reaction=%s WHERE message_id=%s;"
             cursor.execute(sql, (reactions, message_id))
             connect.commit()
         except Exception as e:
