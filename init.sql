@@ -13,7 +13,7 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     goal TEXT,
-    limit DATE,
+    deadline DATE,
     start_date DATE NOT NULL
 );
 
@@ -45,6 +45,5 @@ CREATE TABLE posts (
     title VARCHAR(255) NOT NULL,
     post TEXT,
     created_date TIMESTAMP NOT NULL default current_timestamp,
-    study_time INT,
-    reaction INT
+    study_time INT
 );
