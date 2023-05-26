@@ -10,6 +10,10 @@
 .chat-main{
   padding-left:200px;
 }
+#chat-header{
+  display: flex;
+  justify-content: space-between;
+}
 
 #chat-header {
   background-color: var(--pailgreen);

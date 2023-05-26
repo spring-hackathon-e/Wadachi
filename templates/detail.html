@@ -7,66 +7,68 @@
   <div class="chat-box">
     <div id="chat-header">
       <!-- もしuidとチャンネル作成者が同じならタイトル、説明を編集可能にする -->
+      <div>
       <p id="chatroom-name">{{ channels.ch_name }}</p>
       {% if channels.summary is not none %}
       <p id="chatroom-description">{{ channels.summary }}</p>
       {% endif %}
-      {% if udser_id == channels.user_id %}
+      </div>
+      {% if user_id == channels.user_id %}
       <button id='channel-update' class="basic-btn smaller-btn">編集</button>
-      {% include 'modal/update-channel.html' %}
       {% endif %}
     </div>
     <div id="message-area">
-      {% if messages|length > 0 %}
-      {% for message in messages %}
-      {% if messages.user_id == user_id %}
-      <div class="my-messages">
-        <p class="box box-right">{{ messages.message }}</p>
-        <form action="/deleteMessage" method="POST">
-          <input type="hidden" value="{{ channel.ch_id }}" name="ch_id" />
-          <button class="delete-message-btn" name="message_id" value="{{ message.message_id }}">
-            <span name="trash-bin-outline"></span><i class="fa-solid fa-trash-can"></i></span>
-          </button>
-        </form>
-      </div>
+      {% if messages != None %}
+        {% for message in messages %}
+          {% if message.user_id == user_id %}
+            <div class="my-messages">
+              <p class="box box-right">{{ message.message }}</p>
+              <form action="/delete_message" method="POST">
+                <input type="hidden" value="{{ channels.ch_id }}" name="channel_id" />
+                <button class="delete-message-btn" name="message_id" value="{{ message.message_id }}">
+                  <span name="trash-bin-outline"></span><i class="fa-solid fa-trash-can"></i></span>
+                </button>
+              </form>
+            </div>
+          {% else %}
+            <div class="messages_box">
+              <figure class="chat_user"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                  width="50" height="50" viewBox="0 0 24 24">
+                  <g fill="none" fill-rule="evenodd">
+                    <path d="M0 0h24v24H0z"></path>
+                    <path fill="#52B7AE"
+                      d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2ZM8.5 8.5a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0Zm-3.222 7.84C6.927 14.992 9.335 14 12 14s5.073.992 6.722 2.34A7.993 7.993 0 0 1 12 20a7.993 7.993 0 0 1-6.722-3.66Z">
+                    </path>
+                  </g>
+                </svg>
+              </figure>
+              <!-- 相手側メッセージ -->
+              <div class="messages">
+                <p class="user-name">{{ message.user_name }}</p>
+                <p class="box box-left">{{ message.message }}</p>
+              </div>
+              <!-- TODO: リアクションボタンに関する実装、未確定。後で変更が入ります。 -->
+              <div class="reaction_area">
+                <form action="/addReaction" method="post">
+                  <button type="submit" name="reactions" class="reaction_btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="24" height="24"
+                      viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" class="reaction_svg"></path>
+                      <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path>
+                    </svg>
+                  </button>
+                </form>
+              <!-- TODO: リアクションボタンに関する実装、未確定。後で変更が入ります。 -->
+              <p>{{ message.reaction }}</p>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
       {% else %}
-      <div class="messages_box">
-        <figure class="chat_user"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-            width="50" height="50" viewBox="0 0 24 24">
-            <g fill="none" fill-rule="evenodd">
-              <path d="M0 0h24v24H0z"></path>
-              <path fill="#52B7AE"
-                d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2ZM8.5 8.5a3.5 3.5 0 1 1 7 0a3.5 3.5 0 0 1-7 0Zm-3.222 7.84C6.927 14.992 9.335 14 12 14s5.073.992 6.722 2.34A7.993 7.993 0 0 1 12 20a7.993 7.993 0 0 1-6.722-3.66Z">
-              </path>
-            </g>
-          </svg>
-        </figure>
-        <!-- 相手側メッセージ -->
-        <div class="messages">
-          <p class="user-name">{{ messages.user_name }}</p>
-          <p class="box box-left">{{ messages.message }}</p>
+        <div>
+          <p class="center">まだメッセージがありません</p>
         </div>
-        <!-- TODO: リアクションボタンに関する実装、未確定。後で変更が入ります。 -->
-        <div class="reaction_area">
-          <form action="/addReaction" method="post">
-            <button type="submit" name="reactions" class="reaction_btn">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="24" height="24"
-                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" class="reaction_svg"></path>
-                <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path>
-              </svg>
-            </button>
-          </form>
-          <p>{{ messages.reaction }}</p>
-        </div>
-      </div>
-      {% endif %}
-      {% endfor %}
-      {% else %}
-      <div>
-        <p class="center">まだメッセージがありません</p>
-      </div>
       {% endif %}
     </div>
     <div class="typing-box-wrapper">
@@ -94,15 +96,36 @@
   window.onresize = function () {
     resizeContents();
   };
-
-  // ボタン押下挙動CSSのデモ用　のちに削除します
   var rBtn = document.querySelector('.reaction_btn svg');
   rBtn.addEventListener('click', function () {
     this.setAttribute("fill", "#52B8AE");
     console.log(this);
   });
+  // 編集ボタン押下　あとで編集
+//   const updateButton = document.getElementById("channel-update");
+// const updateChannelModal = document.getElementById("update-channel-modal");
+// const updatePageButtonClose = document.getElementById("update-page-close-btn");
 
+// const updateChannel = () => {
+//   if (uid !== channel.uid) {
+//     return;
+//   } else {
+//     modalOpen("update");
+//   }
+// };
+// updateButton.addEventListener("click", updateChannel);
+
+// updatePageButtonClose.addEventListener("click", () => {
+//   modalClose("update");
+// });
 
 </script>
 {% endblock %}
-
+{% block script %}
+<script type="text/javascript">
+  const channel = JSON.parse('{{ channels|tojson }}');
+  const user_id = JSON.parse('{{ user_id|tojson }}');
+  const message = JSON.parse('{{ messages|tojson }}');
+</script>
+<script src="{{ url_for('static',filename='js/modal.js')}}" type="text/javascript"></script>
+{% endblock %}

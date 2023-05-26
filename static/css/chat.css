@@ -66,15 +66,16 @@ justify-content: flex-start;
   .pagination-container {
     width: 100%;
     padding-bottom: 0.5rem;
+    color: var(--accentgreen);
   }
   
   .pagination {
     padding-left: 0;
   }
-  
+
   .pagination li.colored {
-    background-color: var(--navy);
-    color: var(--snow);
+    background-color: var(--accentgreen);
+    color: var(--white);
   }
   
   #prev,
@@ -95,7 +96,7 @@ justify-content: flex-start;
   }
   
 /* チャンネル表示スタイル */
-.toukou{
+.channel-box li{
   border-radius: 0.4vw;
   padding: 0.5rem;
   position: relative;
@@ -134,9 +135,7 @@ justify-content: flex-start;
   border: 1px solid var(--grymiddle);
   border-radius: 3px;
 }
-.channel_dev p{
-  margin-top: 1rem;
-}
+
 .channel_del{
   display: flex;
   justify-content: center;
@@ -168,7 +167,7 @@ border: 2px solid var(--white);
   @media screen and (max-width: 639px) {
     .main-content {
       width: 90vw;
-      margin: auto;;
+      margin: 0 auto;
     }
     .channel-title {
       flex-direction: column;
