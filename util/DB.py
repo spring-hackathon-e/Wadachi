@@ -1,6 +1,5 @@
 import pymysql
 
-
 class DB:
     def getConnection():
         # 例外処理
@@ -13,7 +12,8 @@ class DB:
                 charset="utf8",
                 cursorclass=pymysql.cursors.DictCursor
             )
-        # エラー処理
+            return conn
+        # エラー表示
         except (ConnectionError):
             print("コネクションエラーです")
             conn.close()

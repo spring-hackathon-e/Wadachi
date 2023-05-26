@@ -27,6 +27,11 @@ padding: 1rem 1rem 2rem;
   margin-top: 0.5rem;
   position: relative;
 }
+.limit_wd{
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+}
 .study_edit textarea{
   border: 1px solid var(--grymiddle);
     border-radius: 0.4vw;

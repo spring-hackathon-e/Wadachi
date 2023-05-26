@@ -1,15 +1,23 @@
-from flask import Flask, request, redirect, render_template, session, flash
+from flask import Flask, request, redirect, render_template, session, flash, url_for
 from models import dbConnect
 from util.user import User
 from datetime import timedelta
+import datetime
 from itsdangerous.url_safe import URLSafeTimedSerializer  # リマインド機能
 import hashlib
 import uuid
 import re
+from itsdangerous.url_safe import URLSafeTimedSerializer
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+from email.mime.text import MIMEText
+import base64
+import flask
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().hex
 app.permanent_session_lifetime = timedelta(days=30)
+SALT = 'shio'
 
 
 # サインアップ
@@ -34,7 +42,7 @@ def usersignup():   # 登録情報の取得
     elif re.match(pattern, email) is None:
         flash('正しいメールアドレスを記入してください。')
     else:
-        user_id = uuid.uuid4
+        user_id = uuid.uuid4()
         password = hashlib.sha256(password.encode('utf-8')).hexdigest()
         user = User(user_id, user_name, email, password)
         DbUser = dbConnect.getUser(email)
@@ -45,7 +53,8 @@ def usersignup():   # 登録情報の取得
             dbConnect.createUser(user)
             UserId = str(user_id)
             session['user_id'] = UserId
-            return redirect('/')
+            user = dbConnect.getUser(email)
+            return render_template('index.html', user=user)
     return redirect('/signup')   # 入力情報のクリア
 
 
@@ -63,14 +72,14 @@ def userlogin():  # user_idとemailを格納先と照合
     user = dbConnect.getUser(email)
 
     if user == None:
-        flash('ユーザーIDが間違っています。')
+        flash('emailが間違っています。')
     else:
         hashpassword = hashlib.sha256(password.encode('utf-8')).hexdigest()
         if hashpassword != user["password"]:
             flash('パスワードが間違っています。')
         else:
             session['user_id'] = user["user_id"]
-            return redirect('/')
+            return render_template('index.html', user=user)
     return redirect('/login')
 
 
@@ -81,32 +90,129 @@ def logout():
     return redirect('/login')
 
 
+# パスワードリマインド機能
+@app.route('/remind')
+def remind(): # remind.htmlでの動作
+    return render_template('registration/remind.html')
+
+
+# トークン生成
+def create_token(email, secret_key, salt):
+    serializer = URLSafeTimedSerializer(secret_key)
+    return serializer.dumps(email, salt=salt)
+
+
+# トークンからuser_id と time を取得
+def load_token(token, secret_key, salt):
+    serializer = URLSafeTimedSerializer(secret_key)
+    return serializer.loads(token, salt=salt, max_age=6000)
+
+# メール送信準備（GmailAPI）
+def message_base64_encode(message):
+    return base64.urlsafe_b64encode(message.as_bytes()).decode()
+
+def send_mail(email,url):
+    scopes = ['https://mail.google.com/']
+    creds = Credentials.from_authorized_user_file('token.json', scopes)
+    service = build('gmail', 'v1', credentials=creds)
+
+    message = MIMEText(url)
+    message['To'] = email
+    message['From'] = 'hiro6grassroots@gmail.com'
+    message['Subject'] = 'パスワードリマインド'
+    raw = {'raw': message_base64_encode(message)}
+
+    service.users().messages().send(
+        userId='me',
+        body=raw
+    ).execute()
+
+
+#email取得、メール送信
+@app.route('/remind', methods=['GET','POST'])
+def user_remind():
+    if request.method == 'POST':
+        app.config['SERVER_NAME']= 'wadachi.xyz'
+        email = request.form.get('email')
+        token = create_token(email, app.secret_key, SALT)
+        '''
+        DbUser = dbConnect.getUser(email)
+        if email == '':
+            flash('メールアドレスを入力してください。')
+        elif DbUser == None:
+            flash('メールアドレスは登録されていません。')
+        else:  # リマインドメール送付
+        '''
+        with app.app_context():
+            url = url_for('reset', token=token, _external=True)
+        print(url)
+        send_mail(email, url)
+        return redirect('/login')
+    else:
+        return "Method Not Allowed", 405
+
+
+@app.route('/reset')
+def reset():
+    return render_template('registration/reset.html')
+
+# パスワード削除、新規パスワード設定
+# 新規パスワード取得
+@app.route('/reset', methods=['GET', 'POST'])
+def reset_password():
+    print("リセットパスワード")
+    if request.method == 'POST':
+            token = flask.request.args.get('token')
+            email = load_token(token, app.secret_key, SALT)
+            print(email) # 確認用　emailが来てる
+            password = request.form.get('password1')
+            password_chk = request.form.get('password2')
+            if password == '' or password_chk == '':
+                flash('空のフォームがあります')
+            elif password != password_chk:
+                flash('パスワードが一致していません。')
+            else:
+                password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+                dbConnect.reset_password(email, password)
+            return redirect('/login')
+    else:
+        return redirect('/reset')
+
+
+# ユーザー削除
+@app.route('/del_user', methods=['POST'])
+def user_delete():
+    user_id = session.get('user_id')
+
+    if user_id:
+        dbConnect.deleteUser(user_id)
+
+    flash('退会が完了しました。')
+    return redirect('/signup')
+
+
 # メッセージ追加
-app.route('/message', methods=['POST'])
-
-
+@app.route('/addMessage', methods=['POST'])
 def add_message():
     user_id = session.get('user_id')
     if user_id is None:
         return redirect('/login')
 
     message = request.form.get('message')
-    ch_id = request.form.get('channel_id')
+    ch_id = request.form.get('ch_id')
     reaction = 0  # reaction数の初期値:0
 
     if message:
-        dbConnect.addMessamge(user_id, ch_id, message, reaction)
+        dbConnect.addMessage(user_id, ch_id, message, reaction)
 
-    channel = dbConnect.getChannelById(ch_id)
+    channels = dbConnect.getChannelById(ch_id)
     messages = dbConnect.getMessageAll(ch_id)
 
-    return render_template('detail.html', messages=messages, channel=channel, user_id=user_id)
+    return render_template('detail.html', messages=messages, channels=channels, user_id=user_id)
 
 
 # メッセージ削除
-app.route('delete_message', methods=['POST'])
-
-
+@app.route('/delete_message', methods=['POST'])
 def delete_message():
     user_id = session.get('user_id')
     if user_id is None:
@@ -117,16 +223,14 @@ def delete_message():
     if message_id:
         dbConnect.deleteMessage(message_id)
 
-    channel = dbConnect.getChannelById(ch_id)
+    channels = dbConnect.getChannelById(ch_id)
     messages = dbConnect.getMessageAll(ch_id)
 
-    return render_template('detail.html', messages=messages, channel=channel, user_id=user_id)
+    return render_template('detail.html', messages=messages, channels=channels, user_id=user_id)
 
 
 # リアクション追加
-app.route('reaction_message', methods=['POST'])
-
-
+@app.route('/reaction_message', methods=['POST'])
 def reaction_message():
     user_id = session.get('user_id')
     if user_id is None:
@@ -135,7 +239,7 @@ def reaction_message():
     message_id = request.form.get('message_id')
     ch_id = request.form.get('channel_id')
     if message_id:
-        dbConnect.addReaction(message_id)
+        dbConnect.addMeReaction(message_id)
 
     channel = dbConnect.getChannelById(ch_id)
     messages = dbConnect.getMessageAll(ch_id)
@@ -143,19 +247,55 @@ def reaction_message():
     return render_template('detail.html', messages=messages, channel=channel, user_id=user_id)
 
 
-# チャンネル一覧
+# トップ画面へ遷移
 @app.route('/')
 def index():
     user_id = session.get('user_id')
     if user_id is None:
         return redirect('/login')
     else:
+        user = dbConnect.getUserById(user_id)
         channels = dbConnect.getChannelAll()
-        return render_template('index.html', channels=channels, user_id=user_id)
+    return render_template('index.html', channels=channels, user=user)
+
+#チャンネル一覧へ遷移
+@app.route('/channel')
+def chat():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+    else:
+        user = dbConnect.getUserById(user_id)
+        channels = dbConnect.getChannelAll()
+    return render_template('chat.html', channels=channels, user=user)
+
+#チャット画面へ遷移
+@app.route('/detail/<ch_id>')
+def detail(ch_id):
+    user_id = session.get("user_id")
+    if user_id is None:
+        return redirect('/login')
+    ch_id = ch_id
+    channels = dbConnect.getChannelById(ch_id)
+    messages = dbConnect.getMessageAll(ch_id)
+
+    return render_template('detail.html', messages=messages, channels=channels, user_id=user_id)
+
+#勉強記録一覧へ遷移
+@app.route('/log')
+def log():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+    else:
+        users = dbConnect.getUserById(user_id)
+        channels = dbConnect.getChannelAll()
+        posts = dbConnect.getPostAll()
+        return render_template('post.html', channels=channels, users=users,posts=posts)
 
 
-# チャンネル作成
-@app.route('/add_channel', methods=['POST'])
+#チャンネル作成
+@app.route('/add-channel', methods=['POST'])
 def add_channel():
     user_id = session.get('user_id')
     if user_id is None:
@@ -164,14 +304,16 @@ def add_channel():
     channel = dbConnect.getChannelByName(ch_name)
     if channel == None:
         channel_summary = request.form.get('summary')
-        dbConnect.addChannel(user_id, ch_name, channel_summary)
-        return redirect('/')
+        main_ca = request.form.get('main_category')
+        sub_ca = request.form.get('sub_category')
+        dbConnect.addChannel(user_id, ch_name, channel_summary,main_ca,sub_ca)
+        return redirect('/channel')
     else:
         error = '既に同じチャンネルが存在します'
         return render_template('error/error.html', error_message=error)
 
 
-# チャンネル編集
+#チャンネル編集
 @app.route('/update_channel', methods=['POST'])
 def update_channel():
     user_id = session.get('user_id')
@@ -179,16 +321,16 @@ def update_channel():
         return redirect('/login')
 
     ch_id = request.form.get('ch_id')
-    ch_name = request.form.get('newCh_name')
+    ch_name = request.form.get('newCh_Name')
     channel_summary = request.form.get('newChannel_summary')
 
-    res = dbConnect.updateChannel(user_id, ch_id, channel_summary)
-    channel = dbConnect.getChannelById(ch_id)
+    dbConnect.updateChannel(user_id,ch_name, channel_summary,ch_id)
+    channels = dbConnect.getChannelById(ch_id)
     messages = dbConnect.getMessageAll(ch_id)
-    return render_template('detail.html', message=messages, channel=channel, user_id=user_id)
+    return render_template('detail.html', messages=messages, channels=channels, user_id=user_id)
 
 
-# チャンネル削除
+#チャンネル削除
 @app.route('/delete/<ch_id>')
 def delete_channel(ch_id):
     user_id = session.get('user_id')
@@ -203,16 +345,115 @@ def delete_channel(ch_id):
             return redirect('/')
         else:
             dbConnect.deleteChannel(ch_id)
+            user = dbConnect.getUserById(user_id)
             channels = dbConnect.getChannelAll()
-        return render_template('index.html', channels=channels, user_id=user_id)
-        hashpassword = hashlib.sha256(password.encode('utf-8')).hexdigest()
-        if hashpassword != user["password"]:
-            flash('パスワードが間違っています。')
-        else:
-            session['user_id'] = user["user_id"]
-            return redirect('/')
-    return redirect('/login')
+        return render_template('chat.html', channels=channels, user=user)
 
+#サイドバー（みんなの勉強記録を見る）から勉強記録一覧への遷移
+@app.route('/post')
+def index_post():
+    user_id = session.get("user_id")
+    if user_id is None:
+        return redirect('/login')
+    else:
+        posts = dbConnect.getPostAll()
+        user = dbConnect.getUserById(user_id)
+
+    return render_template('post.html', posts=posts, user=user)
+
+#トップ画面（index.html）から勉強記録一覧への遷移
+@app.route('/migration_post')
+def mig_post():
+    user_id = session.get("user_id")
+    if user_id is None:
+        return redirect('/login')
+    else:
+        posts = dbConnect.getPostAll()
+        user = dbConnect.getUserById(user_id)
+    return render_template('post.html', posts=posts, user=user)
+
+#勉強記録追加
+@app.route('/add_posts',methods=['POST'])
+def add_post():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+    if request.method == 'POST':
+        post = request.form.get('post')
+        study_time = request.form.get('study_time')
+
+        if post:
+            dbConnect.addPost(user_id, post, study_time)
+
+        posts = dbConnect.getPostAll()
+        user = dbConnect.getUserById(user_id)
+
+        return render_template('post.html', posts=posts, user=user)
+    else:
+        return redirect('post.html')
+
+#勉強記録削除
+@app.route('/delete_post',methods=['POST'])
+def delete_post():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+
+    post_id = request.form.get('post_id')
+    if post_id:
+        dbConnect.deletePost(post_id)
+
+    posts = dbConnect.getPostAll()
+    user = dbConnect.getUserById(user_id)
+
+    return render_template('post.html', posts=posts, user=user)
+
+#勉強記録へのいいね追加
+@app.route('/reaction_post',methods=['POST'])
+def reaction_post():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/login')
+
+    post_id = request.form.get('post_id')
+    if post_id:
+        dbConnect.addPoReaction(post_id)
+
+    posts = dbConnect.getPostAll()
+    user = dbConnect.getUserById(user_id)
+
+    return render_template('post.html', posts=posts, user=user)
+
+#エラー番号404の際に遷移
+@app.errorhandler(404)
+def show_error404(error):
+    return render_template('error/404.html')
+
+#エラー番号500の際に遷移
+@app.errorhandler(500)
+def show_error500(error):
+    return render_template('error/500.html')
+
+#目標の編集
+@app.route('/set_goal',methods=['POST'])
+def update_goal():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('login')
+    goal = request.form.get('goal')
+    limit = request.form.get('limit')
+
+    if goal:
+        dbConnect.updateGoal(goal,limit,user_id)
+
+    user=dbConnect.getUserById(user_id)
+    #目標期日まで何日か計算する処理
+    now = datetime.datetime.today()
+    goal = datetime.datetime.strptime(limit,'%Y-%m-%d')
+    goal_date = goal - now
+    goal_date = goal_date.days + 1
+
+    return render_template('index.html',user=user,goal_date=goal_date)
 
 # app.run
 if __name__ == '__main__':
