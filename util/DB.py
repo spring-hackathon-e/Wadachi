@@ -1,6 +1,5 @@
 import pymysql
 
-
 class DB:
     def getConnection():
         # 例外処理
