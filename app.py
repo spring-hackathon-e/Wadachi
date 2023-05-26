@@ -180,11 +180,14 @@ def reset_password():
 
 
 # ユーザー削除
-@app.route('/del', methods=['DELETE'])
-def user_delete(user_id):
-    reg_user_id = dbConnect.getUserId(user_id)
-    dbConnect.session.delete(reg_user_id)
-    dbConnect.session.commit()
+@app.route('/del_user', methods=['POST'])
+def user_delete():
+    user_id = session.get('user_id')
+
+    if user_id:
+        dbConnect.deleteUser(user_id)
+
+    flash('退会が完了しました。')
     return redirect('/signup')
 
 
@@ -345,13 +348,6 @@ def delete_channel(ch_id):
             user = dbConnect.getUserById(user_id)
             channels = dbConnect.getChannelAll()
         return render_template('chat.html', channels=channels, user=user)
-        hashpassword = hashlib.sha256(password.encode('utf-8')).hexdigest()
-        if hashpassword != user["password"]:
-            flash('パスワードが間違っています。')
-        else:
-            session['user_id'] = user["user_id"]
-            return redirect('/')
-    return redirect('/login')
 
 #サイドバー（みんなの勉強記録を見る）から勉強記録一覧への遷移
 @app.route('/post')
@@ -451,9 +447,14 @@ def update_goal():
         dbConnect.updateGoal(goal,limit,user_id)
 
     user=dbConnect.getUserById(user_id)
+    #目標期日まで何日か計算する処理
+    now = datetime.datetime.today()
+    goal = datetime.datetime.strptime(limit,'%Y-%m-%d')
+    goal_date = goal - now
+    goal_date = goal_date.days + 1
 
-    return render_template('index.html',user=user)
+    return render_template('index.html',user=user,goal_date=goal_date)
 
 # app.run
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,port=8000)
