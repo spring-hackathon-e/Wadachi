@@ -132,7 +132,7 @@ def send_mail(email,url):
 @app.route('/remind', methods=['GET','POST'])
 def user_remind():
     if request.method == 'POST':
-        app.config['SERVER_NAME']= '127.0.0.1:5000'
+        app.config['SERVER_NAME']= 'wadachi.xyz'
         email = request.form.get('email')
         token = create_token(email, app.secret_key, SALT)
         '''
@@ -457,4 +457,4 @@ def update_goal():
 
 # app.run
 if __name__ == '__main__':
-    app.run(debug=True,port=8000)
+    app.run(debug=True)
