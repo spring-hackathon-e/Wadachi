@@ -326,9 +326,28 @@ class dbConnect:
 
     # 目標設定の編集
     def updateGoal(goal,deadline,user_id):
-        connect = DB.getConnection()
-        cursor = connect.cursor()
-        sql = "UPDATE users SET goal=%s,deadline=%s WHERE user_id=%s;"
-        cursor.execute(sql, (goal,deadline,user_id))
-        connect.commit()
-        cursor.close()
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "UPDATE users SET goal=%s,deadline=%s WHERE user_id=%s;"
+            cursor.execute(sql, (goal,deadline,user_id))
+            connect.commit()
+        except Exception as e:
+            print(e + "が発生しています")
+            return None
+        finally:
+            cursor.close()
+
+    # ユーザ削除
+    def deleteUser(user_id):
+        try:
+            connect = DB.getConnection()
+            cursor = connect.cursor()
+            sql = "DELETE FROM users WHERE user_id=%s;"
+            cursor.execute(sql, (user_id))
+            connect.commit()
+        except Exception as e:
+            print(e + "が発生しています")
+            return None
+        finally:
+            cursor.close()
